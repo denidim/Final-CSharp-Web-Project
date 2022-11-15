@@ -39,6 +39,12 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "AngleSharp.Css": {
+              "target": "Package",
+              "version": "[0.16.4, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

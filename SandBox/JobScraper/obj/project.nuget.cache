@@ -1,8 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "4CqTL+TwBlhCPISCA5hMtlPfct502ale679LYvl450vctHj4FD/57YB/YbIdDlrqf1lth55JVMfrdkqF3sKvWg==",
+  "dgSpecHash": "g1bS6ZZ1VPgr6SK+jzpeuJPjVhTjsvtgPGPsC5v/mg6+nkrkQh+Rp7nV7ttmzIan9eMjigIJsxDxWthQ1GCf+g==",
   "success": true,
   "projectFilePath": "C:\\Users\\fs900\\Desktop\\Test\\SandBox\\JobScraper\\JobScraper.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\fs900\\.nuget\\packages\\anglesharp\\0.16.1\\anglesharp.0.16.1.nupkg.sha512",
+    "C:\\Users\\fs900\\.nuget\\packages\\anglesharp.css\\0.16.4\\anglesharp.css.0.16.4.nupkg.sha512",
+    "C:\\Users\\fs900\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
+    "C:\\Users\\fs900\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
+    "C:\\Users\\fs900\\.nuget\\packages\\system.text.encoding.codepages\\5.0.0\\system.text.encoding.codepages.5.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
