@@ -8,7 +8,6 @@
     using FindATrade.Data.Models;
     using FindATrade.Data.Repositories;
     using FindATrade.Data.Seeding;
-    using FindATrade.Services.Data;
     using FindATrade.Services.Mapping;
     using FindATrade.Services.Messaging;
     using FindATrade.Web.ViewModels;
@@ -64,7 +63,6 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
         }
 
         private static void Configure(WebApplication app)
