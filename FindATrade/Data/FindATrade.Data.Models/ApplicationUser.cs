@@ -3,7 +3,7 @@ namespace FindATrade.Data.Models
 {
     using System;
     using System.Collections.Generic;
-
+    using System.ComponentModel.DataAnnotations;
     using FindATrade.Data.Common.Models;
 
     using Microsoft.AspNetCore.Identity;
@@ -16,6 +16,7 @@ namespace FindATrade.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
+            this.Ratings = new HashSet<Rating>();
         }
 
         // Audit info
@@ -27,6 +28,28 @@ namespace FindATrade.Data.Models
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        [Required]
+        [StringLength(30)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(30)]
+        public string LastName { get; set; }
+
+        public int AddressId { get; set; }
+
+        public Address Address { get; set; }
+
+        public Image Image { get; set; }
+
+        public Company Company { get; set; }
+
+        public Employee Employee { get; set; }
+
+        public ICollection<Rating> Ratings { get; set; }
+
+        public ICollection<Like> Likes { get; set; }
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 
