@@ -26,6 +26,32 @@
 
         public DbSet<Setting> Settings { get; set; }
 
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Company> Companies { get; set; }
+
+        public DbSet<Employee> Employees { get; set; }
+
+        public DbSet<EmployeeTime> EmployeeTimes { get; set; }
+
+        public DbSet<Image> Images { get; set; }
+
+        public DbSet<Package> Packages { get; set; }
+
+        public DbSet<PaidOrder> PaidOrders { get; set; }
+
+        public DbSet<PaidOrderPackageType> PaidOrderPackageTypes { get; set; }
+
+        public DbSet<Rating> Ratings { get; set; }
+
+        public DbSet<Service> Services { get; set; }
+
+        public DbSet<Skill> Skills { get; set; }
+
+        public DbSet<Vetting> Vettings { get; set; }
+
+        public DbSet<Like> Likes { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
