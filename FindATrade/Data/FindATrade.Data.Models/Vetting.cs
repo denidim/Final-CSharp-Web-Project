@@ -19,6 +19,8 @@
 
         public int VettetByEmployeeId { get; set; }
 
-        public Employee VettetByEmpolyee { get; set; }
+        public Employee VettetByEmployee { get; set; }
+
+        public Service Service { get; set; }
     }
 }

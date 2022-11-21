@@ -4,6 +4,7 @@ using FindATrade.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FindATrade.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221121160553_FixedVettingNavPropNameAndFixedServicesPaidOrderNavProp")]
+    partial class FixedVettingNavPropNameAndFixedServicesPaidOrderNavProp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -676,9 +678,6 @@ namespace FindATrade.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("VettingId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -688,9 +687,6 @@ namespace FindATrade.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("PaidOrderId");
-
-                    b.HasIndex("VettingId")
-                        .IsUnique();
 
                     b.ToTable("Services");
                 });
@@ -1027,19 +1023,11 @@ namespace FindATrade.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("FindATrade.Data.Models.Vetting", "Vetting")
-                        .WithOne("Service")
-                        .HasForeignKey("FindATrade.Data.Models.Service", "VettingId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Categotry");
 
                     b.Navigation("Company");
 
                     b.Navigation("PaidOrder");
-
-                    b.Navigation("Vetting");
                 });
 
             modelBuilder.Entity("FindATrade.Data.Models.Skill", b =>
@@ -1172,11 +1160,6 @@ namespace FindATrade.Data.Migrations
                     b.Navigation("Images");
 
                     b.Navigation("Packages");
-                });
-
-            modelBuilder.Entity("FindATrade.Data.Models.Vetting", b =>
-                {
-                    b.Navigation("Service");
                 });
 #pragma warning restore 612, 618
         }
