@@ -23,4 +23,8 @@
     <ProjectReference Include="..\..\Services\FindATrade.Services.Mapping\FindATrade.Services.Mapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Administration\" />
+  </ItemGroup>
+
 </Project>

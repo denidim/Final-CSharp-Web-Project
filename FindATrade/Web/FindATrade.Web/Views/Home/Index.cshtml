@@ -1,9 +1,28 @@
 ﻿@using FindATrade.Common
+@using FindATrade.Web.ViewModels.Home;
+@model IndexViewModel
 @{
     this.ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="col-md-4 offset-md-4">
+        <p>We have: </p>
+        <ul class="list-group">
+            <li class="list-group-item align-items-center">
+                Categories:
+                <span class="badge bg-primary rounded-pill">@Model.CategoriesCount</span>
+            </li>
+            <li class="list-group-item align-items-center">
+                Companies:
+                <span class="badge bg-primary rounded-pill">@Model.CompaniesCount</span>
+            </li>
+            <li class="list-group-item align-items-center">
+                Services:
+                <span class="badge bg-primary rounded-pill">@Model.ServicesCount</span>
+            </li>
+        </ul>
+    </div>
 </div>
+
