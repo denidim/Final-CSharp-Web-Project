@@ -1,7 +1,8 @@
 ﻿namespace FindATrade.Data.Models
 {
-    using FindATrade.Data.Common.Models;
     using System.ComponentModel.DataAnnotations;
+
+    using FindATrade.Data.Common.Models;
 
     public class PaidOrderPackageType : BaseDeletableModel<int>
     {
