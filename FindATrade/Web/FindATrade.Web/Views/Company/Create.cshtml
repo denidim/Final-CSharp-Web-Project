@@ -1,0 +1,97 @@
+﻿@using FindATrade.Web.ViewModels.Company;
+@model CreateCompanyInputModel
+
+@{
+    this.ViewBag.Title = "Add Company";
+}
+
+<h1>@this.ViewBag.Title</h1>
+
+<hr />
+
+<form method="post" class="col-md-6 ofsset-md-3" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Website"></label>
+        <input asp-for="Website" class="form-control" />
+        <span asp-validation-for="Website" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.Street"></label>
+        <input asp-for="Address.Street" class="form-control" />
+        <span asp-validation-for="Address.Street" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.HouseNumber"></label>
+        <input asp-for="Address.HouseNumber" class="form-control" />
+        <span asp-validation-for="Address.HouseNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.HouseNumberAddition"></label>
+        <input asp-for="Address.HouseNumberAddition" class="form-control" />
+        <span asp-validation-for="Address.HouseNumberAddition" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.PostalCode"></label>
+        <input asp-for="Address.PostalCode" class="form-control" />
+        <span asp-validation-for="Address.PostalCode" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.City"></label>
+        <input asp-for="Address.City" class="form-control" />
+        <span asp-validation-for="Address.City" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.Country"></label>
+        <input asp-for="Address.Country" class="form-control" />
+        <span asp-validation-for="Address.Country" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Image"></label>
+        <input asp-for="Image" class="form-control" />
+        <span asp-validation-for="Image" class="text-danger"></span>
+    </div>
+    <hr />
+    <div id="SkillsContainer">
+        <label asp-for="Skills"></label>
+        <a class="btn btn-success" onclick="AddMoreIngredients()">+</a>
+        <a class="btn btn-danger" onclick="DeleteIngredientForm()">-</a>
+        <span asp-validation-for="Skills" class="text-danger"></span>
+    </div>
+    <hr />
+    <input type="submit" class="button btn-primary" />
+</form>
+
+
+@section Scripts{
+    <script>
+        //Skills[0].Name
+        var skillIndex = 0;
+        function AddMoreIngredients() {
+            console.log("AddMoreIngredients()")
+            $("#SkillsContainer")
+                .append("<div class='form-control'>Name: <input class='form-control' type='text' name='Skills[" + skillIndex + "].Name' /></div>");
+            ingredientindex++;
+        }
+    </script>
+}
