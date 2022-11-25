@@ -1,5 +1,9 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using FindATrade.Data;
 namespace FindATrade.Web
 {
+    using System;
     using System.Reflection;
 
     using FindATrade.Data;
@@ -29,6 +33,7 @@ namespace FindATrade.Web
             ConfigureServices(builder.Services, builder.Configuration);
             var app = builder.Build();
             Configure(app);
+            app.UseAuthentication();
             app.Run();
         }
 
