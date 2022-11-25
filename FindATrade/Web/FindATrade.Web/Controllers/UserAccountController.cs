@@ -1,13 +1,59 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace FindATrade.Web.Controllers
+﻿namespace FindATrade.Web.Controllers
 {
+    using System.Threading.Tasks;
+
+    using FindATrade.Data.Models;
+    using FindATrade.Services.Data;
+    using FindATrade.Web.ViewModels.UserAccount;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+
     public class UserAccountController : Controller
     {
-        public IActionResult GetAccount()
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IAccountService accountService;
+
+        public UserAccountController(
+            UserManager<ApplicationUser> userManager,
+            IAccountService accountService)
         {
-            // TODO: Get account service
-            // TODO: Return account viewmodel
+            this.userManager = userManager;
+            this.accountService = accountService;
+        }
+
+        public async Task<IActionResult> GetAccount()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var accountPage = new UserAccountOutputModel()
+            {
+                UserInfo = this.accountService.GetUserInfo(user),
+                UserCompany = this.accountService.GetCompanyInfo<UserCompany>(user),
+                UserCompanyServices = this.accountService.GetUserCompanyService(user),
+            };
+
+            return this.View(accountPage);
+        }
+
+        public async Task<IActionResult> EditCompany(int id)
+        {
+            // TODO Get By Id Service
+
+
+            return this.View();
+        }
+
+        public async Task<IActionResult> EditService(int id)
+        {
+            // TODO Get By Id Service
+
+            return this.View();
+        }
+
+        public async Task<IActionResult> EditProfile(string id)
+        {
+            // TODO Get By Id Service
+
             return this.View();
         }
     }

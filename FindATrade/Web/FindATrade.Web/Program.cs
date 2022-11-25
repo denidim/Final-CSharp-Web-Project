@@ -71,6 +71,8 @@ namespace FindATrade.Web
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<IGetCountsService, GetCountsService>();
             services.AddTransient<ICompanyService, CompanyService>();
+            services.AddTransient<ICompanyServiceService, CompanyServiceService>();
+            services.AddTransient<IAccountService, AccountService>();
         }
 
         private static void Configure(WebApplication app)

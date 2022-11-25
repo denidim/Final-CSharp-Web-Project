@@ -1,5 +1,64 @@
-﻿@{
+﻿@using FindATrade.Web.ViewModels.UserAccount;
+@model UserAccountOutputModel
+
+@{
     ViewBag.Message = "My Account";
 }
 
 <h1>@ViewBag.Message</h1>
+
+<h1>User</h1>
+<li class="nav-item">
+    <a class="nav-link text-dark" asp-action="EditProfile" asp-route-id="@Model.UserInfo.Id">EditProfile</a>
+</li>
+<p>@Model.UserInfo.FirstName</p>
+<p>@Model.UserInfo.LastName</p>
+
+<hr />
+
+<h1>Company</h1>
+<li class="nav-item">
+    <a class="nav-link text-dark" asp-action="EditCompany" asp-route-id="@Model.UserCompany.Id">EditCompany</a>
+</li>
+<p>@Model.UserCompany.Name</p>
+<p>@Model.UserCompany.WebSite</p>
+<p>@Model.UserCompany.Email</p>
+<p>@Model.UserCompany.PhoneNumber</p>
+<p>@Model.UserCompany.Ratings</p>
+<p>@Model.UserCompany.Description</p>
+<p>@Model.UserCompany.Address</p>
+<p>@Model.UserCompany.Likes</p>
+@{
+    foreach (var skill in Model.UserCompany.Skills)
+    {
+        <p>@skill.Name</p>
+    }
+}
+
+<hr />
+
+<h1>Services</h1>
+@{
+    foreach (var service in Model.UserCompanyServices)
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-action="EditService" asp-route-id="@service.Id">EditService</a>
+        </li>
+        <h2>@service.Title</h2>
+        <P>@(service.IsPremium != true?"Premium" : "Not Premium")</p>
+        <p>@service.Description</p>
+        <h3>Subscription</h3>
+        <p>  @service.PaidOrder.Name</p>
+        <p>  @service.PaidOrder.StartDate</p>
+        <p>  @service.PaidOrder.EndDate</p>
+        <p>  @service.PaidOrder.Price</p>
+        <p>  @service.PaidOrder.Terms</p>
+        <h3>Packages</h3>
+        foreach (var package in service.Packages)
+        {
+            <p>@package.Price</p>
+            <p>@package.Description</p>
+        }
+        <hr />
+    }
+}
