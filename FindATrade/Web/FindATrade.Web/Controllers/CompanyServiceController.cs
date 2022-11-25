@@ -53,5 +53,12 @@
             // TODO: Redirect to correct page
             return this.Redirect("/");
         }
+
+        public async Task<IActionResult> EditService(int id)
+        {
+            // TODO Get By Id Service
+
+            return this.View();
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace FindATrade.Web.ViewModels.UserAccount
+﻿namespace FindATrade.Web.ViewModels.Company
 {
     using System.Collections.Generic;
 
@@ -6,7 +6,7 @@
     using FindATrade.Data.Models;
     using FindATrade.Services.Mapping;
 
-    public class UserCompany : IMapFrom<Company>, IHaveCustomMappings
+    public class CompanyOutputModel : IMapFrom<Company>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
@@ -24,13 +24,13 @@
 
         public int Likes { get; set; }
 
-        public IEnumerable<SkillOutputModel> Skills { get; set; }
+        public IEnumerable<SkillModel> Skills { get; set; }
 
-        public ICollection<CompanyRatings> Ratings { get; set; }
+        public ICollection<CompanyRatingsModel> Ratings { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Company, UserCompany>()
+            configuration.CreateMap<Company, CompanyOutputModel>()
                 .ForMember(x => x.Address, options =>
                 options.MapFrom(x => $"{x.Address.Street} {x.Address.City}"))
                 .ForMember(x => x.Likes, options =>

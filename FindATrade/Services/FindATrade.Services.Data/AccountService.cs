@@ -6,6 +6,7 @@
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
     using FindATrade.Services.Mapping;
+    using FindATrade.Web.ViewModels.CompanyService;
     using FindATrade.Web.ViewModels.UserAccount;
     using Microsoft.EntityFrameworkCore;
 
@@ -29,29 +30,29 @@
             return company;
         }
 
-        public IEnumerable<UserCompanyServices> GetUserCompanyService(ApplicationUser user)
+        public IEnumerable<CompanyServiceOutputModel> GetUserCompanyService(ApplicationUser user)
         {
             var userCompanyService = this.companyRepo
                 .All()
                 .FirstOrDefault(x => x.AddedByUserId == user.Id)
                 .Services;
 
-            var companyService = new List<UserCompanyServices>();
+            var companyService = new List<CompanyServiceOutputModel>();
 
             foreach (var item in userCompanyService)
             {
-                var package = new List<PackageOutputModel>();
+                var package = new List<PackageModel>();
 
                 foreach (var packageItem in item.Packages)
                 {
-                    package.Add(new PackageOutputModel()
+                    package.Add(new PackageModel()
                     {
                         Price = packageItem.Price,
                         Description = packageItem.Descrtiption,
                     });
                 }
 
-                var service = new UserCompanyServices()
+                var service = new CompanyServiceOutputModel()
                 {
                     Id = item.Id,
                     Title = item.Title,
@@ -82,14 +83,12 @@
 
         public UserInfoOutputModel GetUserInfo(ApplicationUser user)
         {
-            var newUser = new UserInfoOutputModel()
+            return new UserInfoOutputModel()
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
             };
-
-            return newUser;
         }
     }
 }

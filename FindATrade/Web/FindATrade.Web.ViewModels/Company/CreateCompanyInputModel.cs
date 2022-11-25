@@ -34,6 +34,6 @@
 
         public CreateCompanyAddressInputModel Address { get; set; }
 
-        public ICollection<CreateSkillInputModel> Skills { get; set; }
+        public ICollection<SkillModel> Skills { get; set; }
     }
 }

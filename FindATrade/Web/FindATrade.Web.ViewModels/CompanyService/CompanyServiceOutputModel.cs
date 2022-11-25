@@ -1,10 +1,10 @@
-﻿namespace FindATrade.Web.ViewModels.UserAccount
+﻿namespace FindATrade.Web.ViewModels.CompanyService
 {
     using System.Collections.Generic;
 
     using Microsoft.AspNetCore.Http;
 
-    public class UserCompanyServices
+    public class CompanyServiceOutputModel
     {
         public int Id { get; set; }
 
@@ -20,7 +20,7 @@
 
         public VettingOutputModel Vetting { get; set; }
 
-        public ICollection<PackageOutputModel> Packages { get; set; }
+        public ICollection<PackageModel> Packages { get; set; }
 
         public ICollection<IFormFile> Images { get; set; }
     }

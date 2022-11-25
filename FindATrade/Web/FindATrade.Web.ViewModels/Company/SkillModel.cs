@@ -1,6 +1,6 @@
 ﻿namespace FindATrade.Web.ViewModels.Company
 {
-    public class CreateSkillInputModel
+    public class SkillModel
     {
         public string Name { get; set; }
     }

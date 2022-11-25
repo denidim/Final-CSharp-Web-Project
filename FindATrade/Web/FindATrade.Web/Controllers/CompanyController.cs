@@ -51,5 +51,13 @@
             // TODO: Redirect to correct page
             return this.Redirect("/");
         }
+
+        public async Task<IActionResult> EditCompany(int id)
+        {
+            // TODO Get By Id Service
+
+
+            return this.View();
+        }
     }
 }

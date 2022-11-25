@@ -1,6 +1,6 @@
-﻿namespace FindATrade.Web.ViewModels.UserAccount
+﻿namespace FindATrade.Web.ViewModels.Company
 {
-    public class CompanyRatings
+    public class CompanyRatingsModel
     {
         public string Description { get; set; }
 
