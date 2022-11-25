@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <Folder Include="Administration\" />
+    <Folder Include="AccountManagement\" />
   </ItemGroup>
 
 </Project>
