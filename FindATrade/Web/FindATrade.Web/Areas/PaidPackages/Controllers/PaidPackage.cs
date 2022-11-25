@@ -7,7 +7,7 @@ namespace FindATrade.Web.Areas.PaidPackages.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return this.View();
         }
     }
 }

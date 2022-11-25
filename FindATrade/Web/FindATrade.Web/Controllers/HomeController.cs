@@ -1,9 +1,9 @@
 ﻿namespace FindATrade.Web.Controllers
 {
     using System.Diagnostics;
+
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels;
-    using FindATrade.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +16,7 @@
         {
             this.getCountsService = getCountsService;
         }
-        
+
         public IActionResult Index()
         {
             var viewModel = this.getCountsService.GetCounts();
