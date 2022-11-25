@@ -4,7 +4,6 @@
     using System.ComponentModel.DataAnnotations;
 
     using FindATrade.Data.Common.Models;
-    using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
     public class Company : BaseDeletableModel<int>
     {

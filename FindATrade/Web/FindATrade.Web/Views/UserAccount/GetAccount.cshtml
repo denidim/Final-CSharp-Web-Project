@@ -15,8 +15,13 @@
 <p>@Model.UserInfo.LastName</p>
 
 <hr />
-
-<h1>Company</h1>
+@if (Model.UserCompany == null)
+{
+    <p>Add Company</p>
+}
+else
+{
+    <h1>Company</h1>@*Check for null*@ 
 <li class="nav-item">
     <a class="nav-link text-dark" asp-action="EditCompany" asp-route-id="@Model.UserCompany.Id">EditCompany</a>
 </li>
@@ -28,18 +33,18 @@
 <p>@Model.UserCompany.Description</p>
 <p>@Model.UserCompany.Address</p>
 <p>@Model.UserCompany.Likes</p>
-@{
-    foreach (var skill in Model.UserCompany.Skills)
+
+    @foreach (var skill in Model.UserCompany.Skills)
     {
         <p>@skill.Name</p>
     }
-}
+
 
 <hr />
 
 <h1>Services</h1>
-@{
-    foreach (var service in Model.UserCompanyServices)
+
+    @foreach (var service in Model.UserCompanyServices)
     {
         <li class="nav-item">
             <a class="nav-link text-dark" asp-action="EditService" asp-route-id="@service.Id">EditService</a>

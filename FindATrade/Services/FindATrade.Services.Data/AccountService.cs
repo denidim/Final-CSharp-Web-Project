@@ -6,6 +6,7 @@
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
     using FindATrade.Services.Mapping;
+    using FindATrade.Web.ViewModels.Company;
     using FindATrade.Web.ViewModels.CompanyService;
     using FindATrade.Web.ViewModels.UserAccount;
     using Microsoft.EntityFrameworkCore;
@@ -19,27 +20,55 @@
             this.companyRepo = companyRepo;
         }
 
-        public T GetCompanyInfo<T>(ApplicationUser user)
+        public CompanyOutputModel GetCompanyInfo(ApplicationUser user)
         {
             var company = this.companyRepo
                 .All()
                 .Where(x => x.AddedByUserId == user.Id)
-                .To<T>()
-                .FirstOrDefault();
+                .Select(x => new CompanyOutputModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    WebSite = x.Website,
+                    Email = x.Email,
+                    PhoneNumber = x.PhoneNumber,
+                    Description = x.Description,
+                    Address = $"{x.Address.Street} {x.Address.City}",
+                    Likes = x.Likes.Count(),
+                    Skills = x.Skills.Select(x => new SkillModel()
+                    {
+                        Name = x.Name,
+                    }).ToList(),
+                    Ratings = x.Ratings.Select(x => new CompanyRatingsModel()
+                    {
+                        Reliability = x.Reliability,
+                        Description = x.Description,
+                        Courtesy = x.Courtesy,
+                        QuoteAccuracy = x.QuoteAccuracy,
+                        Tidiness = x.Tidiness,
+                        Workmanship = x.Workmanship,
+                    }).ToList(),
+                }).FirstOrDefault();
+
 
             return company;
         }
 
         public IEnumerable<CompanyServiceOutputModel> GetUserCompanyService(ApplicationUser user)
         {
-            var userCompanyService = this.companyRepo
+
+            var userCompany = this.companyRepo
                 .All()
-                .FirstOrDefault(x => x.AddedByUserId == user.Id)
-                .Services;
+                .FirstOrDefault(x => x.AddedByUserId == user.Id);
+
+            if (userCompany == null)
+            {
+                return null;
+            }
 
             var companyService = new List<CompanyServiceOutputModel>();
 
-            foreach (var item in userCompanyService)
+            foreach (var item in userCompany.Services)
             {
                 var package = new List<PackageModel>();
 

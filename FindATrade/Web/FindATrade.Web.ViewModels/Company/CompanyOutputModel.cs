@@ -2,11 +2,7 @@
 {
     using System.Collections.Generic;
 
-    using AutoMapper;
-    using FindATrade.Data.Models;
-    using FindATrade.Services.Mapping;
-
-    public class CompanyOutputModel : IMapFrom<Company>, IHaveCustomMappings
+    public class CompanyOutputModel
     {
         public int Id { get; set; }
 
@@ -27,14 +23,5 @@
         public IEnumerable<SkillModel> Skills { get; set; }
 
         public ICollection<CompanyRatingsModel> Ratings { get; set; }
-
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<Company, CompanyOutputModel>()
-                .ForMember(x => x.Address, options =>
-                options.MapFrom(x => $"{x.Address.Street} {x.Address.City}"))
-                .ForMember(x => x.Likes, options =>
-                options.MapFrom(x => x.Likes.Count));
-        }
     }
 }

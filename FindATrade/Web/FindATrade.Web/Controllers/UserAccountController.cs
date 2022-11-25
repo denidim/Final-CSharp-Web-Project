@@ -29,7 +29,7 @@
             var accountPage = new UserAccountOutputModel()
             {
                 UserInfo = this.accountService.GetUserInfo(user),
-                UserCompany = this.accountService.GetCompanyInfo<CompanyOutputModel>(user),
+                UserCompany = this.accountService.GetCompanyInfo(user),
                 UserCompanyServices = this.accountService.GetUserCompanyService(user),
             };
 
