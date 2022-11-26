@@ -1,9 +1,8 @@
 ﻿namespace FindATrade.Web.ViewModels.Company
 {
-    using FindATrade.Services.Mapping;
     using System.Collections.Generic;
 
-    public class CompanyOutputModel : IMapFrom<FindATrade.Data.Models.Company>
+    public class CompanyOutputModel
     {
         public int Id { get; set; }
 
