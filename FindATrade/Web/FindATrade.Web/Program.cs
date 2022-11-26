@@ -45,6 +45,11 @@ namespace FindATrade.Web
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.ConfigureApplicationCookie(option =>
+            {
+                option.LoginPath = new PathString("/AccountManagement/ManageAccount/LogIn");
+            });
+
             services.Configure<CookiePolicyOptions>(
                 options =>
                 {
