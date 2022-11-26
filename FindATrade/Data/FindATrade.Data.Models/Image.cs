@@ -8,10 +8,6 @@
 
         public Company Company { get; set; }
 
-        public string UserId { get; set; }
-
-        public ApplicationUser User { get; set; }
-
         public int? ServiceId { get; set; }
 
         public Service Service { get; set; }

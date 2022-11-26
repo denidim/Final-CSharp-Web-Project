@@ -16,7 +16,7 @@ namespace FindATrade.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
-            this.Ratings = new HashSet<Rating>();
+            this.Likes = new HashSet<Like>();
         }
 
         // Audit info
@@ -37,17 +37,11 @@ namespace FindATrade.Data.Models
         [StringLength(30)]
         public string LastName { get; set; }
 
-        public int? AddressId { get; set; }
-
-        public Address Address { get; set; }
-
-        public Image Image { get; set; }
-
         public Company Company { get; set; }
 
         public Employee Employee { get; set; }
 
-        public ICollection<Rating> Ratings { get; set; }
+        public Rating Ratings { get; set; }
 
         public ICollection<Like> Likes { get; set; }
 

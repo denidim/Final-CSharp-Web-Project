@@ -18,8 +18,6 @@
 
         public string PostalCode { get; set; }
 
-        public ApplicationUser User { get; set; }
-
         public Company Company { get; set; }
     }
 }
