@@ -13,6 +13,8 @@
 
         CompanyOutputModel GetCompanyInfo(ApplicationUser user);
 
+        T GetCompanyInfoByUser<T>(ApplicationUser user);
+
         IEnumerable<CompanyServiceOutputModel> GetUserCompanyService(ApplicationUser user);
     }
 }

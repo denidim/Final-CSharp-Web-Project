@@ -50,13 +50,21 @@
                     }).ToList(),
                 }).FirstOrDefault();
 
-
             return company;
+        }
+
+        public T GetCompanyInfoByUser<T>(ApplicationUser user)
+        {
+            var compnay = this.companyRepo.All()
+                .Where(x => x.AddedByUserId.Equals(user.Id))
+                .To<T>()
+                .FirstOrDefault();
+
+            return compnay;
         }
 
         public IEnumerable<CompanyServiceOutputModel> GetUserCompanyService(ApplicationUser user)
         {
-
             var userCompany = this.companyRepo
                 .All()
                 .FirstOrDefault(x => x.AddedByUserId == user.Id);

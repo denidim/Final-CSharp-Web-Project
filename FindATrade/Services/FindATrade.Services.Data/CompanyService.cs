@@ -57,5 +57,10 @@
             await this.companyRepo.AddAsync(compnay);
             await this.companyRepo.SaveChangesAsync();
         }
+
+        //public T GetById<T>(int id)
+        //{
+        //    return;
+        //}
     }
 }

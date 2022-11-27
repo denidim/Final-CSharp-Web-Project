@@ -1,12 +1,13 @@
 ﻿namespace FindATrade.Web.Controllers
 {
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
     using FindATrade.Data.Models;
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels.Company;
     using FindATrade.Web.ViewModels.CompanyService;
     using Microsoft.AspNetCore.Mvc;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
 
     public class CompanyServiceController : Controller
     {
@@ -54,10 +55,9 @@
             return this.Redirect("/");
         }
 
-        public async Task<IActionResult> EditService(int id)
+        public IActionResult EditService(int id)
         {
             // TODO Get By Id Service
-
             return this.View();
         }
     }

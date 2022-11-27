@@ -8,5 +8,7 @@
     public interface ICompanyService
     {
         Task CreateAsync(CreateCompanyInputModel input, ApplicationUser currentUser);
+
+        //T GetByUser<T>(int id);
     }
 }

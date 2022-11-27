@@ -29,17 +29,16 @@
             var accountPage = new UserAccountOutputModel()
             {
                 UserInfo = this.accountService.GetUserInfo(user),
-                UserCompany = this.accountService.GetCompanyInfo(user),
+                UserCompany = this.accountService.GetCompanyInfoByUser<CompanyOutputModel>(user),
                 UserCompanyServices = this.accountService.GetUserCompanyService(user),
             };
 
             return this.View(accountPage);
         }
 
-        public async Task<IActionResult> EditProfile(string id)
+        public IActionResult EditProfile(string id)
         {
             // TODO Get By Id Service
-
             return this.View();
         }
     }

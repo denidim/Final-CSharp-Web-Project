@@ -1,6 +1,9 @@
 ﻿namespace FindATrade.Web.ViewModels.Company
 {
-    public class SkillModel
+    using FindATrade.Data.Models;
+    using FindATrade.Services.Mapping;
+
+    public class SkillModel : IMapFrom<Skill>
     {
         public string Name { get; set; }
     }

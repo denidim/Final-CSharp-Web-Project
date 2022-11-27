@@ -1,6 +1,9 @@
 ﻿namespace FindATrade.Web.ViewModels.Company
 {
-    public class CompanyRatingsModel
+    using FindATrade.Data.Models;
+    using FindATrade.Services.Mapping;
+
+    public class CompanyRatingsModel : IMapFrom<Rating>
     {
         public string Description { get; set; }
 

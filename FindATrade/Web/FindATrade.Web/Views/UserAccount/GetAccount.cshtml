@@ -29,14 +29,37 @@ else
 <p>@Model.UserCompany.WebSite</p>
 <p>@Model.UserCompany.Email</p>
 <p>@Model.UserCompany.PhoneNumber</p>
-<p>@Model.UserCompany.Ratings</p>
 <p>@Model.UserCompany.Description</p>
 <p>@Model.UserCompany.Address</p>
 <p>@Model.UserCompany.Likes</p>
 
-    @foreach (var skill in Model.UserCompany.Skills)
+    @if(Model.UserCompany.Skills == null)
     {
-        <p>@skill.Name</p>
+        @foreach (var skill in Model.UserCompany.Skills)
+        {
+            <p>@skill.Name</p>
+        }
+    }
+    else
+    {
+        <p>No Skill to show</p>
+    }
+
+    @if(Model.UserCompany.Ratings == null)
+    {
+        @foreach (var rating in Model.UserCompany.Ratings)
+        {
+            <p>@rating.Description</p>
+            <p>@rating.Workmanship</p>
+            <p>@rating.Tidiness</p>
+            <p>@rating.Reliability</p>
+            <p>@rating.Courtesy</p>
+            <p>@rating.QuoteAccuracy</p>
+        }
+    }
+    else
+    {
+        <p>No ratings to show</p>
     }
 
 
