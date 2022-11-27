@@ -34,16 +34,22 @@
             configuration.CreateMap<Data.Models.Company, CompanyOutputModel>()
                 .ForMember(x => x.Address, opt =>
                     opt.MapFrom(x => $"{x.Address.Street} - {x.Address.City}"))
+
                 .ForMember(x => x.Likes, opt =>
                     opt.MapFrom(x => x.Likes.Count))
+
                 .ForMember(x => x.OverallRating.Tidiness, opt =>
                     opt.MapFrom(x => x.Ratings.Average(x => x.Tidiness)))
+
                 .ForMember(x => x.OverallRating.Workmanship, opt =>
                     opt.MapFrom(x => x.Ratings.Average(x => x.Workmanship)))
+
                 .ForMember(x => x.OverallRating.Reliability, opt =>
                     opt.MapFrom(x => x.Ratings.Average(x => x.Reliability)))
+
                 .ForMember(x => x.OverallRating.Courtesy, opt =>
                     opt.MapFrom(x => x.Ratings.Average(x => x.Courtesy)))
+
                 .ForMember(x => x.OverallRating.QuoteAccuracy, opt =>
                     opt.MapFrom(x => x.Ratings.Average(x => x.QuoteAccuracy)));
         }
