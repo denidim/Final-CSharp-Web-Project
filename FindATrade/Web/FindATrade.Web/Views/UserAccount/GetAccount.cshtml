@@ -45,7 +45,7 @@ else
         <p>No Skill to show</p>
     }
 
-    @if(Model.UserCompany.Ratings == null)
+    @if(Model.UserCompany.Ratings != null)
     {
         @foreach (var rating in Model.UserCompany.Ratings)
         {
@@ -62,11 +62,19 @@ else
         <p>No ratings to show</p>
     }
 
-    <p>Reliability -> @Model.OverallRating.Reliability</p>
-    <p>Tidiness -> @Model.OverallRating.Tidiness</p>
-    <p>Workmanship -> @Model.OverallRating.Workmanship</p>
-    <p>Courtesy -> @Model.OverallRating.Courtesy</p>
-    <p>QuoteAccuracy -> @Model.OverallRating.QuoteAccuracy</p>
+    @if(Model.OverallRating != null)
+    {
+        <p>Reliability -> @(Model.OverallRating.Reliability)</p>
+        <p>Tidiness -> @Model.OverallRating.Tidiness</p>
+        <p>Workmanship -> @Model.OverallRating.Workmanship</p>
+        <p>Courtesy -> @Model.OverallRating.Courtesy</p>
+        <p>QuoteAccuracy -> @Model.OverallRating.QuoteAccuracy</p>
+    }
+    else
+    {
+        <p>No Overral rating</p>
+    }
+
 
 <hr />
 
