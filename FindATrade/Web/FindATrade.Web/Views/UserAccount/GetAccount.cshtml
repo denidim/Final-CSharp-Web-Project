@@ -62,7 +62,11 @@ else
         <p>No ratings to show</p>
     }
 
-    <p>@Model.UserCompany</p>
+    <p>Reliability -> @Model.UserCompany.OverallRating.Reliability</p>
+    <p>Tidiness -> @Model.UserCompany.OverallRating.Tidiness</p>
+    <p>Workmanship -> @Model.UserCompany.OverallRating.Workmanship</p>
+    <p>Courtesy -> @Model.UserCompany.OverallRating.Courtesy</p>
+    <p>QuoteAccuracy -> @Model.UserCompany.OverallRating.QuoteAccuracy</p>
 
 <hr />
 
