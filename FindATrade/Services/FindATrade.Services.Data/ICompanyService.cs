@@ -1,5 +1,6 @@
 ﻿namespace FindATrade.Services.Data
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using FindATrade.Data.Models;
@@ -15,6 +16,6 @@
 
         Task UpdateAsync(int id, EditCompanyViewModel model);
 
-        Task<T> GetPopular<T>();
+        IEnumerable<T> GetPopular<T>();
     }
 }

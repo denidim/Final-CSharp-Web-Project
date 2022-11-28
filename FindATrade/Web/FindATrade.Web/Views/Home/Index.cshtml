@@ -5,6 +5,7 @@
     this.ViewData["Title"] = "Home Page";
 }
 
+add searches
 
 <div class="text-center">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
@@ -17,7 +18,7 @@
                     <div class="card-body">
                         <h5 class="card-title">@company.Name</h5>
                         <p class="card-text">@company.Description</p>
-                        <a asp-controller="Company" asp-action="GetByIdAsync" asp-route-id="@company.Id" class="btn btn-primary">Go to company</a>
+                        <a asp-controller="Company" asp-action="GetById" asp-route-id="@company.Id" class="btn btn-primary">Go to company</a>
                     </div>
                 </div>
             }

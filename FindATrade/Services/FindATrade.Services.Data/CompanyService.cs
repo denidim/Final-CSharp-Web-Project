@@ -114,13 +114,13 @@
             return company;
         }
 
-        public async IEnumerable<Task<T>> GetPopular<T>()
+        public IEnumerable<T> GetPopular<T>()
         {
             // add logic
-            var company = await this.companyRepo.All()
+            var company = this.companyRepo.All().OrderBy(x => Guid.NewGuid())
                 .Take(10)
                 .To<T>()
-                .ToListAsync();
+                .ToList();
 
             return company;
         }
