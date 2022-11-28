@@ -7,6 +7,7 @@
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
     using FindATrade.Services.Mapping;
+    using FindATrade.Web.ViewModels.Company;
     using FindATrade.Web.ViewModels.CompanyService;
     using Microsoft.EntityFrameworkCore;
 
@@ -139,12 +140,12 @@
 
         public async Task<T> GetByIdAsync<T>(int id)
         {
-            var company = await this.companyRepo.All()
+            var service = await this.serviceRepo.All()
                 .Where(x => x.Id == id)
                 .To<T>()
                 .FirstOrDefaultAsync();
 
-            return company;
+            return service;
         }
 
         public Task<T> GetByIdAsync<T>(string id)
@@ -156,6 +157,29 @@
         {
             return await this.categoryRepo.All().ToListAsync();
         }
-        
+
+        public async Task UpdateAsync(int id, EditServiceViewModel model)
+        {
+            var service = await this.serviceRepo.All()
+                .Include(x => x.Packages)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            service.Title = model.Title;
+            service.Description = model.Description;
+            service.IsPremium = model.IsPremium;
+            service.Packages = new List<Package>();
+            foreach (var item in model.Packages)
+            {
+                var package = new Package
+                {
+                    Price = item.Price,
+                    Descrtiption = item.Description,
+                };
+
+                service.Packages.Add(package);
+            }
+
+            await this.serviceRepo.SaveChangesAsync();
+        }
     }
 }

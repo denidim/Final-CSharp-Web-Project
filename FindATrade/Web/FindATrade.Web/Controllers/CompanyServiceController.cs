@@ -52,10 +52,27 @@
             return this.RedirectToAction("Index", "Home");//return this.RedirectToAction("GetAccount", "UserAccount");
         }
 
-        public IActionResult EditService(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            // TODO Get By Id Service
-            return this.View();
+            var model = await this.companyServiceService.GetByIdAsync<EditServiceViewModel>(id);
+
+            model.Categories = await this.companyServiceService.GetGategoriesAsync();
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, EditServiceViewModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                input.Categories = await this.companyServiceService.GetGategoriesAsync();
+                return this.View(input);
+            }
+
+            await this.companyServiceService.UpdateAsync(id, input);
+
+            return this.RedirectToAction("GetAccount", "UserAccount");
         }
 
 

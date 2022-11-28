@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using FindATrade.Data.Models;
+    using FindATrade.Web.ViewModels.Company;
     using FindATrade.Web.ViewModels.CompanyService;
 
     public interface ICompanyServiceService
@@ -16,6 +17,6 @@
 
         Task<T> GetByIdAsync<T>(int id);
 
-        Task<T> GetByIdAsync<T>(string id);
+        Task UpdateAsync(int id, EditServiceViewModel model);
     }
 }

@@ -91,7 +91,7 @@ else
     @foreach (var service in Model.UserCompanyServices)
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="CompanyService" asp-action="EditService" asp-route-id="@service.Id">Edit Service</a>
+            <a class="nav-link text-dark" asp-controller="CompanyService" asp-action="Edit" asp-route-id="@service.Id">Edit Service</a>
         </li>
         <h2>@service.Title</h2>
         <P>@(service.IsPremium != true?"Premium" : "Not Premium")</p>
