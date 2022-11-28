@@ -46,7 +46,7 @@
                 this.ModelState.AddModelError(string.Empty, ex.Message);
             }
 
-            this.TempData["Message"] = "Recipe added successfully";
+            this.TempData["Message"] = "Company added successfully";
 
             // TODO: Redirect to correct page
             return this.Redirect("/");
@@ -60,6 +60,7 @@
             return this.View(model);
         }
 
+        [HttpPost]
         public async Task<IActionResult> Edit(int id, EditCompanyViewModel input)
         {
             if (!this.ModelState.IsValid)

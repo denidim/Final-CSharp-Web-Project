@@ -61,6 +61,8 @@
         {
             var compnay = this.companyRepo.All()
                 .Include(x => x.Ratings)
+                .Include(x => x.Skills)
+                .Include(x => x.Likes)
                 .Where(x => x.AddedByUserId.Equals(user.Id))
                 .To<T>()
                 .FirstOrDefault();

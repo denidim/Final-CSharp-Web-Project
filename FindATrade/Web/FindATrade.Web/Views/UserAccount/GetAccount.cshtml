@@ -35,7 +35,7 @@ else
 <p>@Model.UserCompany.Address</p>
 <p>@Model.UserCompany.Likes</p>
 
-    @if(Model.UserCompany.Skills == null)
+    @if(Model.UserCompany.Skills != null)
     {
         @foreach (var skill in Model.UserCompany.Skills)
         {

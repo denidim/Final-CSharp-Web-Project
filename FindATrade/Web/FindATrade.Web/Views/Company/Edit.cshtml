@@ -2,7 +2,7 @@
 @model EditCompanyViewModel
 
 @{
-    ViewBag.Title = "Edit Recipe";
+    ViewBag.Title = "Edit Company";
 }
 
 <h1>@ViewBag.Title</h1>
@@ -70,14 +70,16 @@
         <span asp-validation-for="Image" class="text-danger"></span>
     </div>
     <hr />
-    @foreach (var item in Model.Skills)
+    @for (int i = 0; i < @Model.Skills.Count(); i++)
     {
-        <div class="form-group">
+        <div class='form-control'>
             <label asp-for="Skills"></label>
-            <input asp-for="Skills" class="form-control" />
+            Name: <input class='form-control' type='text' name='Skills[@i].Name' />
             <span asp-validation-for="Skills" class="text-danger"></span>
-        </div>
+            </div>
     }
+    
+        
     <hr />
     <input type="hidden" asp-for="Id" />
 </form>

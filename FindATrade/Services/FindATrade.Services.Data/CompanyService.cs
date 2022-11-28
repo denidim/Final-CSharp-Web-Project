@@ -65,7 +65,10 @@
 
         public async Task UpdateAsync(int id, EditCompanyViewModel input)
         {
-            var company = this.companyRepo.All().FirstOrDefault(x => x.Id == id);
+            var company = this.companyRepo.All()
+                .Include(x=>x.Address)
+                .Include(x=>x.Skills)
+                .FirstOrDefault(x => x.Id == id);
 
             company.Name = input.Name;
             company.Description = input.Description;
