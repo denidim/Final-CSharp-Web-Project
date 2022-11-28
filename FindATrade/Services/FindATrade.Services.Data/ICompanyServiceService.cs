@@ -8,8 +8,14 @@
 
     public interface ICompanyServiceService
     {
+        IEnumerable<CompanyServiceOutputModel> GetUserCompanyService(ApplicationUser user);
+
         Task CreateAsync(CreateCompanyServiceInputModel input, int id);
 
         Task<IEnumerable<Category>> GetGategoriesAsync();
+
+        Task<T> GetByIdAsync<T>(int id);
+
+        Task<T> GetByIdAsync<T>(string id);
     }
 }

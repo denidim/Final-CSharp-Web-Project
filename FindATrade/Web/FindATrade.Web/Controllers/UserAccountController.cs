@@ -16,13 +16,19 @@
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IAccountService accountService;
+        private readonly ICompanyService companyService;
+        private readonly ICompanyServiceService companyServiceService;
 
         public UserAccountController(
             UserManager<ApplicationUser> userManager,
-            IAccountService accountService)
+            IAccountService accountService,
+            ICompanyService companyService,
+            ICompanyServiceService companyServiceService)
         {
             this.userManager = userManager;
             this.accountService = accountService;
+            this.companyService = companyService;
+            this.companyServiceService = companyServiceService;
         }
 
         public async Task<IActionResult> GetAccount()
@@ -32,8 +38,8 @@
             var accountPage = new UserAccountOutputModel()
             {
                 UserInfo = this.accountService.GetUserInfo(user),
-                UserCompany = this.accountService.GetCompanyInfoByUser<CompanyOutputModel>(user),
-                UserCompanyServices = this.accountService.GetUserCompanyService(user),
+                UserCompany = await this.companyService.GetCompanyByUserIdAsync<CompanyOutputModel>(user.Id),
+                UserCompanyServices = this.companyServiceService.GetUserCompanyService(user),
             };
 
             return this.View(accountPage);

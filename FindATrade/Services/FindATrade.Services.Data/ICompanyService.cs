@@ -9,7 +9,9 @@
     {
         Task CreateAsync(CreateCompanyInputModel input, ApplicationUser currentUser);
 
-        Task<T> GetByIdAsync<T>(int id);
+        Task<T> GetCompanyByIdAsync<T>(int id);
+
+        Task<T> GetCompanyByUserIdAsync<T>(string id);
 
         Task UpdateAsync(int id, EditCompanyViewModel model);
     }

@@ -93,10 +93,20 @@
             await this.companyRepo.SaveChangesAsync();
         }
 
-        public async Task<T> GetByIdAsync<T>(int id)
+        public async Task<T> GetCompanyByIdAsync<T>(int id)
         {
             var company = await this.companyRepo.All()
                 .Where(x => x.Id == id)
+                .To<T>()
+                .FirstOrDefaultAsync();
+
+            return company;
+        }
+
+        public async Task<T> GetCompanyByUserIdAsync<T>(string id)
+        {
+            var company = await this.companyRepo.All()
+                .Where(x => x.AddedByUserId == id)
                 .To<T>()
                 .FirstOrDefaultAsync();
 

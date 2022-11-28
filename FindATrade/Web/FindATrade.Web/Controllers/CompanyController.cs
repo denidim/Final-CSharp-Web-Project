@@ -54,7 +54,7 @@
 
         public async Task<IActionResult> Edit(int id)
         {
-            var model = await this.companyService.GetByIdAsync<EditCompanyViewModel>(id);
+            var model = await this.companyService.GetCompanyByIdAsync<EditCompanyViewModel>(id);
 
             // TODO Get By Id Service
             return this.View(model);

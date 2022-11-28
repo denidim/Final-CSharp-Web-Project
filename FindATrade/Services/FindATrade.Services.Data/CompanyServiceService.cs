@@ -6,6 +6,7 @@
 
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
+    using FindATrade.Services.Mapping;
     using FindATrade.Web.ViewModels.CompanyService;
     using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +26,87 @@
             this.companyRepo = companyRepo;
         }
 
+        public IEnumerable<CompanyServiceOutputModel> GetUserCompanyService(ApplicationUser user)
+        {
+            var userCompany = this.companyRepo
+                .All()
+                .Where(x => x.AddedByUserId == user.Id)
+                .Include(x => x.Services)
+                .ThenInclude(x => x.Vetting)
+                .Include(x => x.Services)
+                .ThenInclude(x => x.PaidOrder)
+                .Include(x => x.Services)
+                .ThenInclude(x => x.Packages)
+                .Include(x => x.Services)
+                .ThenInclude(x => x.Categotry)
+                .Include(x => x.Skills)
+                .FirstOrDefault();
+
+            if (userCompany == null)
+            {
+                return null;
+            }
+
+            var companyService = new List<CompanyServiceOutputModel>();
+
+            foreach (var item in userCompany.Services)
+            {
+                var package = new List<PackageModel>();
+
+                foreach (var packageItem in item.Packages)
+                {
+                    package.Add(new PackageModel()
+                    {
+                        Price = packageItem.Price,
+                        Description = packageItem.Descrtiption,
+                    });
+                }
+
+                var service = new CompanyServiceOutputModel()
+                {
+                    Id = item.Id,
+                    Title = item.Title,
+                    IsPremium = item.IsPremium,
+                    Description = item.Description,
+                    CategoryName = item.Categotry.Name,
+                    Packages = package,
+                };
+
+                if (item.PaidOrder != null)
+                {
+                    service.PaidOrder = new PaidOrderOutputModel()
+                    {
+                        StartDate = item.PaidOrder.StartDate.ToString(),
+                        EndDate = item.PaidOrder.EndDate.ToString(),
+                        Name = item.PaidOrder.PaidOrderPackageType.Name,
+                        Price = item.PaidOrder.PaidOrderPackageType.Price.ToString(),
+                        Terms = item.PaidOrder.PaidOrderPackageType.Terms,
+                    };
+                }
+                else
+                {
+                    service.PaidOrder = null;
+                }
+
+                if (service.Vetting != null)
+                {
+                    service.Vetting = new VettingOutputModel()
+                    {
+                        Passed = item.Vetting.Passed,
+                        Description = item.Vetting.Description,
+                    };
+                }
+                else
+                {
+                    service.Vetting = null;
+                }
+
+
+                companyService.Add(service);
+            }
+
+            return companyService;
+        }
 
         public async Task CreateAsync(CreateCompanyServiceInputModel input, int id)
         {
@@ -55,9 +137,25 @@
             // TODO add images
         }
 
+        public async Task<T> GetByIdAsync<T>(int id)
+        {
+            var company = await this.companyRepo.All()
+                .Where(x => x.Id == id)
+                .To<T>()
+                .FirstOrDefaultAsync();
+
+            return company;
+        }
+
+        public Task<T> GetByIdAsync<T>(string id)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public async Task<IEnumerable<Category>> GetGategoriesAsync()
         {
             return await this.categoryRepo.All().ToListAsync();
         }
+        
     }
 }
