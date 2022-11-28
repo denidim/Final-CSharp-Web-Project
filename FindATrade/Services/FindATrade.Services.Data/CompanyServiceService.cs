@@ -16,15 +16,18 @@
         private readonly IDeletableEntityRepository<Service> serviceRepo;
         private readonly IDeletableEntityRepository<Category> categoryRepo;
         private readonly IDeletableEntityRepository<Company> companyRepo;
+        private readonly IDeletableEntityRepository<Package> packagerepo;
 
         public CompanyServiceService(
             IDeletableEntityRepository<Service> serviceRepo,
             IDeletableEntityRepository<Category> categoryRepo,
-            IDeletableEntityRepository<Company> companyRepo)
+            IDeletableEntityRepository<Company> companyRepo,
+            IDeletableEntityRepository<Package> packagerepo)
         {
             this.serviceRepo = serviceRepo;
             this.categoryRepo = categoryRepo;
             this.companyRepo = companyRepo;
+            this.packagerepo = packagerepo;
         }
 
         public IEnumerable<CompanyServiceOutputModel> GetUserCompanyService(ApplicationUser user)
@@ -59,7 +62,7 @@
                     package.Add(new PackageModel()
                     {
                         Price = packageItem.Price,
-                        Description = packageItem.Descrtiption,
+                        Description = packageItem.Description,
                     });
                 }
 
@@ -102,7 +105,6 @@
                     service.Vetting = null;
                 }
 
-
                 companyService.Add(service);
             }
 
@@ -125,7 +127,7 @@
                 service.Packages.Add(new Package
                 {
                     Price = item.Price,
-                    Descrtiption = item.Description,
+                    Description = item.Description,
                 });
             }
 
@@ -164,19 +166,28 @@
                 .Include(x => x.Packages)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
+            var package = this.packagerepo.All().Where(x => x.Service == service).ToList();
+
+            foreach (var item in package)
+            {
+                service.Packages.Remove(item);
+
+                this.packagerepo.Delete(item);
+                await this.packagerepo.SaveChangesAsync();
+            }
+
             service.Title = model.Title;
             service.Description = model.Description;
             service.IsPremium = model.IsPremium;
-            service.Packages = new List<Package>();
-            foreach (var item in model.Packages)
+            foreach (var item in model.Packages.Where(x => x.Price != null && x.Description != null))
             {
-                var package = new Package
+                var newPackage = new Package
                 {
                     Price = item.Price,
-                    Descrtiption = item.Description,
+                    Description = item.Description,
                 };
 
-                service.Packages.Add(package);
+                service.Packages.Add(newPackage);
             }
 
             await this.serviceRepo.SaveChangesAsync();

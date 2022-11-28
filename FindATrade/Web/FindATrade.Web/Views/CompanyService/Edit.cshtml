@@ -36,14 +36,15 @@
         <span asp-validation-for="Images" class="text-danger"></span>
     </div>
     <hr />
-    @for (int i = 0; i < @Model.Packages.Count(); i++)
-    {
-        <div class='form-control'>
-            <label asp-for="Packages"></label>
-            Name: <input class='form-control' type='text' placeholder="Packages[@i].Name" name='Packages[@i].Name' />
-            <span asp-validation-for="Packages" class="text-danger"></span>
-        </div>
-    }
+    <p>You can add up to 3 packages otherwise the defoult package(Price rate) will display as Negotiable</p>
+    <p></p>
+     @for (int i = 0; i < 3; i++)
+        {
+            <div class='form-control'>
+                Description: <input class='form-control' type='text' name='Packages[@i].Description' />
+                Price: <input class='form-control' type='text'  name='Packages[@i].Price' />
+            </div>
+        }
 
     <hr />
     <input type="hidden" asp-for="Id" />

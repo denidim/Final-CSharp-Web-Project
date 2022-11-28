@@ -1,6 +1,7 @@
 ﻿namespace FindATrade.Services.Data
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -109,6 +110,17 @@
                 .Where(x => x.AddedByUserId == id)
                 .To<T>()
                 .FirstOrDefaultAsync();
+
+            return company;
+        }
+
+        public async IEnumerable<Task<T>> GetPopular<T>()
+        {
+            // add logic
+            var company = await this.companyRepo.All()
+                .Take(10)
+                .To<T>()
+                .ToListAsync();
 
             return company;
         }

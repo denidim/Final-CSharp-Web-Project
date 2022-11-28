@@ -108,15 +108,23 @@ else
         }
         else
         {
-           <h3>No Subscription</h3> 
+            <h3>No Subscription</h3>
         }
 
-        <h3>Packages</h3>
-        foreach (var package in service.Packages)
+        @if (service.Packages.Any())
         {
-            <p>@package.Price</p>
-            <p>@package.Description</p>
+                <h3>Price rates - Packages</h3>
+            foreach (var package in service.Packages)
+            {
+                <p>@package.Price</p>
+                <p>@package.Description</p>
+            }
+            <hr />
         }
-        <hr />
-    }
+        else
+        {
+            <h3>Price rates - Negotiable</h3>
+        }
+
+}
 }

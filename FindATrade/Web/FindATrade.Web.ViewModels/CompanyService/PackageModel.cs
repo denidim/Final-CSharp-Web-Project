@@ -6,12 +6,10 @@
 
     public class PackageModel : IMapFrom<Package>
     {
-        [Required]
         [Display(Name = "Price of service e.g. 100.00 lv")]
-        public decimal Price { get; set; }
+        public decimal? Price { get; set; }
 
-        [Required]
         [Display(Name = "Description of ofered service for that price")]
         public string Description { get; set; }
-    }/////////////////Descrtiption
+    }
 }

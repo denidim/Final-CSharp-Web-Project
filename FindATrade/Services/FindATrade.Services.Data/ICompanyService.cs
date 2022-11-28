@@ -14,5 +14,7 @@
         Task<T> GetCompanyByUserIdAsync<T>(string id);
 
         Task UpdateAsync(int id, EditCompanyViewModel model);
+
+        Task<T> GetPopular<T>();
     }
 }
