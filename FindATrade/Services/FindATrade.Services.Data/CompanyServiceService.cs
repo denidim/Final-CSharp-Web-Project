@@ -11,21 +11,22 @@
 
     public class CompanyServiceService : ICompanyServiceService
     {
-        private readonly IDeletableEntityRepository<Service> companyServiceRepo;
+        private readonly IDeletableEntityRepository<Service> serviceRepo;
         private readonly IDeletableEntityRepository<Category> categoryRepo;
         private readonly IDeletableEntityRepository<Company> companyRepo;
 
         public CompanyServiceService(
-            IDeletableEntityRepository<Service> companyServiceRepo,
+            IDeletableEntityRepository<Service> serviceRepo,
             IDeletableEntityRepository<Category> categoryRepo,
             IDeletableEntityRepository<Company> companyRepo)
         {
-            this.companyServiceRepo = companyServiceRepo;
+            this.serviceRepo = serviceRepo;
             this.categoryRepo = categoryRepo;
             this.companyRepo = companyRepo;
         }
 
-        public async Task CreateAsync(CreateCompanyServiceInputModel input, string userId)
+
+        public async Task CreateAsync(CreateCompanyServiceInputModel input, int id)
         {
             var service = new Service
             {
@@ -41,16 +42,17 @@
                 service.Packages.Add(new Package
                 {
                     Price = item.Price,
+                    Descrtiption = item.Description,
                 });
             }
 
-            // TODO add images
-
-            var company = this.companyRepo.All().FirstOrDefault(x => x.AddedByUserId == userId);
+            var company = this.companyRepo.All().FirstOrDefault(x => x.Id == id);
 
             company.Services.Add(service);
 
             await this.companyRepo.SaveChangesAsync();
+
+            // TODO add images
         }
 
         public async Task<IEnumerable<Category>> GetGategoriesAsync()

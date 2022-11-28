@@ -8,7 +8,7 @@
 
     public interface ICompanyServiceService
     {
-        Task CreateAsync(CreateCompanyServiceInputModel input, string userId);
+        Task CreateAsync(CreateCompanyServiceInputModel input, int id);
 
         Task<IEnumerable<Category>> GetGategoriesAsync();
     }

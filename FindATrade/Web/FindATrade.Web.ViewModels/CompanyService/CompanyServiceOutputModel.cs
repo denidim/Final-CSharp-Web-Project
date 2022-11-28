@@ -1,8 +1,7 @@
 ﻿namespace FindATrade.Web.ViewModels.CompanyService
 {
-    using System.Collections.Generic;
-
     using Microsoft.AspNetCore.Http;
+    using System.Collections.Generic;
 
     public class CompanyServiceOutputModel
     {

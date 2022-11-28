@@ -37,27 +37,26 @@
         <span asp-validation-for="Images" class="text-danger"></span>
     </div>
     <hr />
-    You can add up to 3 Price Packages
+    <p>You can add up to 3 Price Packages</p>
     <div id="PackagesContainer">
         <label asp-for="Packages"></label>
-        <a class="btn btn-success" onclick="AddMoreIngredients()">+</a>
+        <a class="btn btn-success" onclick="AddPackages()">+</a>
         <span asp-validation-for="Packages" class="text-danger"></span>
     </div>
     <hr />
     <input type="submit" class="button btn-primary" value="Add" />
 </form>
 
-
+@*TODO: Limit packages button*@
 
 @section Scripts{
     <script>
         //Packages[0].Price
         //Packages[0].Description
         var index = 0;
-        function AddMoreIngredients() {
-            console.log("AddMoreIngredients()")
-            $("#IngredientsContainer")
-                .append("<div class='form-control'>Name: <input class='form-control' type='text' name='Packages[" + index + "].Price' /> Descrtiption: <input class='form-control' type='text' name='Packages[" + index + "].Descrtiption' /></div>");
+        function AddPackages() {
+            $("#PackagesContainer")
+                .append("<div class='form-control'>Price: <input class='form-control' type='text' name='Packages[" + index + "].Price' /> Descrtiption: <input class='form-control' type='text' name='Packages[" + index + "].Description' /></div>");
             index++;
         }
     </script>

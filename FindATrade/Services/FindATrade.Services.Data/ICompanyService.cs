@@ -9,6 +9,8 @@
     {
         Task CreateAsync(CreateCompanyInputModel input, ApplicationUser currentUser);
 
-        //T GetByUser<T>(int id);
+        Task<T> GetByIdAsync<T>(int id);
+
+        Task UpdateAsync(int id, EditCompanyViewModel model);
     }
 }

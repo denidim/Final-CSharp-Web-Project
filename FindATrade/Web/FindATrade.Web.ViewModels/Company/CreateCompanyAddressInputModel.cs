@@ -1,8 +1,10 @@
 ﻿namespace FindATrade.Web.ViewModels.Company
 {
+    using FindATrade.Data.Models;
+    using FindATrade.Services.Mapping;
     using System.ComponentModel.DataAnnotations;
 
-    public class CreateCompanyAddressInputModel
+    public class CreateCompanyAddressInputModel : IMapFrom<Address>
     {
         [StringLength(50, MinimumLength = 3)]
         [Required]

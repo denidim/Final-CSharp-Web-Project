@@ -13,6 +13,8 @@
             this.Categories = new List<Category>();
         }
 
+        public int CompanyId { get; set; }
+
         [Required]
         [StringLength(100)]
         public string Title { get; set; }

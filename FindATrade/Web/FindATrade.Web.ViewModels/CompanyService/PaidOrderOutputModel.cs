@@ -1,4 +1,7 @@
-﻿namespace FindATrade.Web.ViewModels.CompanyService
+﻿using FindATrade.Data.Models;
+using FindATrade.Services.Mapping;
+
+namespace FindATrade.Web.ViewModels.CompanyService
 {
     public class PaidOrderOutputModel
     {

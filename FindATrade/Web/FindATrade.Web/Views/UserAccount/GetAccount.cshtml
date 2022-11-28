@@ -18,14 +18,14 @@
 @if (Model.UserCompany == null)
 {
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="CompanyController" asp-action="Create" asp-route-id="@Model.UserInfo.Id">EditCompany</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Company" asp-action="Create" asp-route-id="@Model.UserInfo.Id">Create Company</a>
     </li>
 }
 else
 {
     <h1>Company</h1>@*Check for null*@ 
 <li class="nav-item">
-    <a class="nav-link text-dark" asp-area="" asp-controller="CompanyController" asp-action="EditCompany" asp-route-id="@Model.UserCompany.Id">EditCompany</a>
+    <a class="nav-link text-dark" asp-area="" asp-controller="Company" asp-action="Edit" asp-route-id="@Model.UserCompany.Id">EditCompany</a>
 </li>
 <p>@Model.UserCompany.Name</p>
 <p>@Model.UserCompany.WebSite</p>
@@ -82,9 +82,9 @@ else
 
 <h1>Services</h1>
 
-    @if (Model.UserCompanyServices == null)
+    @if (!Model.UserCompanyServices.Any())
     {
-         <li class="nav-item">
+        <li class="nav-item">
             <a class="nav-link text-dark" asp-controller="CompanyService" asp-action="Create" asp-route-id="@Model.UserCompany.Id">Add Service</a>
         </li>
     }
@@ -96,12 +96,21 @@ else
         <h2>@service.Title</h2>
         <P>@(service.IsPremium != true?"Premium" : "Not Premium")</p>
         <p>@service.Description</p>
-        <h3>Subscription</h3>
-        <p>  @service.PaidOrder.Name</p>
-        <p>  @service.PaidOrder.StartDate</p>
-        <p>  @service.PaidOrder.EndDate</p>
-        <p>  @service.PaidOrder.Price</p>
-        <p>  @service.PaidOrder.Terms</p>
+        
+        if(service.PaidOrder != null)
+        {
+            <h3>Subscription</h3>
+            <p>  @service.PaidOrder.Name</p>
+            <p>  @service.PaidOrder.StartDate</p>
+            <p>  @service.PaidOrder.EndDate</p>
+            <p>  @service.PaidOrder.Price</p>
+            <p>  @service.PaidOrder.Terms</p>
+        }
+        else
+        {
+           <h3>No Subscription</h3> 
+        }
+
         <h3>Packages</h3>
         foreach (var package in service.Packages)
         {

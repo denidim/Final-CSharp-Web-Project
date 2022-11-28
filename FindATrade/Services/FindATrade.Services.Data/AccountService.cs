@@ -14,10 +14,14 @@
     public class AccountService : IAccountService
     {
         private readonly IDeletableEntityRepository<Company> companyRepo;
+        private readonly IDeletableEntityRepository<Service> serviceRepo;
 
-        public AccountService(IDeletableEntityRepository<Company> companyRepo)
+        public AccountService(
+            IDeletableEntityRepository<Company> companyRepo,
+            IDeletableEntityRepository<Service> serviceRepo)
         {
             this.companyRepo = companyRepo;
+            this.serviceRepo = serviceRepo;
         }
 
         public CompanyOutputModel GetCompanyInfo(ApplicationUser user)
@@ -56,6 +60,7 @@
         public T GetCompanyInfoByUser<T>(ApplicationUser user)
         {
             var compnay = this.companyRepo.All()
+                .Include(x => x.Ratings)
                 .Where(x => x.AddedByUserId.Equals(user.Id))
                 .To<T>()
                 .FirstOrDefault();
@@ -65,9 +70,20 @@
 
         public IEnumerable<CompanyServiceOutputModel> GetUserCompanyService(ApplicationUser user)
         {
+
             var userCompany = this.companyRepo
                 .All()
-                .FirstOrDefault(x => x.AddedByUserId == user.Id);
+                .Where(x => x.AddedByUserId == user.Id)
+                .Include(x => x.Services)
+                .ThenInclude(x => x.Vetting)
+                .Include(x => x.Services)
+                .ThenInclude(x => x.PaidOrder)
+                .Include(x => x.Services)
+                .ThenInclude(x => x.Packages)
+                .Include(x => x.Services)
+                .ThenInclude(x => x.Categotry)
+                .Include(x => x.Skills)
+                .FirstOrDefault();
 
             if (userCompany == null)
             {
@@ -96,27 +112,45 @@
                     IsPremium = item.IsPremium,
                     Description = item.Description,
                     CategoryName = item.Categotry.Name,
-                    PaidOrder = new PaidOrderOutputModel()
+                    Packages = package,
+                };
+
+                if (item.PaidOrder != null)
+                {
+                    service.PaidOrder = new PaidOrderOutputModel()
                     {
                         StartDate = item.PaidOrder.StartDate.ToString(),
                         EndDate = item.PaidOrder.EndDate.ToString(),
                         Name = item.PaidOrder.PaidOrderPackageType.Name,
                         Price = item.PaidOrder.PaidOrderPackageType.Price.ToString(),
                         Terms = item.PaidOrder.PaidOrderPackageType.Terms,
-                    },
-                    Vetting = new VettingOutputModel()
+                    };
+                }
+                else
+                {
+                    service.PaidOrder = null;
+                }
+
+                if (service.Vetting != null)
+                {
+                    service.Vetting = new VettingOutputModel()
                     {
                         Passed = item.Vetting.Passed,
                         Description = item.Vetting.Description,
-                    },
-                    Packages = package,
-                };
+                    };
+                }
+                else
+                {
+                    service.Vetting = null;
+                }
+
 
                 companyService.Add(service);
             }
 
             return companyService;
         }
+
 
         public UserInfoOutputModel GetUserInfo(ApplicationUser user)
         {

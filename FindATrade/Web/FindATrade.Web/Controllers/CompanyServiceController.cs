@@ -29,7 +29,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateCompanyServiceInputModel input)
+        public async Task<IActionResult> Create(CreateCompanyServiceInputModel input, int id)
         {
             if (!this.ModelState.IsValid)
             {
@@ -38,11 +38,9 @@
                 return this.View(input);
             }
 
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
             try
             {
-                await this.companyServiceService.CreateAsync(input, userId);
+                await this.companyServiceService.CreateAsync(input, id);
             }
             catch (System.Exception ex)
             {
@@ -51,8 +49,7 @@
 
             this.TempData["Message"] = "Recipe added successfully";
 
-            // TODO: Redirect to correct page
-            return this.Redirect("/");
+            return this.RedirectToAction("Index", "Home");//return this.RedirectToAction("GetAccount", "UserAccount");
         }
 
         public IActionResult EditService(int id)

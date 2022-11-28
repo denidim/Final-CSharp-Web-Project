@@ -30,11 +30,11 @@
 
         public Category Categotry { get; set; }
 
-        public int PaidOrderId { get; set; }
+        public int? PaidOrderId { get; set; }
 
         public PaidOrder PaidOrder { get; set; }
 
-        public int VettingId { get; set; }
+        public int? VettingId { get; set; }
 
         public Vetting Vetting { get; set; }
 

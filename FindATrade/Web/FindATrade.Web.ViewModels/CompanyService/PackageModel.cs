@@ -1,5 +1,7 @@
 ﻿namespace FindATrade.Web.ViewModels.CompanyService
 {
+    using FindATrade.Data.Models;
+    using FindATrade.Services.Mapping;
     using System.ComponentModel.DataAnnotations;
 
     public class PackageModel

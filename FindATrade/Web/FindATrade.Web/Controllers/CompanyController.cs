@@ -52,10 +52,24 @@
             return this.Redirect("/");
         }
 
-        public IActionResult EditCompany(int id)
+        public async Task<IActionResult> Edit(int id)
         {
+            var model = await this.companyService.GetByIdAsync<EditCompanyViewModel>(id);
+
             // TODO Get By Id Service
-            return this.View();
+            return this.View(model);
+        }
+
+        public async Task<IActionResult> Edit(int id, EditCompanyViewModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
+            await this.companyService.UpdateAsync(id, input);
+
+            return this.RedirectToAction("GetAccount", "UserAccount");
         }
     }
 }
