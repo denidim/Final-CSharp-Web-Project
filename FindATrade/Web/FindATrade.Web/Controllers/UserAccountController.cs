@@ -39,7 +39,7 @@
             {
                 UserInfo = this.accountService.GetUserInfo(user),
                 UserCompany = await this.companyService.GetCompanyByUserIdAsync<CompanyOutputModel>(user.Id),
-                UserCompanyServices = this.companyServiceService.GetUserCompanyService(user),
+                UserCompanyServices = this.companyServiceService.GetAllCompanyServices(user.Id),
             };
 
             return this.View(accountPage);

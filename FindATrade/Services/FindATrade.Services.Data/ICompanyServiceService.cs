@@ -1,6 +1,7 @@
 ﻿namespace FindATrade.Services.Data
 {
     using System.Collections.Generic;
+    using System.Runtime.InteropServices;
     using System.Threading.Tasks;
 
     using FindATrade.Data.Models;
@@ -9,7 +10,7 @@
 
     public interface ICompanyServiceService
     {
-        IEnumerable<CompanyServiceOutputModel> GetUserCompanyService(ApplicationUser user);
+        IEnumerable<CompanyServiceOutputModel> GetAllCompanyServices(params object[] objects);
 
         Task CreateAsync(CreateCompanyServiceInputModel input, int id);
 

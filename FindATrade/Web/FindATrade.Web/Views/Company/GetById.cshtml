@@ -1,11 +1,11 @@
 ﻿@using FindATrade.Web.ViewModels.Company;
-@model CompanyOutputModel
+@model SingleCompanyModel
 
 @{
-    this.ViewBag.Title = Model.Name;
+    this.ViewBag.Title = "Title";
 }
 
-<h1>This is customers page</h1>
+<h1>This is single company page</h1>
 
 Title Logo
 owner name
@@ -21,3 +21,71 @@ pics
 descr
 contacts
 reviews sumary
+
+
+<div class="text-center">
+    <div class="col-md-4">
+        <div class="row">
+            <div class="card col-md-6">
+                <img class="card-img-top" src="" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.UserCompany.Name</h5>
+                    <p class="card-text">@Model.UserCompany.Description</p>
+                    @*<a asp-controller="Company" asp-action="GetById" asp-route-id="@company.Id" class="btn btn-primary">Go to company</a>*@
+                    <p class="card-text">@Model.UserCompany.Description</p>
+                    @foreach (var item in Model.UserCompany.Skills)
+                    {
+                        <p class="card-text">@item.Name</p>
+                    }
+                </div>
+            </div>
+            <P>services to go here</P>
+            <a asp-controller="Review" asp-action="Write" asp-route-id="@Model.UserCompany.Id" class="btn btn-primary">Leve a review</a>
+
+            @*@foreach (var item in model.usercompanyservices)
+            {
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="..." alt="card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.description</h5>
+                        <p class="card-text">some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-primary">go somewhere</a>
+                    </div>
+                </div>
+            }*@
+            
+        </div>
+    </div>
+    <div class="col-md-8 offset-md-4">
+        <p>Image to go here</p>
+        <ul class="list-group">
+            <li class="list-group-item align-items-center">
+                Name:
+                <span class="badge bg-primary rounded-pill">@Model.UserCompany.Name</span>
+            </li>
+            <li class="list-group-item align-items-center">
+                Phone:
+                <span class="badge bg-primary rounded-pill">@Model.UserCompany.PhoneNumber</span>
+            </li>
+            <li class="list-group-item align-items-center">
+                Email:
+                <span class="badge bg-primary rounded-pill">@Model.UserCompany.Email</span>
+            </li>
+        </ul>
+        Ratings:
+        <ul class="list-group">
+            @foreach (var item in Model.UserCompany.Ratings)
+            {
+                <li class="list-group-item align-items-center">
+                    Description:
+                    <span class="badge bg-primary rounded-pill">@item.Description</span>
+                    <span class="badge bg-primary rounded-pill">@item.Courtesy</span>
+                    <span class="badge bg-primary rounded-pill">@item.Tidiness</span>
+                    <span class="badge bg-primary rounded-pill">@item.Reliability</span>
+                    <span class="badge bg-primary rounded-pill">@item.QuoteAccuracy</span>
+                    <span class="badge bg-primary rounded-pill">@item.Workmanship</span>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

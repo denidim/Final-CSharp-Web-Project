@@ -1,7 +1,9 @@
 ﻿namespace FindATrade.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.InteropServices;
     using System.Threading.Tasks;
 
     using FindATrade.Data.Common.Repositories;
@@ -30,11 +32,26 @@
             this.packagerepo = packagerepo;
         }
 
-        public IEnumerable<CompanyServiceOutputModel> GetUserCompanyService(ApplicationUser user)
+        public IEnumerable<CompanyServiceOutputModel> GetAllCompanyServices(params object[] objects)
         {
+            int companyId = -1;
+
+            string userId = string.Empty;
+
+            var obj = objects.First();
+
+            if (obj is int)
+            {
+                companyId = (int)obj;
+            }
+            else
+            {
+                userId = (string)obj;
+            }
+
             var userCompany = this.companyRepo
                 .All()
-                .Where(x => x.AddedByUserId == user.Id)
+                .Where(x => x.AddedByUserId == userId || x.Id == companyId)
                 .Include(x => x.Services)
                 .ThenInclude(x => x.Vetting)
                 .Include(x => x.Services)
@@ -110,6 +127,8 @@
 
             return companyService;
         }
+
+
 
         public async Task CreateAsync(CreateCompanyServiceInputModel input, int id)
         {

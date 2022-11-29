@@ -1,0 +1,43 @@
+﻿@using FindATrade.Web.ViewModels.Review;
+@model ReviewModel
+
+@{
+    ViewBag.Message = "Add Review";
+}
+
+<h1>@this.ViewBag.Message</h1>
+
+<form method="post" class="col-md-6 ofsset-md-3">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Workmanship"></label>
+        <input asp-for="Workmanship" class="form-control" />
+        <span asp-validation-for="Workmanship" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Tidiness"></label>
+        <input asp-for="Tidiness" class="form-control" />
+        <span asp-validation-for="Tidiness" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Reliability"></label>
+        <input asp-for="Reliability" class="form-control" />
+        <span asp-validation-for="Reliability" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Courtesy"></label>
+        <input asp-for="Courtesy" class="form-control" rows="5"></input>
+        <span asp-validation-for="Courtesy" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="QuoteAccuracy"></label>
+        <input asp-for="QuoteAccuracy" class="form-control" />
+        <span asp-validation-for="QuoteAccuracy" class="text-danger"></span>
+    </div>
+    <input type="submit" class="button btn-primary" />
+</form>

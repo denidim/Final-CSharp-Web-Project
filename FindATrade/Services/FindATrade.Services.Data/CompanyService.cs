@@ -10,6 +10,7 @@
     using FindATrade.Data.Models;
     using FindATrade.Services.Mapping;
     using FindATrade.Web.ViewModels.Company;
+    using FindATrade.Web.ViewModels.Review;
     using Microsoft.EntityFrameworkCore;
 
     public class CompanyService : ICompanyService
@@ -67,8 +68,8 @@
         public async Task UpdateAsync(int id, EditCompanyViewModel input)
         {
             var company = this.companyRepo.All()
-                .Include(x=>x.Address)
-                .Include(x=>x.Skills)
+                .Include(x => x.Address)
+                .Include(x => x.Skills)
                 .FirstOrDefault(x => x.Id == id);
 
             company.Name = input.Name;
@@ -123,6 +124,26 @@
                 .ToList();
 
             return company;
+        }
+
+        public async Task CreateReview(ReviewModel model, int id)
+        {
+            var company = await this.companyRepo.All()
+                .Include(x => x.Ratings)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            Rating rating = new Rating()
+            {
+                Courtesy = model.Courtesy,
+                Tidiness = model.Tidiness,
+                Description = model.Description,
+                Reliability = model.Reliability,
+                Workmanship = model.Workmanship,
+                QuoteAccuracy = model.QuoteAccuracy,
+            };
+
+            company.Ratings.Add(rating);
+            await this.companyRepo.SaveChangesAsync();
         }
     }
 }

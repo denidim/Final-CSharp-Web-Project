@@ -24,6 +24,10 @@
 else
 {
     <h1>Company</h1>@*Check for null*@ 
+
+    <li class="nav-item">
+    <a class="nav-link text-dark" asp-area="" asp-controller="Company" asp-action="GetById" asp-route-id="@Model.UserCompany.Id">Get</a>
+</li>
 <li class="nav-item">
     <a class="nav-link text-dark" asp-area="" asp-controller="Company" asp-action="Edit" asp-route-id="@Model.UserCompany.Id">EditCompany</a>
 </li>

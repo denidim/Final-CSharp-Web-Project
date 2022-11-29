@@ -1,8 +1,8 @@
-﻿using AutoMapper;
-using FindATrade.Services.Mapping;
-
-namespace FindATrade.Web.ViewModels.CompanyService
+﻿namespace FindATrade.Web.ViewModels.CompanyService
 {
+    using AutoMapper;
+    using FindATrade.Services.Mapping;
+
     public class EditServiceViewModel : CreateCompanyServiceInputModel, IMapFrom<Data.Models.Service>, IHaveCustomMappings
     {
         public int Id { get; set; }

@@ -5,6 +5,7 @@
 
     using AutoMapper;
     using FindATrade.Services.Mapping;
+    using FindATrade.Web.ViewModels.CompanyService;
 
     public class CompanyOutputModel : IMapFrom<Data.Models.Company>, IHaveCustomMappings
     {
