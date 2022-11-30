@@ -28,7 +28,7 @@
 
         public int CategoryId { get; set; }
 
-        public Category Categotry { get; set; }
+        public Category Category { get; set; }
 
         public int? VettingId { get; set; }
 

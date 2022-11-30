@@ -985,7 +985,7 @@ namespace FindATrade.Data.Migrations
 
             modelBuilder.Entity("FindATrade.Data.Models.Service", b =>
                 {
-                    b.HasOne("FindATrade.Data.Models.Category", "Categotry")
+                    b.HasOne("FindATrade.Data.Models.Category", "Category")
                         .WithMany("Services")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1005,7 +1005,7 @@ namespace FindATrade.Data.Migrations
                         .WithOne("Service")
                         .HasForeignKey("FindATrade.Data.Models.Service", "VettingId");
 
-                    b.Navigation("Categotry");
+                    b.Navigation("Category");
 
                     b.Navigation("Company");
 

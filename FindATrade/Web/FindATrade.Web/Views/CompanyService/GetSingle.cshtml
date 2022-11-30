@@ -1,0 +1,14 @@
+﻿@using FindATrade.Web.ViewModels.CompanyService;
+@model SingleServiceOutputModel
+
+<p>Title = @Model.Title</p>
+<p>Description = @Model.Description</p>
+<p>Category = @Model.CategoryName</p>
+
+
+
+@foreach (var item in Model.Packages)
+{
+    <p>Package-Description = @item.Description</p>
+    <p>Package-Price = @item.Price</p>
+}  

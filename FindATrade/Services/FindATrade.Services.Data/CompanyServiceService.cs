@@ -1,15 +1,12 @@
 ﻿namespace FindATrade.Services.Data
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.InteropServices;
     using System.Threading.Tasks;
 
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
     using FindATrade.Services.Mapping;
-    using FindATrade.Web.ViewModels.Company;
     using FindATrade.Web.ViewModels.CompanyService;
     using Microsoft.EntityFrameworkCore;
 
@@ -59,7 +56,7 @@
                 .Include(x => x.Services)
                 .ThenInclude(x => x.Packages)
                 .Include(x => x.Services)
-                .ThenInclude(x => x.Categotry)
+                .ThenInclude(x => x.Category)
                 .FirstOrDefault();
 
             if (userCompany == null)
@@ -88,7 +85,7 @@
                     Title = item.Title,
                     IsPremium = item.IsPremium,
                     Description = item.Description,
-                    CategoryName = item.Categotry.Name,
+                    CategoryName = item.Category.Name,
                     Packages = package,
                 };
 

@@ -43,17 +43,25 @@ reviews sumary
             <a asp-controller="Review" asp-action="Write" asp-route-id="@Model.UserCompany.Id" class="btn btn-primary">Leve a review</a>
 
 
-            @*@foreach (var item in model.usercompanyservices)
+            @foreach (var item in @Model.UserCompanyServices)
             {
-                <div class="card" style="width: 18rem;">
+                <a asp-controller="CompanyService" asp-action="GetSingle" asp-route-id="@item.Id" class="btn btn-primary">See Service</a>
+                <p>Service Description: @item.Description</p>
+                @foreach (var package in item.Packages)
+                {
+                    <p>Packages</p>
+                    <p>@package.Description</p>
+                    <p>@package.Price</p>
+                }
+                @*<div class="card" style="width: 18rem;">
                     <img class="card-img-top" src="..." alt="card image cap">
                     <div class="card-body">
-                        <h5 class="card-title">@item.description</h5>
+                        <h5 class="card-title">@item.Description</h5>
                         <p class="card-text">some quick example text to build on the card title and make up the bulk of the card's content.</p>
                         <a href="#" class="btn btn-primary">go somewhere</a>
                     </div>
-                </div>
-            }*@
+                </div>*@
+            }
             
         </div>
     </div>

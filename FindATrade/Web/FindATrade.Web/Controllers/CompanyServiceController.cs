@@ -75,6 +75,12 @@
             return this.RedirectToAction("GetAccount", "UserAccount");
         }
 
+        public async Task<IActionResult> GetSingle(int id)
+        {
+            var model = await this.companyServiceService.GetByIdAsync<SingleServiceOutputModel>(id);
+
+            return this.View(model);
+        }
 
     }
 }
