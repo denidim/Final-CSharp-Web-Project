@@ -8,10 +8,6 @@
 
     public class PaidOrder : BaseDeletableModel<int>
     {
-        public PaidOrder()
-        {
-            this.Services = new HashSet<Service>();
-        }
 
         public PaidOrderPackageType PaidOrderPackageType { get; set; }
 
@@ -21,6 +17,6 @@
         [Required]
         public DateTime EndDate { get; set; }
 
-        public ICollection<Service> Services { get; set; }
+        public Service Service { get; set; }
     }
 }

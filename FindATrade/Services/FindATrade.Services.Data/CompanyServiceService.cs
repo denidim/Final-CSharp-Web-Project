@@ -60,7 +60,6 @@
                 .ThenInclude(x => x.Packages)
                 .Include(x => x.Services)
                 .ThenInclude(x => x.Categotry)
-                .Include(x => x.Skills)
                 .FirstOrDefault();
 
             if (userCompany == null)
@@ -126,6 +125,7 @@
             }
 
             return companyService;
+
         }
 
 
