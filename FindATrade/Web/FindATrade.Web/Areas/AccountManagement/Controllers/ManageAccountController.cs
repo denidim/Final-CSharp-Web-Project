@@ -3,6 +3,7 @@
     using System.Threading.Tasks;
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
+    using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels.AccountManagement;
     using FindATrade.Web.ViewModels.UserAccount;
     using Microsoft.AspNetCore.Authorization;
@@ -17,17 +18,20 @@
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<ApplicationRole> roleManager;
         private readonly IDeletableEntityRepository<Service> serviceRepo;
+        private readonly ICompanyServiceService companyServiceService;
 
         public ManageAccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             RoleManager<ApplicationRole> roleManager,
-            IDeletableEntityRepository<Service> serviceRepo)
+            IDeletableEntityRepository<Service> serviceRepo,
+            ICompanyServiceService companyServiceService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
             this.serviceRepo = serviceRepo;
+            this.companyServiceService = companyServiceService;
         }
 
         [HttpGet]
@@ -152,6 +156,25 @@
             await this.serviceRepo.SaveChangesAsync();
 
             return this.RedirectToAction("GetSingle", "CompanyService", new { id = id, area = " " });
+        }
+
+        public IActionResult AddPremium()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public IActionResult AddPremium(int id)
+        {
+            return this.RedirectToAction("GetSingle", "CompanyService", new { id = id, area = " " });
+        }
+
+
+        public IActionResult AllForVetting()
+        {
+            var ids = this.companyServiceService.GetAllForVettingIds();
+
+            return this.View(ids);
         }
 
         //public async Task<IActionResult> CreateRoles()

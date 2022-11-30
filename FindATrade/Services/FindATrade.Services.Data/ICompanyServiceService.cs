@@ -19,5 +19,7 @@
         Task<T> GetByIdAsync<T>(int id);
 
         Task UpdateAsync(int id, EditServiceViewModel model);
+
+        IEnumerable<int> GetAllForVettingIds();
     }
 }

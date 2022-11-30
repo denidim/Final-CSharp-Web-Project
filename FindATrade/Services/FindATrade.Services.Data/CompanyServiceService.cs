@@ -30,6 +30,15 @@
             this.packagerepo = packagerepo;
         }
 
+        public IEnumerable<int> GetAllForVettingIds()
+        {
+            return this.serviceRepo.All()
+                .Include(x => x.Vetting)
+                .Where(x => x.Vetting.Passed == false)
+                .Select(x => x.Id)
+                .ToList();
+        }
+
         public IEnumerable<CompanyServiceOutputModel> GetAllCompanyServices(params object[] objects)
         {
             int companyId = -1;
