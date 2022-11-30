@@ -1,12 +1,14 @@
 ﻿namespace FindATrade.Web.Areas.AccountManagement.Controllers
 {
     using System.Threading.Tasks;
-
+    using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
+    using FindATrade.Web.ViewModels.AccountManagement;
     using FindATrade.Web.ViewModels.UserAccount;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
 
     [Area("AccountManagement")]
     public class ManageAccountController : Controller
@@ -14,15 +16,18 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<ApplicationRole> roleManager;
+        private readonly IDeletableEntityRepository<Service> serviceRepo;
 
         public ManageAccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<ApplicationRole> roleManager)
+            RoleManager<ApplicationRole> roleManager,
+            IDeletableEntityRepository<Service> serviceRepo)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
+            this.serviceRepo = serviceRepo;
         }
 
         [HttpGet]
@@ -119,6 +124,34 @@
             await this.signInManager.SignOutAsync();
 
             return this.RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Vett()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Vett(int id, VettModel input)
+        {
+            var services = await this.serviceRepo
+                .All()
+                .Include(x => x.Vetting)
+                .FirstAsync(x => x.Id == id);
+
+            if (input.IsPassed == true)
+            {
+                services.Vetting.ApprovalDate = System.DateTime.UtcNow;
+                services.Vetting.Passed = true;
+            }
+            else
+            {
+                services.Vetting.Description = input.Description;
+            }
+
+            await this.serviceRepo.SaveChangesAsync();
+
+            return this.RedirectToAction("GetSingle", "CompanyService", new { id = id, area = " " });
         }
 
         //public async Task<IActionResult> CreateRoles()

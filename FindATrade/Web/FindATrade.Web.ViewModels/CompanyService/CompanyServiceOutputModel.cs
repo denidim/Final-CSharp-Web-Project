@@ -11,6 +11,5 @@
     {
         public PaidOrderOutputModel PaidOrder { get; set; }
 
-        public VettingOutputModel Vetting { get; set; }
     }
 }

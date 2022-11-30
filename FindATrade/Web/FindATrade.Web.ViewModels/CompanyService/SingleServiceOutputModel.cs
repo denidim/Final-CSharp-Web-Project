@@ -19,6 +19,8 @@
 
         public string CategoryName { get; set; }
 
+        public VettingOutputModel Vetting { get; set; }
+
         public ICollection<PackageModel> Packages { get; set; }
 
         public ICollection<IFormFile> Images { get; set; }

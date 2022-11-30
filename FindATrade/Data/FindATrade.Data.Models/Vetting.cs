@@ -17,7 +17,7 @@
 
         public string Description { get; set; }
 
-        public int VettetByEmployeeId { get; set; }
+        public int? VettetByEmployeeId { get; set; }
 
         public Employee VettetByEmployee { get; set; }
 

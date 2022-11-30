@@ -1,5 +1,6 @@
 ﻿namespace FindATrade.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -105,7 +106,7 @@
                     service.PaidOrder = null;
                 }
 
-                if (service.Vetting != null)
+                if (item.Vetting != null)
                 {
                     service.Vetting = new VettingOutputModel()
                     {
@@ -129,6 +130,14 @@
 
         public async Task CreateAsync(CreateCompanyServiceInputModel input, int id)
         {
+            var vetting = new Vetting()
+            {
+                StartVetting = DateTime.UtcNow,
+                ApprovalDate = default(DateTime),
+                Passed = false,
+                Description = "Vetting in progress",
+            };
+
             var service = new Service
             {
                 Title = input.Title,
@@ -136,6 +145,7 @@
                 // TODO: Add Premium Logic
                 Description = input.Description,
                 CategoryId = input.CategoryId,
+                Vetting = vetting,
             };
 
             foreach (var item in input.Packages)

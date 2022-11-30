@@ -47,7 +47,7 @@
                 this.ModelState.AddModelError(string.Empty, ex.Message);
             }
 
-            this.TempData["Message"] = "Recipe added successfully";
+            this.TempData["Message"] = "Service added successfully";
 
             return this.RedirectToAction("Index", "Home");//return this.RedirectToAction("GetAccount", "UserAccount");
         }

@@ -38,7 +38,6 @@
                 PostalCode = input.Address.PostalCode,
             };
 
-
             var compnay = new Company()
             {
                 Name = input.Name,
