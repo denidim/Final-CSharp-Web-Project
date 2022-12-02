@@ -69,8 +69,7 @@
             if (result.Succeeded)
             {
                 await this.signInManager.SignInAsync(user, isPersistent: false);
-
-                return this.RedirectToAction("GetAccount", "UserAccount");
+                return this.RedirectToAction("GetAccount", "UserAccount", new { area = " " });
             }
 
             foreach (var item in result.Errors)

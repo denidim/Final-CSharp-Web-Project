@@ -41,7 +41,11 @@
                 UserCompanyServices = await this.companyServiceService.GetAllCompanyServices(user.Id),
             };
 
-            accountPage.OverallRating = this.ratingService.GetOverallRating(accountPage.UserCompany.Id);
+            if (accountPage.UserCompany != null)
+            {
+                accountPage.OverallRating = this.ratingService.GetOverallRating(accountPage.UserCompany.Id);
+            }
+
 
             this.ViewBag.Title = "My Account";
             this.ViewBag.Message = "This is how customers see your acount";
