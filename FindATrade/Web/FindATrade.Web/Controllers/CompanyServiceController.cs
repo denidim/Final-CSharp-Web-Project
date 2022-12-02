@@ -78,7 +78,7 @@
         public async Task<IActionResult> GetSingle(int id)
         {
             var model = await this.companyServiceService.GetByIdAsync<SingleServiceOutputModel>(id);
-
+            model.CompanyServicesByCategory = await this.companyServiceService.GetAllByCategory<CompanyServiceByCategoryModel>(model.CategoryName);
             return this.View(model);
         }
 

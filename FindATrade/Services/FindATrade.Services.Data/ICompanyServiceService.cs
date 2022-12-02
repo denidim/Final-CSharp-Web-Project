@@ -21,5 +21,7 @@
         Task UpdateAsync(int id, EditServiceViewModel model);
 
         IEnumerable<int> GetAllForVettingIds();
+
+        Task<IEnumerable<T>> GetAllByCategory<T>(string categoryName);
     }
 }

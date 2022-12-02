@@ -25,6 +25,8 @@
 
         public ICollection<IFormFile> Images { get; set; }
 
+        public IEnumerable<CompanyServiceByCategoryModel> CompanyServicesByCategory { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Service, SingleServiceOutputModel>()

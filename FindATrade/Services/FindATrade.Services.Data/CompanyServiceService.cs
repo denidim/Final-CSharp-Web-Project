@@ -39,6 +39,14 @@
                 .ToList();
         }
 
+        public async Task<IEnumerable<T>> GetAllByCategory<T>(string categoryName)
+        {
+            return await this.serviceRepo.All()
+                .Where(x => x.Category.Name == categoryName)
+                .To<T>()
+                .ToListAsync();
+        }
+
         public IEnumerable<CompanyServiceOutputModel> GetAllCompanyServices(params object[] objects)
         {
             int companyId = -1;
