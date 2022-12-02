@@ -52,11 +52,5 @@
 
             return this.View(accountPage);
         }
-
-        public IActionResult EditProfile(string id)
-        {
-            // TODO Get By Id Service
-            return this.View();
-        }
     }
 }
