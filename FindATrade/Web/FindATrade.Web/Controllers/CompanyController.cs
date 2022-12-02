@@ -1,6 +1,7 @@
 ﻿namespace FindATrade.Web.Controllers
 {
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
@@ -88,10 +89,13 @@
 
         public async Task<IActionResult> GetById(int id)
         {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             SingleCompanyModel company = new SingleCompanyModel();
             company.UserCompany = await this.companyService.GetCompanyByIdAsync<CompanyOutputModel>(id);
             company.OverallRating = this.ratingService.GetOverallRating(company.UserCompany.Id);
             company.UserCompanyServices = await this.companyServiceService.GetAllCompanyServices(company.UserCompany.Id);
+            company.IsOwner = this.companyServiceService.IsUsersCompany(company.UserCompanyServices.First().Id, userId);
             return this.View(company);
         }
     }

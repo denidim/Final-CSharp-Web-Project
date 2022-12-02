@@ -6,6 +6,8 @@
 
     public class SingleCompanyModel
     {
+        public bool IsOwner { get; set; }
+
         public CompanyOutputModel UserCompany { get; set; }
 
         public OverallCompanyRating OverallRating { get; set; }

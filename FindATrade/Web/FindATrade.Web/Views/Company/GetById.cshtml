@@ -89,6 +89,9 @@
 <div class="card text-white bg-secondary my-5 py-4 text-center">
     <div class="card-body"><p class="text-white m-0">Overall Rating</p></div>
     <p>Reliability -> @Model.OverallRating.Reliability Tidiness -> @Model.OverallRating.Tidiness Workmanship -> @Model.OverallRating.Workmanship Courtesy -> @Model.OverallRating.Courtesy QuoteAccuracy -> @Model.OverallRating.QuoteAccuracy</p>
-    <a asp-controller="Review" asp-action="Write" asp-route-id="@Model.UserCompany.Id" class="btn btn-primary">Leve a review</a>
+    @if(Model.IsOwner == false)
+    {
+        <a asp-controller="Review" asp-action="Write" asp-route-id="@Model.UserCompany.Id" class="btn btn-primary">Leve a review</a>
+    }
 </div>
 

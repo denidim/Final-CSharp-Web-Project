@@ -13,14 +13,10 @@
     public class CompanyServiceController : Controller
     {
         private readonly ICompanyServiceService companyServiceService;
-        private readonly UserManager<ApplicationUser> userManager;
 
-        public CompanyServiceController(
-            ICompanyServiceService companyServiceService,
-            UserManager<ApplicationUser> userManager)
+        public CompanyServiceController(ICompanyServiceService companyServiceService)
         {
             this.companyServiceService = companyServiceService;
-            this.userManager = userManager;
         }
 
         public async Task<IActionResult> Create()
@@ -54,7 +50,7 @@
 
             this.TempData["Message"] = "Service added successfully";
 
-            return this.RedirectToAction("Index", "Home");//return this.RedirectToAction("GetAccount", "UserAccount");
+            return this.RedirectToAction("GetAccount", "UserAccount");
         }
 
         public async Task<IActionResult> Edit(int id)
