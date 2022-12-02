@@ -18,17 +18,20 @@
         private readonly ICompanyService companyService;
         private readonly ICompanyServiceService companyServiceService;
         private readonly IDeletableEntityRepository<Service> serviceRepo;
+        private readonly IRatingService ratingService;
 
         public CompanyController(
             UserManager<ApplicationUser> userManager,
             ICompanyService companyService,
             ICompanyServiceService companyServiceService,
-            IDeletableEntityRepository<Service> serviceRepo)
+            IDeletableEntityRepository<Service> serviceRepo,
+            IRatingService ratingService)
         {
             this.userManager = userManager;
             this.companyService = companyService;
             this.companyServiceService = companyServiceService;
             this.serviceRepo = serviceRepo;
+            this.ratingService = ratingService;
         }
 
         [HttpGet]
@@ -87,7 +90,8 @@
         {
             SingleCompanyModel company = new SingleCompanyModel();
             company.UserCompany = await this.companyService.GetCompanyByIdAsync<CompanyOutputModel>(id);
-            company.UserCompanyServices = this.companyServiceService.GetAllCompanyServices(company.UserCompany.Id);
+            company.OverallRating = this.ratingService.GetOverallRating(company.UserCompany.Id);
+            company.UserCompanyServices = await this.companyServiceService.GetAllCompanyServices(company.UserCompany.Id);
             return this.View(company);
         }
     }

@@ -8,11 +8,11 @@
 
     public class ReviewController : Controller
     {
-        private readonly ICompanyService companyService;
+        private readonly IRatingService ratingService;
 
-        public ReviewController(ICompanyService companyService)
+        public ReviewController(IRatingService ratingService)
         {
-            this.companyService = companyService;
+            this.ratingService = ratingService;
         }
 
         public IActionResult Write()
@@ -23,7 +23,7 @@
         [HttpPost]
         public async Task<IActionResult> Write(ReviewModel model, int id)
         {
-            await this.companyService.CreateReview(model, id);
+            await this.ratingService.CreateReview(model, id);
 
             return this.RedirectToAction("GetById", "Company", new { id = id });
         }

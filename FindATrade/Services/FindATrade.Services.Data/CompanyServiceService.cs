@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using FindATrade.Data.Common.Repositories;
@@ -17,17 +18,20 @@
         private readonly IDeletableEntityRepository<Category> categoryRepo;
         private readonly IDeletableEntityRepository<Company> companyRepo;
         private readonly IDeletableEntityRepository<Package> packagerepo;
+        private readonly IVettingService vettingService;
 
         public CompanyServiceService(
             IDeletableEntityRepository<Service> serviceRepo,
             IDeletableEntityRepository<Category> categoryRepo,
             IDeletableEntityRepository<Company> companyRepo,
-            IDeletableEntityRepository<Package> packagerepo)
+            IDeletableEntityRepository<Package> packagerepo,
+            IVettingService vettingService)
         {
             this.serviceRepo = serviceRepo;
             this.categoryRepo = categoryRepo;
             this.companyRepo = companyRepo;
             this.packagerepo = packagerepo;
+            this.vettingService = vettingService;
         }
 
         public IEnumerable<int> GetAllForVettingIds()
@@ -47,7 +51,16 @@
                 .ToListAsync();
         }
 
-        public IEnumerable<CompanyServiceOutputModel> GetAllCompanyServices(params object[] objects)
+        public bool IsUsersCompany(int serviceId, string userId)
+        {
+            return this.companyRepo.All()
+                .Any(x => x.Services.Any(x => x.Id == serviceId)
+                && x.AddedByUserId == userId);
+        }
+
+
+
+        public async Task<IEnumerable<CompanyServiceOutputModel>> GetAllCompanyServices(params object[] objects)
         {
             int companyId = -1;
 
@@ -84,11 +97,11 @@
 
             var companyService = new List<CompanyServiceOutputModel>();
 
-            foreach (var item in userCompany.Services)
+            foreach (var service in userCompany.Services)
             {
                 var package = new List<PackageModel>();
 
-                foreach (var packageItem in item.Packages)
+                foreach (var packageItem in service.Packages)
                 {
                     package.Add(new PackageModel()
                     {
@@ -97,46 +110,49 @@
                     });
                 }
 
-                var service = new CompanyServiceOutputModel()
+                var newService = new CompanyServiceOutputModel()
                 {
-                    Id = item.Id,
-                    Title = item.Title,
-                    IsPremium = item.IsPremium,
-                    Description = item.Description,
-                    CategoryName = item.Category.Name,
+                    Id = service.Id,
+                    Title = service.Title,
+                    IsPremium = service.IsPremium,
+                    Description = service.Description,
+                    CategoryName = service.Category.Name,
                     Packages = package,
                 };
 
-                if (item.PaidOrder != null)
+                if (service.PaidOrder != null)
                 {
-                    service.PaidOrder = new PaidOrderOutputModel()
+                    newService.PaidOrder = new PaidOrderOutputModel()
                     {
-                        StartDate = item.PaidOrder.StartDate.ToString(),
-                        EndDate = item.PaidOrder.EndDate.ToString(),
-                        Name = item.PaidOrder.PaidOrderPackageType.Name,
-                        Price = item.PaidOrder.PaidOrderPackageType.Price.ToString(),
-                        Terms = item.PaidOrder.PaidOrderPackageType.Terms,
+                        StartDate = service.PaidOrder.StartDate.ToString(),
+                        EndDate = service.PaidOrder.EndDate.ToString(),
+                        Name = service.PaidOrder.PaidOrderPackageType.Name,
+                        Price = service.PaidOrder.PaidOrderPackageType.Price.ToString(),
+                        Terms = service.PaidOrder.PaidOrderPackageType.Terms,
                     };
                 }
                 else
                 {
-                    service.PaidOrder = null;
+                    newService.PaidOrder = null;
                 }
 
-                if (item.Vetting != null)
-                {
-                    service.Vetting = new VettingOutputModel()
-                    {
-                        Passed = item.Vetting.Passed,
-                        Description = item.Vetting.Description,
-                    };
-                }
-                else
-                {
-                    service.Vetting = null;
-                }
+                newService.Vetting = await this.vettingService.GetByServiceIdAsync<VettingOutputModel>(service.Id);
 
-                companyService.Add(service);
+
+                //if (service.Vetting != null)
+                //{
+                //    newService.Vetting = new VettingOutputModel()
+                //    {
+                //        Passed = service.Vetting.Passed,
+                //        Description = service.Vetting.Description,
+                //    };
+                //}
+                //else
+                //{
+                //    newService.Vetting = null;
+                //}
+
+                companyService.Add(newService);
             }
 
             return companyService;

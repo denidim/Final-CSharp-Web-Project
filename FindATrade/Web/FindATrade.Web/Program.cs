@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using FindATrade.Data;
 namespace FindATrade.Web
 {
     using System;
@@ -78,6 +75,8 @@ namespace FindATrade.Web
             services.AddTransient<ICompanyService, CompanyService>();
             services.AddTransient<ICompanyServiceService, CompanyServiceService>();
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IVettingService, VettingService>();
+            services.AddTransient<IRatingService, RatingService>();
         }
 
         private static void Configure(WebApplication app)

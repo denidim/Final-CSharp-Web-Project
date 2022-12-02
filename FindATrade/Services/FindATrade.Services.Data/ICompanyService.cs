@@ -18,7 +18,5 @@
         Task UpdateAsync(int id, EditCompanyViewModel model);
 
         IEnumerable<T> GetPopular<T>();
-
-        Task CreateReview(ReviewModel model, int id);
     }
 }

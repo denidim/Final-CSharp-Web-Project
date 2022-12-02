@@ -1,16 +1,12 @@
 ﻿namespace FindATrade.Web.Controllers
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-
     using FindATrade.Data.Models;
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels.Company;
-    using FindATrade.Web.ViewModels.CompanyService;
     using FindATrade.Web.ViewModels.UserAccount;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using System.Threading.Tasks;
 
     public class UserAccountController : Controller
     {
@@ -18,17 +14,20 @@
         private readonly IAccountService accountService;
         private readonly ICompanyService companyService;
         private readonly ICompanyServiceService companyServiceService;
+        private readonly IRatingService ratingService;
 
         public UserAccountController(
             UserManager<ApplicationUser> userManager,
             IAccountService accountService,
             ICompanyService companyService,
-            ICompanyServiceService companyServiceService)
+            ICompanyServiceService companyServiceService,
+            IRatingService ratingService)
         {
             this.userManager = userManager;
             this.accountService = accountService;
             this.companyService = companyService;
             this.companyServiceService = companyServiceService;
+            this.ratingService = ratingService;
         }
 
         public async Task<IActionResult> GetAccount()
@@ -39,9 +38,10 @@
             {
                 UserInfo = this.accountService.GetUserInfo(user),
                 UserCompany = await this.companyService.GetCompanyByUserIdAsync<CompanyOutputModel>(user.Id),
-                UserCompanyServices = this.companyServiceService.GetAllCompanyServices(user.Id),
+                UserCompanyServices = await this.companyServiceService.GetAllCompanyServices(user.Id),
             };
 
+            accountPage.OverallRating = this.ratingService.GetOverallRating(accountPage.UserCompany.Id);
 
             this.ViewBag.Title = "My Account";
             this.ViewBag.Message = "This is how customers see your acount";

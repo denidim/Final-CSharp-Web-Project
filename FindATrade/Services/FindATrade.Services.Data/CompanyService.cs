@@ -123,25 +123,5 @@
 
             return company;
         }
-
-        public async Task CreateReview(ReviewModel model, int id)
-        {
-            var company = await this.companyRepo.All()
-                .Include(x => x.Ratings)
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            Rating rating = new Rating()
-            {
-                Courtesy = model.Courtesy,
-                Tidiness = model.Tidiness,
-                Description = model.Description,
-                Reliability = model.Reliability,
-                Workmanship = model.Workmanship,
-                QuoteAccuracy = model.QuoteAccuracy,
-            };
-
-            company.Ratings.Add(rating);
-            await this.companyRepo.SaveChangesAsync();
-        }
     }
 }

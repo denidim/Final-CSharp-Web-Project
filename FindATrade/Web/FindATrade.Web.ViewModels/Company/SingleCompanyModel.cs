@@ -8,6 +8,8 @@
     {
         public CompanyOutputModel UserCompany { get; set; }
 
+        public OverallCompanyRating OverallRating { get; set; }
+
         public IEnumerable<CompanyServiceOutputModel> UserCompanyServices { get; set; }
     }
 }
