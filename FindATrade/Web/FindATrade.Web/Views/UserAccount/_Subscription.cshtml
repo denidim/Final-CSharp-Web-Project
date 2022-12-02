@@ -1,0 +1,41 @@
+﻿@using FindATrade.Web.ViewModels.CompanyService;
+@model IEnumerable<CompanyServiceOutputModel>;
+
+<h2>Subscriptions</h2>
+
+@foreach (var service in Model)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Service</th>
+                <th scope="col">Order</th>
+                <th scope="col">Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>@service.Title</td>
+                <td>@service.PaidOrder.StartDate</td>
+                <td>@service.PaidOrder.Name</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td></td>
+                <td>@service.PaidOrder.EndDate</td>
+                <td>@service.PaidOrder.Price</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td></td>
+                <td></td>
+                <td>
+                    <div class="myDIV">Show service description.</div>
+                    <div class="hide">@service.Description</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}

@@ -2,149 +2,159 @@
 @using FindATrade.Web.ViewModels.UserAccount;
 @model UserAccountOutputModel
 
-@{
-    ViewBag.Message = "My Account";
-}
+<h1>@this.ViewBag.Title</h1>
+<h2>@this.ViewBag.Message</h2>
 
-<h1>@ViewBag.Message</h1>
+<p class="text-danger m-0"> </p>
 
-<h1>User</h1>
-<li class="nav-item">
-    <a class="nav-link text-dark" asp-area="AccountManagement" asp-controller="ManageAccount" asp-action="EditProfile" asp-route-id="@Model.UserInfo.Id">EditProfile</a>
-</li>
-<p>@Model.UserInfo.FirstName</p>
-<p>@Model.UserInfo.LastName</p>
 
-<hr />
 @if (Model.UserCompany == null)
 {
-        <a class="nav-link text-dark" asp-area="" asp-controller="Company" asp-action="Create" asp-route-id="@Model.UserInfo.Id">Create Company</a>
-    
+    <a class="nav-link text-dark" asp-area="" asp-controller="Company" asp-action="Create" asp-route-id="@Model.UserInfo.Id">Create Company</a>
 }
 else
 {
-    <h1>Company</h1>@*Check for null*@ 
 
     <li class="nav-item">
-    <a class="nav-link text-dark" asp-area="" asp-controller="Company" asp-action="GetById" asp-route-id="@Model.UserCompany.Id">Get</a>
-</li>
-<li class="nav-item">
-    <a class="nav-link text-dark" asp-area="" asp-controller="Company" asp-action="Edit" asp-route-id="@Model.UserCompany.Id">EditCompany</a>
-</li>
-<p>@Model.UserCompany.Name</p>
-<p>@Model.UserCompany.WebSite</p>
-<p>@Model.UserCompany.Email</p>
-<p>@Model.UserCompany.PhoneNumber</p>
-<p>@Model.UserCompany.Description</p>
-<p>@Model.UserCompany.Address</p>
-<p>@Model.UserCompany.Likes</p>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Company" asp-action="Edit" asp-route-id="@Model.UserCompany.Id">EditCompany</a>
+    </li>
 
-    @if(Model.UserCompany.Skills != null)
-    {
-        @foreach (var skill in Model.UserCompany.Skills)
-        {
-            <p>@skill.Name</p>
-        }
-    }
-    else
-    {
-        <p>No Skill to show</p>
-    }
+    <div class="container px-4 px-lg-5">
+        <!-- Heading Row-->
+        <div class="row gx-4 gx-lg-5 align-items-center my-5">
+            <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..."></div>
+            <div class="col-lg-5">
+                <h1 class="font-weight-light">@Model.UserCompany.Name</h1>
+                <p>@Model.UserCompany.Description</p>
+                <ul class="list-group">
+                    <li class="list-group-item align-items-center">
+                        <p class="font-weight-light">
+                            Phone:
+                            <span class="badge bg-primary rounded-pill">@Model.UserCompany.PhoneNumber</span>
+                        </p>
+                    </li>
+                    <li class="list-group-item align-items-center">
+                        <p class="font-weight-light">
+                            Email:
+                            <span class="badge bg-primary rounded-pill">@Model.UserCompany.Email</span>
+                        </p>
 
-    @if(Model.UserCompany.Ratings != null)
-    {
-        @foreach (var rating in Model.UserCompany.Ratings)
-        {
-            <p>@rating.Description</p>
-            <p>@rating.Workmanship</p>
-            <p>@rating.Tidiness</p>
-            <p>@rating.Reliability</p>
-            <p>@rating.Courtesy</p>
-            <p>@rating.QuoteAccuracy</p>
-        }
-    }
-    else
-    {
-        <p>No ratings to show</p>
-    }
+                    </li>
+                    <li class="list-group-item align-items-center">
+                        <p class="font-weight-light">
+                            Address:
+                            <span class="badge bg-primary rounded-pill">@Model.UserCompany.Address</span>
+                        </p>
+                    </li>
+                    @if (Model.UserCompany.Skills != null)
+                    {
+                        <li class="list-group-item align-items-center">
+                            <p class="font-weight-light">
+                                Skills:
+                                <span class="badge bg-primary rounded-pill text-wrap">@(string.Join(" ", Model.UserCompany.Skills.ToList().Select(x => x.Name)))</span>
+                            </p>
+                        </li>
+                    }
+                </ul>
+                <a class="btn btn-primary" href="#!">Call to Action!</a>
+            </div>
+        </div>
 
-    @if(Model.OverallRating != null)
-    {
-        <p>Reliability -> @(Model.OverallRating.Reliability)</p>
-        <p>Tidiness -> @Model.OverallRating.Tidiness</p>
-        <p>Workmanship -> @Model.OverallRating.Workmanship</p>
-        <p>Courtesy -> @Model.OverallRating.Courtesy</p>
-        <p>QuoteAccuracy -> @Model.OverallRating.QuoteAccuracy</p>
-    }
-    else
-    {
-        <p>No Overral rating</p>
-    }
+    </div>
 
 
-<hr />
 
-<h1>Services</h1>
-
-<li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="CompanyService" asp-action="Create" asp-route-id="@Model.UserCompany.Id">Add Service</a>
-        </li>
-    
-    @foreach (var service in Model.UserCompanyServices)
+    if (Model.UserCompanyServices == null)
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="CompanyService" asp-action="Edit" asp-route-id="@service.Id">Edit Service</a>
+            <a class="nav-link text-dark" asp-controller="CompanyService" asp-action="Create" asp-route-id="@Model.UserCompany.Id">Add Service</a>
         </li>
+    }
+    else
+    {
+        <div class="alert is-warning">
+            <p class="alert-title"><span class="docon docon-status-warning-outline" aria-hidden="true"></span> Warning</p>
+            <p>After creating a service a vetting process will begin.</p>
+            <p>Untill vetting is over yor service will not be visible by customers</p>
+        </div>
 
-
-
-        @if (service.PaidOrder != null)
-        {
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="AccountManagement" asp-controller="ManageAccount" asp-action="AddPremium" asp-route-id="@service.Id">Buy Premium</a>
-            </li>
-        }
-
-
-        @if (service.Vetting!=null && service.Vetting.Passed==false)
-        {
-            <p2>@service.Vetting.Description</p2>
-        }
-        
-
-
-        <h2>@service.Title</h2>
-        <P>@(service.IsPremium != true?"Premium" : "Not Premium")</p>
-        <p>@service.Description</p>
-        
-        if(service.PaidOrder != null)
-        {
-            <h3>Subscription</h3>
-            <p>  @service.PaidOrder.Name</p>
-            <p>  @service.PaidOrder.StartDate</p>
-            <p>  @service.PaidOrder.EndDate</p>
-            <p>  @service.PaidOrder.Price</p>
-            <p>  @service.PaidOrder.Terms</p>
-        }
-        else
-        {
-            <h3>No Subscription</h3>
-        }
-
-        @if (service.Packages.Any())
-        {
-                <h3>Price rates - Packages</h3>
-            foreach (var package in service.Packages)
+        <!-- Content Row-->
+        <div class="row gx-4 gx-lg-5">
+            @foreach (var service in Model.UserCompanyServices)
             {
-                <p>@package.Price</p>
-                <p>@package.Description</p>
+                <div class="col-md-4 mb-5">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 class="card-title">@service.Title</h2>
+                            <p class="card-text">@service.Description</p>
+                        </div>
+                        <div class="card-footer">
+                            <a asp-controller="CompanyService" asp-action="GetSingle" asp-route-id="@service.Id" class="btn btn-primary">See Service</a>
+                        </div>
+                        @*<a class="btn btn-primary btn-sm" href="#!">More Info</a></div>*@
+                    </div>
+                </div>
             }
+        </div>
+
+        foreach (var service in Model.UserCompanyServices)
+        {
+            if (service.Vetting != null)
+            {
+                if (service.Vetting.Passed == false)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @service.Title
+                        @service.Vetting.Description
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        @service.Title
+                        @service.Vetting.Description
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+            }
+
+            
+
+        }
+        
+    }
+
+    <h2>Ratings</h2>
+
+    @if (Model.UserCompany.Ratings != null)
+    {
+        @foreach (var item in Model.UserCompany.Ratings)
+        {
+            <ul class="list-group">
+                <li class="list-group-item align-items-center">
+                    Description: <span class="badge bg-primary rounded-pill text-wrap">@item.Description</span>
+                </li>
+                <li class="list-group-item align-items-center">
+
+                    Courtesy: <span class="badge bg-primary rounded-pill text-wrap">@item.Courtesy</span>
+                    Tidiness: <span class="badge bg-primary rounded-pill">@item.Tidiness</span>
+                    Reliability: <span class="badge bg-primary rounded-pill">@item.Reliability</span>
+                    QuoteAccuracy: <span class="badge bg-primary rounded-pill">@item.QuoteAccuracy</span>
+                    Workmanship: <span class="badge bg-primary rounded-pill">@item.Workmanship</span>
+                </li>
+            </ul>
             <hr />
         }
-        else
-        {
-            <h3>Price rates - Negotiable</h3>
-        }
+    }
+    <!-- Call to Action-->
+    <div class="card text-white bg-secondary my-5 py-4 text-center">
 
-}
+        <div class="card-body">
+            <p class="text-white m-0">Overall Rating</p>
+            <p>Reliability -> @Model.OverallRating.Reliability Tidiness -> @Model.OverallRating.Tidiness Workmanship -> @Model.OverallRating.Workmanship Courtesy -> @Model.OverallRating.Courtesy QuoteAccuracy -> @Model.OverallRating.QuoteAccuracy</p>
+        </div>
+        <a asp-controller="Review" asp-action="Write" asp-route-id="@Model.UserCompany.Id" class="btn btn-primary">Leve a review</a>
+    </div>
+
+    <partial name="_Subscription" model="@Model.UserCompanyServices" />
 }
