@@ -49,7 +49,6 @@
                 Address = address,
             };
 
-
             foreach (var item in input.Skills)
             {
                 var skill = new Skill

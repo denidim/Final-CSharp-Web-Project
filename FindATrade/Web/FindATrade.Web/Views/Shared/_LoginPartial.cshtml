@@ -15,9 +15,12 @@
                 <li class="dropdown-item">
                     <a class="nav-link text-dark" asp-area="" asp-controller="UserAccount" asp-action="GetAccount">My Account</a>
                 </li>
-                <li class="dropdown-item">
-                    <a class="nav-link text-dark" asp-area="AccountManagement" asp-controller="ManageAccount" asp-action="Manage">Manage Account</a>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @this.User.Identity.Name!</a>
                 </li>
+                @*<li class="dropdown-item">
+                    <a class="nav-link text-dark" asp-area="AccountManagement" asp-controller="ManageAccount" asp-action="Manage">Manage Account</a>
+                </li>*@
                 <li class="dropdown-item">
                     <a class="nav-link text-dark" asp-area="PaidPackages" asp-controller="PaidPackage" asp-action="Index">Premium Package</a>
                 </li>
