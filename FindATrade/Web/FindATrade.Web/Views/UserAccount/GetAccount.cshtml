@@ -14,9 +14,7 @@
 }
 else
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Company" asp-action="Edit" asp-route-id="@Model.UserCompany.Id">EditCompany</a>
-    </li>
+    
 
     <div class="container px-4 px-lg-5">
         <!-- Heading Row-->
@@ -55,7 +53,7 @@ else
                         </li>
                     }
                 </ul>
-                <a class="btn btn-primary" href="#!">Call to Action!</a>
+                    <a class="btn btn-primary" asp-area="" asp-controller="Company" asp-action="Edit" asp-route-id="@Model.UserCompany.Id">EditCompany</a>
             </div>
         </div>
 
@@ -73,8 +71,8 @@ else
     {
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
             <strong>Note!</strong>   
-            <p>After creating a service a vetting process will begin.</p>
-            <p>Untill vetting is over yor service will not be visible by customers.</p>
+            <h5 class="text-black">After creating a service a vetting process will begin.</h5>
+            <h5 class="text-black">Untill vetting is over yor service will not be visible by customers.</h5>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
@@ -87,7 +85,7 @@ else
                     <div class="card h-100">
                         <div class="card-body">
                             <h2 class="card-title">@service.Title</h2>
-                            <p class="card-text">@service.Description</p>
+                            <p class="card-text">@(service.Description.Length > 30 ? service.Description.Substring(0, 30) : service.Description)</p>
                         </div>
                         <div class="card-footer">
                             <a asp-controller="CompanyService" asp-action="GetSingle" asp-route-id="@service.Id" class="btn btn-primary">See Service</a>

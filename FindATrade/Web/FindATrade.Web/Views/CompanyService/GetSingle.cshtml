@@ -12,6 +12,7 @@
     }
 }
 
+ <h1 class="text-md-center">This is single service page</h1>
 
 
 <div class="container px-4 px-lg-5">
@@ -45,9 +46,9 @@
             }
             @if (Model.IsOwner)
             {
-                    <a class="btn btn-primary" asp-controller="CompanyService" asp-action="Edit" asp-route-id="@Model.Id">Edit Service</a>
+                <a class="btn btn-primary" asp-controller="CompanyService" asp-action="Edit" asp-route-id="@Model.Id">Edit Service</a>
             }
-            
+
         </div>
     </div>
     <!-- Call to Action-->

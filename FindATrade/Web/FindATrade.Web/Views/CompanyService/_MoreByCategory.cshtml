@@ -9,7 +9,7 @@
                     <div class="card h-100">
                         <div class="card-body">
                             <h2 class="card-title">@service.Title</h2>
-                            <p class="card-text">@service.Description</p>
+                            <p class="card-text">@(service.Description.Length > 30 ? service.Description.Substring(0, 30) : service.Description)</p>
                         </div>
                         <div class="card-footer">
                             <a asp-controller="CompanyService" asp-action="GetSingle" asp-route-id="@service.Id" class="btn btn-primary">See Service</a>

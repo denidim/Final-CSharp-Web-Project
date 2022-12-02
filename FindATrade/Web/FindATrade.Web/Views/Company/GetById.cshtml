@@ -5,7 +5,7 @@
     this.ViewBag.Title = "Title";
 }
 
-<h1>This is single company page</h1>
+<h1 class="text-md-center">This is single company page</h1>
 
 <div class="container px-4 px-lg-5">
     <!-- Heading Row-->
@@ -41,7 +41,12 @@
                     </p>
                 </li>
             </ul>
-            <a class="btn btn-primary" href="#!">Call to Action!</a>
+
+            @if(@Model.IsOwner)
+            {
+                <a class="btn btn-primary" asp-controller="Company" asp-action="Edit" asp-route-id="@Model.UserCompany.Id">Edit Company</a>
+            }
+
         </div>
     </div>
 
@@ -54,7 +59,7 @@
             <div class="card h-100">
                 <div class="card-body">
                     <h2 class="card-title">@service.Title</h2>
-                    <p class="card-text">@service.Description</p>
+                    <p class="card-text">@(service.Description.Length > 30 ? service.Description.Substring(0, 30) : service.Description)</p>
                 </div>
                 <div class="card-footer">
                     <a asp-controller="CompanyService" asp-action="GetSingle" asp-route-id="@service.Id" class="btn btn-primary">See Service</a>
@@ -89,7 +94,7 @@
 <div class="card text-white bg-secondary my-5 py-4 text-center">
     <div class="card-body"><p class="text-white m-0">Overall Rating</p></div>
     <p>Reliability -> @Model.OverallRating.Reliability Tidiness -> @Model.OverallRating.Tidiness Workmanship -> @Model.OverallRating.Workmanship Courtesy -> @Model.OverallRating.Courtesy QuoteAccuracy -> @Model.OverallRating.QuoteAccuracy</p>
-    @if(Model.IsOwner == false)
+    @if (!Model.IsOwner)
     {
         <a asp-controller="Review" asp-action="Write" asp-route-id="@Model.UserCompany.Id" class="btn btn-primary">Leve a review</a>
     }
