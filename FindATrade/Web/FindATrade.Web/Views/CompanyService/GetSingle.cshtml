@@ -21,16 +21,15 @@
         <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..."></div>
         <div class="col-lg-5">
             <h1 class="font-weight-light">@Model.Title</h1>
+            <div class="myDIV"><h6>@(Model.Description.Length > 100 ? Model.Description.Substring(0, 100) : Model.Description)...</h6></div>
+            <div class="hide">@Model.Description</div>
+
             <ul class="list-group">
                 <li class="list-group-item align-items-center">
                     Category: <span class="badge bg-primary rounded-pill">@Model.CategoryName</span>
                 </li>
             </ul>
-            <ul class="list-group">
-                <li class="list-group-item align-items-center">
-                    Description: <span class="badge bg-primary text-wrap" style="width: 18rem;">@Model.Description</span>
-                </li>
-            </ul>
+         
             <h4>Pricing and packages</h4>
             @foreach (var item in Model.Packages)
             {
@@ -58,3 +57,15 @@
     <!-- Content Row-->
     <partial name="_MoreByCategory" model="@Model.CompanyServicesByCategory" />
 </div>
+
+<style>
+    .hide {
+        display: none;
+    }
+
+    .myDIV:hover + .hide {
+        display: block;
+        color: black;
+        font-size: 1.25em;
+    }
+</style>
