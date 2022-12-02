@@ -72,11 +72,13 @@ else
     }
     else
     {
-        <div class="alert is-warning">
-            <p class="alert-title"><span class="docon docon-status-warning-outline" aria-hidden="true"></span> Warning</p>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Note!</strong>   
             <p>After creating a service a vetting process will begin.</p>
-            <p>Untill vetting is over yor service will not be visible by customers</p>
+            <p>Untill vetting is over yor service will not be visible by customers.</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+
 
         <!-- Content Row-->
         <div class="row gx-4 gx-lg-5">
@@ -117,11 +119,8 @@ else
                     </div>
                 }
             }
-
-            
-
         }
-        
+
     }
 
     <h2>Ratings</h2>
@@ -153,7 +152,6 @@ else
             <p class="text-white m-0">Overall Rating</p>
             <p>Reliability -> @Model.OverallRating.Reliability Tidiness -> @Model.OverallRating.Tidiness Workmanship -> @Model.OverallRating.Workmanship Courtesy -> @Model.OverallRating.Courtesy QuoteAccuracy -> @Model.OverallRating.QuoteAccuracy</p>
         </div>
-        <a asp-controller="Review" asp-action="Write" asp-route-id="@Model.UserCompany.Id" class="btn btn-primary">Leve a review</a>
     </div>
 
     <partial name="_Subscription" model="@Model.UserCompanyServices" />
