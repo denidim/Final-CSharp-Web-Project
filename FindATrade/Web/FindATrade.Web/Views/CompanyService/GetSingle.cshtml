@@ -1,13 +1,6 @@
 ﻿@using FindATrade.Common;
-@using FindATrade.Data.Models;
 @using FindATrade.Web.ViewModels.CompanyService;
-@using Microsoft.AspNetCore.Identity;
 @model SingleServiceOutputModel
-@inject UserManager<ApplicationUser> userManager;
-
-@{
-    var user = await this.userManager.GetUserAsync(this.User);
-}
 
 @if (Model.Vetting != null && Model.Vetting.Passed == false)
 {
@@ -17,11 +10,9 @@
             <a class="btn-primary text-white" asp-area="AccountManagement" asp-controller="ManageAccount" asp-action="Vett" asp-route-id="@Model.Id">Vett this service</a>
         </li>
     }
-
-    <h1>Vetting in progress: - @Model.Vetting.Description</h1>
 }
 
-@if (user.Company.Services.Any(x => x.Id == Model.Id))
+@if (Model.IsUsersCompany)
 {
     <li class="nav-item">
         <a class="nav-link text-dark" asp-controller="CompanyService" asp-action="Edit" asp-route-id="@Model.Id">Edit Service</a>

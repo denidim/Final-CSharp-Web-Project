@@ -7,15 +7,20 @@
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels.Company;
     using FindATrade.Web.ViewModels.CompanyService;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class CompanyServiceController : Controller
     {
         private readonly ICompanyServiceService companyServiceService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public CompanyServiceController(ICompanyServiceService companyServiceService)
+        public CompanyServiceController(
+            ICompanyServiceService companyServiceService,
+            UserManager<ApplicationUser> userManager)
         {
             this.companyServiceService = companyServiceService;
+            this.userManager = userManager;
         }
 
         public async Task<IActionResult> Create()
@@ -77,10 +82,12 @@
 
         public async Task<IActionResult> GetSingle(int id)
         {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var model = await this.companyServiceService.GetByIdAsync<SingleServiceOutputModel>(id);
             model.CompanyServicesByCategory = await this.companyServiceService.GetAllByCategory<CompanyServiceByCategoryModel>(model.CategoryName);
+            model.IsUsersCompany = this.companyServiceService.IsUsersCompany(model.Id, userId);
             return this.View(model);
         }
-
     }
 }
