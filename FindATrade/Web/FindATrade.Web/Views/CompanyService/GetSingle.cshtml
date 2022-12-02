@@ -12,7 +12,7 @@
     }
 }
 
-@if (Model.IsUsersCompany)
+@if (Model.IsOwner)
 {
     <li class="nav-item">
         <a class="nav-link text-dark" asp-controller="CompanyService" asp-action="Edit" asp-route-id="@Model.Id">Edit Service</a>

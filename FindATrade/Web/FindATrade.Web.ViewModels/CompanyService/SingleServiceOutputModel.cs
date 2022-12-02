@@ -19,7 +19,7 @@
 
         public string CategoryName { get; set; }
 
-        public bool IsUsersCompany { get; set; }
+        public bool IsOwner { get; set; }
 
         public VettingOutputModel Vetting { get; set; }
 

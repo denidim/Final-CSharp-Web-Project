@@ -86,7 +86,7 @@
 
             var model = await this.companyServiceService.GetByIdAsync<SingleServiceOutputModel>(id);
             model.CompanyServicesByCategory = await this.companyServiceService.GetAllByCategory<CompanyServiceByCategoryModel>(model.CategoryName);
-            model.IsUsersCompany = this.companyServiceService.IsUsersCompany(model.Id, userId);
+            model.IsOwner = this.companyServiceService.IsUsersCompany(model.Id, userId);
             return this.View(model);
         }
     }
