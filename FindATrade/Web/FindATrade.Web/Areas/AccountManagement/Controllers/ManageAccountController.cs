@@ -2,6 +2,7 @@
 {
     using System.Runtime.Intrinsics.X86;
     using System.Threading.Tasks;
+    using FindATrade.Common;
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
     using FindATrade.Services.Data;
@@ -67,7 +68,7 @@
             //await this.userManager
             //        .AddClaimAsync(user, new System.Security.Claims.Claim(ClaimTypeConstants.FirstName, user.FirstName ?? user.Email));
 
-            await userManager.AddToRoleAsync(user, RoleConstants.Manager);
+            await this.userManager.AddToRoleAsync(user, GlobalConstants.UserRoleName);
 
             if (result.Succeeded)
             {
