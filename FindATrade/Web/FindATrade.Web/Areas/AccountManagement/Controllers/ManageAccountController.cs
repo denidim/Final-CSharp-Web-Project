@@ -1,5 +1,6 @@
 ﻿namespace FindATrade.Web.Areas.AccountManagement.Controllers
 {
+    using System.Runtime.Intrinsics.X86;
     using System.Threading.Tasks;
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
@@ -65,6 +66,8 @@
 
             //await this.userManager
             //        .AddClaimAsync(user, new System.Security.Claims.Claim(ClaimTypeConstants.FirstName, user.FirstName ?? user.Email));
+
+            await userManager.AddToRoleAsync(user, RoleConstants.Manager);
 
             if (result.Succeeded)
             {
