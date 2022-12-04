@@ -10,7 +10,7 @@
 
 @if (Model.UserCompany == null)
 {
-    <a class="nav-link text-dark" asp-area="" asp-controller="Company" asp-action="Create" asp-route-id="@Model.UserInfo.Id">Create Company</a>
+    <a class="btn btn-primary" asp-area="" asp-controller="Company" asp-action="Create" >Create Company</a>
 }
 else
 {
