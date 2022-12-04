@@ -45,7 +45,13 @@
         public OverallCompanyRating GetOverallRating(int companyId)
         {
             var ratings = this.ratingRepo.All()
-                .Where(x => x.CompanyId == companyId);
+                .Where(x => x.CompanyId == companyId)
+                .ToList();
+
+            if (!ratings.Any())
+            {
+                return null;
+            }
 
             return new OverallCompanyRating()
             {
