@@ -10,11 +10,11 @@
 
 @if (Model.UserCompany == null)
 {
-    <a class="btn btn-primary" asp-area="" asp-controller="Company" asp-action="Create" >Create Company</a>
+    <a class="btn btn-primary" asp-area="" asp-controller="Company" asp-action="Create">Create Company</a>
 }
 else
 {
-    
+
 
     <div class="container px-4 px-lg-5">
         <!-- Heading Row-->
@@ -53,7 +53,7 @@ else
                         </li>
                     }
                 </ul>
-                    <a class="btn btn-primary" asp-area="" asp-controller="Company" asp-action="Edit" asp-route-id="@Model.UserCompany.Id">EditCompany</a>
+                <a class="btn btn-primary" asp-area="" asp-controller="Company" asp-action="Edit" asp-route-id="@Model.UserCompany.Id">EditCompany</a>
             </div>
         </div>
 
@@ -70,7 +70,7 @@ else
     else
     {
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>Note!</strong>   
+            <strong>Note!</strong>
             <h5 class="text-black">After creating a service a vetting process will begin.</h5>
             <h5 class="text-black">Untill vetting is over yor service will not be visible by customers.</h5>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -146,8 +146,12 @@ else
     <div class="card text-white bg-secondary my-5 py-4 text-center">
 
         <div class="card-body">
-            <p class="text-white m-0">Overall Rating</p>
-            <p>Reliability -> @Model.OverallRating.Reliability Tidiness -> @Model.OverallRating.Tidiness Workmanship -> @Model.OverallRating.Workmanship Courtesy -> @Model.OverallRating.Courtesy QuoteAccuracy -> @Model.OverallRating.QuoteAccuracy</p>
+            @if (Model.OverallRating != null)
+            {
+                <p class="text-white m-0">Overall Rating</p>
+                <p>Reliability -> @Model.OverallRating.Reliability Tidiness -> @Model.OverallRating.Tidiness Workmanship -> @Model.OverallRating.Workmanship Courtesy -> @Model.OverallRating.Courtesy QuoteAccuracy -> @Model.OverallRating.QuoteAccuracy</p>
+            }
+
         </div>
     </div>
 
