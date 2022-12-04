@@ -1,12 +1,13 @@
 ﻿namespace FindATrade.Web.Controllers
 {
+    using System.Threading.Tasks;
+
     using FindATrade.Data.Models;
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels.Company;
     using FindATrade.Web.ViewModels.UserAccount;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using System.Threading.Tasks;
 
     public class UserAccountController : Controller
     {

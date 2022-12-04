@@ -6,9 +6,11 @@ namespace FindATrade.Web
     using FindATrade.Data;
     using FindATrade.Data.Common;
     using FindATrade.Data.Common.Repositories;
+    using FindATrade.Data.Configurations;
     using FindATrade.Data.Models;
     using FindATrade.Data.Repositories;
     using FindATrade.Data.Seeding;
+    using FindATrade.Services;
     using FindATrade.Services.Data;
     using FindATrade.Services.Mapping;
     using FindATrade.Services.Messaging;
@@ -62,7 +64,10 @@ namespace FindATrade.Web
             services.AddRazorPages();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
+            services.Configure<GCSConfigOptions>(configuration);
+
             services.AddSingleton(configuration);
+            services.AddSingleton<IColudStorageService, CloudStorageService>();
 
             // Data repositories
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
