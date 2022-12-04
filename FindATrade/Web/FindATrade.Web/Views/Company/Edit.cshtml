@@ -70,15 +70,22 @@
         <span asp-validation-for="Image" class="text-danger"></span>
     </div>
     <hr />
-    @for (int i = 0; i < @Model.Skills.Count(); i++)
+    <div id="SkillsContainer">
+        <label asp-for="Skills"></label>
+        <a class="btn btn-success" onclick="Add()">+</a>
+        <a class="btn btn-danger" onclick="Remove()">-</a>
+        <span asp-validation-for="Skills" class="text-danger"></span>
+    </div>
+    <hr />
+    @*<label asp-for="Skills"></label>
+    @for (int i = 0; i < Model.Skills.Count(); i++)
     {
-        <div class='form-control'>
-            <label asp-for="Skills"></label>
-            Name: <input class='form-control' type='text' name='Skills[@i].Name' />
-            <span asp-validation-for="Skills" class="text-danger"></span>
-            </div>
+        var skils = Model.Skills.ToList();
+           
+            <input asp-for="@skils[i].Name" class="form-control">
+            <span asp-validation-for="@skils[i].Name" class="text-danger"></span>
     }
-    
+    *@
         
     <hr />
     <input type="hidden" asp-for="Id" />
@@ -103,3 +110,22 @@
         </div>
     </div>
 </div>
+
+                
+@section Scripts{
+    <script>
+        //Skills[0].Name
+        var skillIndex = 0;
+        function Add() {
+            $("#SkillsContainer")
+                .append("<input class='form-control' type='text' name='Skills[" + skillIndex + "].Name' />");
+                
+            skillIndex++;
+        }
+        function Remove() {
+            $("#SkillsContainer > input:last-child")
+                .remove();
+                skillIndex--;
+        }
+    </script>
+}
