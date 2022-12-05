@@ -57,7 +57,6 @@ else
     </div>
 
 
-
     if (Model.UserCompanyServices == null)
     {
         <a class="btn btn-primary" asp-controller="CompanyService" asp-action="Create" asp-route-id="@Model.UserCompany.Id">Add Service</a>
@@ -79,6 +78,11 @@ else
                 <div class="col-md-4 mb-5">
                     <div class="card h-100">
                         <div class="card-body">
+                            @if (service.Images.First() != null)
+                            {
+                                <img class="img-fluid rounded mb-4 mb-lg-0" src="@service.Images.First()" alt="Image">
+                            }
+
                             <h2 class="card-title">@service.Title</h2>
                             <p class="card-text">@(service.Description.Length > 30 ? service.Description.Substring(0, 30) : service.Description)</p>
                         </div>
@@ -97,16 +101,19 @@ else
             {
                 if (service.Vetting.Passed == false)
                 {
-                    <div class="alert alert-danger" role="alert">
-                        @service.Title
-                        @service.Vetting.Description
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>Note!</strong>
+                        <h5 class="text-black">@service.Title</h5>
+                        <h5 class="text-black">@service.Vetting.Description</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 }
                 else
                 {
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        @service.Title
-                        @service.Vetting.Description
+                        <strong>Note!</strong>
+                        <h5 class="text-black">@service.Title</h5>
+                        <h5 class="text-black">@service.Vetting.Description</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 }
@@ -119,23 +126,7 @@ else
 
     @if (Model.UserCompany.Ratings != null)
     {
-        @foreach (var item in Model.UserCompany.Ratings)
-        {
-            <ul class="list-group">
-                <li class="list-group-item align-items-center">
-                    Description: <span class="badge bg-primary rounded-pill text-wrap">@item.Description</span>
-                </li>
-                <li class="list-group-item align-items-center">
-
-                    Courtesy: <span class="badge bg-primary rounded-pill text-wrap">@item.Courtesy</span>
-                    Tidiness: <span class="badge bg-primary rounded-pill">@item.Tidiness</span>
-                    Reliability: <span class="badge bg-primary rounded-pill">@item.Reliability</span>
-                    QuoteAccuracy: <span class="badge bg-primary rounded-pill">@item.QuoteAccuracy</span>
-                    Workmanship: <span class="badge bg-primary rounded-pill">@item.Workmanship</span>
-                </li>
-            </ul>
-            <hr />
-        }
+        <partial name="_Ratings" model="@Model.UserCompany.Ratings" />
     }
     <!-- Call to Action-->
     <div class="card text-white bg-secondary my-5 py-4 text-center">

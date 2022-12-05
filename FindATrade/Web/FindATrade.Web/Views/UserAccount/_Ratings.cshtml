@@ -1,0 +1,20 @@
+﻿@using FindATrade.Web.ViewModels.Company;
+@model List<CompanyRatingsModel>
+
+@foreach (var item in Model)
+{
+                <ul class="list-group">
+                    <li class="list-group-item align-items-center">
+                        Description: <span class="badge bg-primary rounded-pill text-wrap">@item.Description</span>
+                    </li>
+                    <li class="list-group-item align-items-center">
+
+                        Courtesy: <span class="badge bg-primary rounded-pill text-wrap">@item.Courtesy</span>
+                        Tidiness: <span class="badge bg-primary rounded-pill">@item.Tidiness</span>
+                        Reliability: <span class="badge bg-primary rounded-pill">@item.Reliability</span>
+                        QuoteAccuracy: <span class="badge bg-primary rounded-pill">@item.QuoteAccuracy</span>
+                        Workmanship: <span class="badge bg-primary rounded-pill">@item.Workmanship</span>
+                    </li>
+                </ul>
+                <hr />
+}
