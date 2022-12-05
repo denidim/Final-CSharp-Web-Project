@@ -1,10 +1,10 @@
 ﻿namespace FindATrade.Web.Controllers
 {
     using System.Diagnostics;
+    using System.Threading.Tasks;
 
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels;
-    using FindATrade.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -22,11 +22,11 @@
             this.companyService = companyService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var viewModel = this.getCountsService.GetCounts();
 
-            viewModel.PopularCompanies = this.companyService.GetPopular<IndexPageViewModel>();
+            viewModel.PopularCompanies = await this.companyService.GetPopular();
 
             return this.View(viewModel);
         }

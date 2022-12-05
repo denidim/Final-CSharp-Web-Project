@@ -10,6 +10,8 @@
     using FindATrade.Data.Models;
     using FindATrade.Services.Mapping;
     using FindATrade.Web.ViewModels.Company;
+    using FindATrade.Web.ViewModels.Home;
+    using Google.Api.Gax;
     using Microsoft.EntityFrameworkCore;
 
     public class CompanyService : ICompanyService
@@ -176,15 +178,39 @@
             return company;
         }
 
-        public IEnumerable<T> GetPopular<T>()
+        public async Task<IEnumerable<IndexPageViewModel>> GetPopular()
         {
-            // add logic
-            var company = this.companyRepo.All().OrderBy(x => Guid.NewGuid())
+            var output = new List<IndexPageViewModel>();
+
+            var company = this.companyRepo.All()
+                .Include(x => x.Image)
+                .OrderBy(x => Guid.NewGuid())
                 .Take(10)
-                .To<T>()
                 .ToList();
 
-            return company;
+            foreach (var item in company)
+            {
+                var page = new IndexPageViewModel
+                {
+                    Id = item.Id,
+                    Description = item.Description.Length >= 60 ? item.Description.Substring(0, 60) : item.Description,
+                    Name = item.Name,
+                };
+
+                if (item.Image != null)
+                {
+                    page.OutputImageUrl = await this.cloudStorageService
+                        .GetSignedUrlAsync(item.Image.ImageStorageName);
+                }
+                else
+                {
+                    page.OutputImageUrl = "https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
+                }
+
+                output.Add(page);
+            }
+
+            return output;
         }
 
         private string GenerateFileName(string fileName)

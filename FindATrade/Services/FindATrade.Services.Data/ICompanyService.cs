@@ -5,6 +5,7 @@
 
     using FindATrade.Data.Models;
     using FindATrade.Web.ViewModels.Company;
+    using FindATrade.Web.ViewModels.Home;
     using FindATrade.Web.ViewModels.Review;
 
     public interface ICompanyService
@@ -17,7 +18,7 @@
 
         Task UpdateAsync(int id, EditCompanyViewModel model);
 
-        IEnumerable<T> GetPopular<T>();
+        Task<IEnumerable<IndexPageViewModel>> GetPopular();
 
         Task<string> GenerateImageUrl(int companyId);
     }
