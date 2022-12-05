@@ -67,7 +67,7 @@ namespace FindATrade.Web
             services.Configure<GCSConfigOptions>(configuration);
 
             services.AddSingleton(configuration);
-            services.AddSingleton<IColudStorageService, CloudStorageService>();
+            services.AddSingleton<ICloudStorageService, CloudStorageService>();
 
             // Data repositories
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));

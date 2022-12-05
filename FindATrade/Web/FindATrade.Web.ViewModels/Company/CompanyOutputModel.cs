@@ -25,6 +25,8 @@
 
         public int Likes { get; set; }
 
+        public string OutputImageUrl { get; set; }
+
         public IEnumerable<SkillModel> Skills { get; set; }
 
         public ICollection<CompanyRatingsModel> Ratings { get; set; }

@@ -1,8 +1,8 @@
 ﻿namespace FindATrade.Services.Data
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -10,24 +10,48 @@
     using FindATrade.Data.Models;
     using FindATrade.Services.Mapping;
     using FindATrade.Web.ViewModels.Company;
-    using FindATrade.Web.ViewModels.Review;
     using Microsoft.EntityFrameworkCore;
 
     public class CompanyService : ICompanyService
     {
         private readonly IDeletableEntityRepository<Company> companyRepo;
-        private readonly IDeletableEntityRepository<Address> addressRepo;
+        private readonly IDeletableEntityRepository<Skill> skillRepo;
+        private readonly ICloudStorageService cloudStorageService;
+        private readonly IDeletableEntityRepository<Image> imageRepo;
 
         public CompanyService(
             IDeletableEntityRepository<Company> companyRepo,
-            IDeletableEntityRepository<Address> addressRepo)
+            IDeletableEntityRepository<Skill> skillRepo,
+            ICloudStorageService cloudStorageService,
+            IDeletableEntityRepository<Image> imageRepo)
         {
             this.companyRepo = companyRepo;
-            this.addressRepo = addressRepo;
+            this.skillRepo = skillRepo;
+            this.cloudStorageService = cloudStorageService;
+            this.imageRepo = imageRepo;
         }
 
         public async Task CreateAsync(CreateCompanyInputModel input, ApplicationUser currentUser)
         {
+            var compnay = new Company()
+            {
+                Name = input.Name,
+                AddedByUserId = currentUser.Id,
+                Website = input.Website,
+                Email = input.Email,
+                PhoneNumber = input.PhoneNumber,
+                Description = input.Description,
+            };
+
+            if (input.Image != null)
+            {
+                var image = new Image();
+                image.ImageStorageName = this.GenerateFileName(input.Image.FileName);
+                image.ImageUrl = await this.cloudStorageService
+                    .UploadFileAsync(input.Image, image.ImageStorageName);
+                compnay.Image = image;
+            }
+
             var address = new Address()
             {
                 Street = input.Address.Street,
@@ -38,16 +62,7 @@
                 PostalCode = input.Address.PostalCode,
             };
 
-            var compnay = new Company()
-            {
-                Name = input.Name,
-                AddedByUserId = currentUser.Id,
-                Website = input.Website,
-                Email = input.Email,
-                PhoneNumber = input.PhoneNumber,
-                Description = input.Description,
-                Address = address,
-            };
+            compnay.Address = address;
 
             foreach (var item in input.Skills)
             {
@@ -68,6 +83,7 @@
             var company = this.companyRepo.All()
                 .Include(x => x.Address)
                 .Include(x => x.Skills)
+                .Include(x => x.Image)
                 .FirstOrDefault(x => x.Id == id);
 
             company.Name = input.Name;
@@ -84,13 +100,60 @@
                 HouseNumber = input.Address.HouseNumber,
                 Street = input.Address.Street,
             };
-            company.Skills = new List<Skill>();
-            foreach (var item in input.Skills)
+
+            if (company.Skills.Any())
             {
-                company.Skills.Add(new Skill { Name = item.Name, });
+                var skills = await this.skillRepo
+                .All()
+                .Where(x => x.CompanyId == company.Id)
+                .ToListAsync();
+
+                foreach (var item in skills)
+                {
+                    this.skillRepo.HardDelete(item);
+                }
+
+                await this.skillRepo.SaveChangesAsync();
+            }
+
+            if (input.Skills != null)
+            {
+                foreach (var item in input.Skills)
+                {
+                    company.Skills.Add(new Skill { Name = item.Name, });
+                }
+            }
+
+            if (input.Image != null)
+            {
+                if (company.Image == null)
+                {
+                    company.Image = new Image();
+                }
+
+                if (!string.IsNullOrEmpty(company.Image.ImageStorageName))
+                {
+                    await this.cloudStorageService.DeleteFileAsync(company.Image.ImageStorageName);
+                }
+
+                company.Image.ImageStorageName = this.GenerateFileName(input.Image.FileName);
+                company.Image.ImageUrl = await this.cloudStorageService
+                    .UploadFileAsync(input.Image, company.Image.ImageStorageName);
             }
 
             await this.companyRepo.SaveChangesAsync();
+        }
+
+        public async Task<string> GenerateImageUrl(int companyId)
+        {
+            // Get the sorage name from company image
+            var savedImageName = await this.imageRepo.All()
+                .Where(x => x.CompanyId == companyId)
+                .Select(x => x.ImageStorageName)
+                .SingleOrDefaultAsync();
+
+            // creates new Url with exparation to show to the outside world
+            return await this.cloudStorageService.GetSignedUrlAsync(savedImageName);
         }
 
         public async Task<T> GetCompanyByIdAsync<T>(int id)
@@ -122,6 +185,13 @@
                 .ToList();
 
             return company;
+        }
+
+        private string GenerateFileName(string fileName)
+        {
+            var name = Path.GetFileNameWithoutExtension(fileName);
+            var extension = Path.GetExtension(fileName);
+            return $"{name}-{DateTime.Now.ToUniversalTime().ToString("yyyyMMddHHmmss")}{extension}";
         }
     }
 }

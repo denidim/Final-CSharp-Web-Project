@@ -35,12 +35,14 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
-            var accountPage = new UserAccountOutputModel()
-            {
-                UserInfo = this.accountService.GetUserInfo(user),
-                UserCompany = await this.companyService.GetCompanyByUserIdAsync<CompanyOutputModel>(user.Id),
-                UserCompanyServices = await this.companyServiceService.GetAllCompanyServices(user.Id),
-            };
+            var accountPage = new UserAccountOutputModel();
+            accountPage.UserInfo = this.accountService.GetUserInfo(user);
+
+            accountPage.UserCompany = await this.companyService.GetCompanyByUserIdAsync<CompanyOutputModel>(user.Id);
+
+            accountPage.UserCompany.OutputImageUrl = await this.companyService.GenerateImageUrl(accountPage.UserCompany.Id);
+
+            accountPage.UserCompanyServices = await this.companyServiceService.GetAllCompanyServices(user.Id);
 
             if (accountPage.UserCompany != null)
             {

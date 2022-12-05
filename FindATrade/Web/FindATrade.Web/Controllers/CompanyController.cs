@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
+    using FindATrade.Services;
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels.Company;
     using Microsoft.AspNetCore.Authorization;
@@ -18,20 +19,17 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ICompanyService companyService;
         private readonly ICompanyServiceService companyServiceService;
-        private readonly IDeletableEntityRepository<Service> serviceRepo;
         private readonly IRatingService ratingService;
 
         public CompanyController(
             UserManager<ApplicationUser> userManager,
             ICompanyService companyService,
             ICompanyServiceService companyServiceService,
-            IDeletableEntityRepository<Service> serviceRepo,
             IRatingService ratingService)
         {
             this.userManager = userManager;
             this.companyService = companyService;
             this.companyServiceService = companyServiceService;
-            this.serviceRepo = serviceRepo;
             this.ratingService = ratingService;
         }
 
@@ -92,10 +90,25 @@
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             SingleCompanyModel company = new SingleCompanyModel();
+
             company.UserCompany = await this.companyService.GetCompanyByIdAsync<CompanyOutputModel>(id);
+
+            company.UserCompany.OutputImageUrl = await this.companyService.GenerateImageUrl(id);
+
             company.OverallRating = this.ratingService.GetOverallRating(company.UserCompany.Id);
+
             company.UserCompanyServices = await this.companyServiceService.GetAllCompanyServices(company.UserCompany.Id);
-            company.IsOwner = this.companyServiceService.IsUsersCompany(company.UserCompanyServices.First().Id, userId);
+
+            if (company.UserCompanyServices.Any())
+            {
+                company.IsOwner = this.companyServiceService
+                    .IsUsersCompany(company.UserCompanyServices.First().Id, userId);
+            }
+            else
+            {
+                company.IsOwner = false;
+            }
+
             return this.View(company);
         }
     }

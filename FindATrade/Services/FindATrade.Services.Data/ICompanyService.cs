@@ -18,5 +18,7 @@
         Task UpdateAsync(int id, EditCompanyViewModel model);
 
         IEnumerable<T> GetPopular<T>();
+
+        Task<string> GenerateImageUrl(int companyId);
     }
 }

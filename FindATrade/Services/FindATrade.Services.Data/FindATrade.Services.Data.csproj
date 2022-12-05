@@ -23,6 +23,7 @@
     <ProjectReference Include="..\..\Data\FindATrade.Data.Models\FindATrade.Data.Models.csproj" />
     <ProjectReference Include="..\..\Web\FindATrade.Web.ViewModels\FindATrade.Web.ViewModels.csproj" />
     <ProjectReference Include="..\FindATrade.Services.Mapping\FindATrade.Services.Mapping.csproj" />
+    <ProjectReference Include="..\FindATrade.Services\FindATrade.Services.csproj" />
   </ItemGroup>
 
 </Project>
