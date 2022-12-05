@@ -2,7 +2,7 @@
 @model CreateCompanyServiceInputModel
 
 @{
-    this.ViewBag.Title = "Add Company Service";
+    this.ViewBag.Title = "Add Service";
 }
 
 <h1>@this.ViewBag.Title</h1>
@@ -40,7 +40,8 @@
     <p>You can add up to 3 Price Packages</p>
     <div id="PackagesContainer">
         <label asp-for="Packages"></label>
-        <a class="btn btn-success" onclick="AddPackages()">+</a>
+        <a class="btn btn-success" onclick="Add()">+</a>
+        <a class="btn btn-danger" onclick="Remove()">-</a>
         <span asp-validation-for="Packages" class="text-danger"></span>
     </div>
     <hr />
@@ -54,10 +55,18 @@
         //Packages[0].Price
         //Packages[0].Description
         var index = 0;
-        function AddPackages() {
+        function Add() {
             $("#PackagesContainer")
-                .append("<div class='form-control'>Price: <input class='form-control' type='text' name='Packages[" + index + "].Price' /> Descrtiption: <input class='form-control' type='text' name='Packages[" + index + "].Description' /></div>");
+                .append("<input class='form-group' type='text' name='Packages[" + index + "].Price' /> <input class='form-group' type='text' name='Packages[" + index + "].Description' /></div>");
             index++;
+        }
+
+        function Remove() {
+            for (let i = 0; i < 2; i++) {
+                $("#PackagesContainer > input:last-child")
+                .remove();
+            index--;
+            }
         }
     </script>
 }
