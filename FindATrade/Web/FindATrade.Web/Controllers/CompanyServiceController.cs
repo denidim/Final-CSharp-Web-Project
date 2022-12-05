@@ -92,10 +92,5 @@
 
             return this.View(model);
         }
-
-        public async Task<IActionResult> GetImages()
-        {
-            return this.View();
-        }
     }
 }

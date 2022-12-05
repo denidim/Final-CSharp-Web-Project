@@ -60,13 +60,16 @@
                 Vetting = vetting,
             };
 
-            foreach (var item in input.Packages)
+            if (input.Packages != null)
             {
-                service.Packages.Add(new Package
+                foreach (var item in input.Packages)
                 {
-                    Price = item.Price,
-                    Description = item.Description,
-                });
+                    service.Packages.Add(new Package
+                    {
+                        Price = item.Price,
+                        Description = item.Description,
+                    });
+                }
             }
 
             if (input.Images != null)
