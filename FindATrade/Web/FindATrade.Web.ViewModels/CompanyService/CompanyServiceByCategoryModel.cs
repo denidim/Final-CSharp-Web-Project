@@ -2,12 +2,14 @@
 {
     using FindATrade.Services.Mapping;
 
-    public class CompanyServiceByCategoryModel : IMapFrom<Data.Models.Service>
+    public class CompanyServiceByCategoryModel
     {
         public int Id { get; set; }
 
         public string Title { get; set; }
 
         public string Description { get; set; }
+
+        public string OutputImageUrl { get; set; }
     }
 }

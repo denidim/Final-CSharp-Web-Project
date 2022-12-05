@@ -25,7 +25,7 @@
 
         public ICollection<PackageModel> Packages { get; set; }
 
-        public ICollection<IFormFile> Images { get; set; }
+        public IEnumerable<string> Images { get; set; }
 
         public IEnumerable<CompanyServiceByCategoryModel> CompanyServicesByCategory { get; set; }
 
