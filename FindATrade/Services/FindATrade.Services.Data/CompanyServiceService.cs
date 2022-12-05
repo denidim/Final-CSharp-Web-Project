@@ -166,7 +166,6 @@
                 && x.AddedByUserId == userId);
         }
 
-
         public async Task<T> GetByIdAsync<T>(int id)
         {
             return await this.serviceRepo
