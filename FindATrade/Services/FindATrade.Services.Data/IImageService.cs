@@ -13,6 +13,8 @@
 
         Task<IEnumerable<AllPicturesModel>> GetAllPictures(int serviceId);
 
+        Task CloudDelete(string name);
+
         Task Delete(string name);
     }
 }

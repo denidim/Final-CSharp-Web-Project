@@ -1,5 +1,6 @@
 ﻿namespace FindATrade.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -12,13 +13,16 @@
     public class ImageService : IImageService
     {
         private readonly IDeletableEntityRepository<Image> imageRepo;
+        private readonly IDeletableEntityRepository<Service> serviceRepo;
         private readonly ICloudStorageService cloudStorageService;
 
         public ImageService(
             IDeletableEntityRepository<Image> imageRepo,
+            IDeletableEntityRepository<Service> serviceRepo,
             ICloudStorageService cloudStorageService)
         {
             this.imageRepo = imageRepo;
+            this.serviceRepo = serviceRepo;
             this.cloudStorageService = cloudStorageService;
         }
 
@@ -74,9 +78,24 @@
                 .ToListAsync();
         }
 
-        public async Task Delete(string name)
+        public async Task CloudDelete(string name)
         {
             await this.cloudStorageService.DeleteFileAsync(name);
+        }
+
+        public async Task Delete(string name)
+        {
+            var image = await this.imageRepo.All()
+                .FirstOrDefaultAsync(x => x.ImageStorageName == name);
+
+            if (image == null)
+            {
+                throw new ArgumentNullException("No image with such name");
+            }
+
+            this.imageRepo.HardDelete(image);
+
+            await this.imageRepo.SaveChangesAsync();
         }
     }
 }
