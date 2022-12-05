@@ -7,19 +7,16 @@
 
 <p class="text-danger m-0"> </p>
 
-
 @if (Model.UserCompany == null)
 {
     <a class="btn btn-primary" asp-area="" asp-controller="Company" asp-action="Create">Create Company</a>
 }
 else
 {
-
-
     <div class="container px-4 px-lg-5">
         <!-- Heading Row-->
         <div class="row gx-4 gx-lg-5 align-items-center my-5">
-            <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..."></div>
+            <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="@Model.UserCompany.OutputImageUrl" alt="Image"></div>
             <div class="col-lg-5">
                 <h1 class="font-weight-light">@Model.UserCompany.Name</h1>
                 <p class="text-break">@Model.UserCompany.Description</p>
@@ -63,9 +60,7 @@ else
 
     if (Model.UserCompanyServices == null)
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="CompanyService" asp-action="Create" asp-route-id="@Model.UserCompany.Id">Add Service</a>
-        </li>
+        <a class="btn btn-primary" asp-controller="CompanyService" asp-action="Create" asp-route-id="@Model.UserCompany.Id">Add Service</a>
     }
     else
     {
@@ -151,9 +146,16 @@ else
                 <p class="text-white m-0">Overall Rating</p>
                 <p>Reliability -> @Model.OverallRating.Reliability Tidiness -> @Model.OverallRating.Tidiness Workmanship -> @Model.OverallRating.Workmanship Courtesy -> @Model.OverallRating.Courtesy QuoteAccuracy -> @Model.OverallRating.QuoteAccuracy</p>
             }
+            else
+            {
+                <p>No ratings yet</p>
+            }
 
         </div>
     </div>
 
-    <partial name="_Subscription" model="@Model.UserCompanyServices" />
+    @if (Model.UserCompanyServices != null)
+    {
+        <partial name="_Subscription" model="@Model.UserCompanyServices" />
+    }
 }
