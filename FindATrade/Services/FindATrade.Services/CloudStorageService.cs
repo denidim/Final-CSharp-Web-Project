@@ -12,7 +12,7 @@
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
-    public class CloudStorageService : IColudStorageService
+    public class CloudStorageService : ICloudStorageService
     {
         private readonly GCSConfigOptions options;
         private readonly ILogger<CloudStorageService> logger;
