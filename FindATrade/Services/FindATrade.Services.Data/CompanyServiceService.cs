@@ -90,7 +90,7 @@
                 .ThenInclude(x => x.Category)
                 .FirstOrDefault();
 
-            if (userCompany == null)
+            if (userCompany == null || userCompany.Services.Count() < 1)
             {
                 return null;
             }

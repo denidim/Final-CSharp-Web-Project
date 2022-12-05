@@ -154,6 +154,11 @@
                 .Select(x => x.ImageStorageName)
                 .SingleOrDefaultAsync();
 
+            if (savedImageName == null)
+            {
+                return null;
+            }
+
             // creates new Url with exparation to show to the outside world
             return await this.cloudStorageService.GetSignedUrlAsync(savedImageName);
         }
