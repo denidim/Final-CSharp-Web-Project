@@ -20,17 +20,20 @@
         private readonly ICompanyService companyService;
         private readonly ICompanyServiceService companyServiceService;
         private readonly IRatingService ratingService;
+        private readonly IImageService imageService;
 
         public CompanyController(
             UserManager<ApplicationUser> userManager,
             ICompanyService companyService,
             ICompanyServiceService companyServiceService,
-            IRatingService ratingService)
+            IRatingService ratingService,
+            IImageService imageService)
         {
             this.userManager = userManager;
             this.companyService = companyService;
             this.companyServiceService = companyServiceService;
             this.ratingService = ratingService;
+            this.imageService = imageService;
         }
 
         [HttpGet]
@@ -93,7 +96,7 @@
 
             company.UserCompany = await this.companyService.GetCompanyByIdAsync<CompanyOutputModel>(id);
 
-            company.UserCompany.OutputImageUrl = await this.companyService.GenerateImageUrl(id);
+            company.UserCompany.OutputImageUrl = await this.imageService.GenerateSingleImageUrlForCompany(id);
 
             if (company.UserCompany.OutputImageUrl == null)
             {
@@ -102,9 +105,9 @@
 
             company.OverallRating = this.ratingService.GetOverallRating(company.UserCompany.Id);
 
-            company.UserCompanyServices = await this.companyServiceService.GetAllCompanyServices(company.UserCompany.Id);
+            company.UserCompanyServices = await this.companyServiceService.GetAllByUserIdOrCompanyId(company.UserCompany.Id);
 
-            if (company.UserCompanyServices.Any())
+            if (company.UserCompanyServices != null)
             {
                 company.IsOwner = this.companyServiceService
                     .IsUsersCompany(company.UserCompanyServices.First().Id, userId);

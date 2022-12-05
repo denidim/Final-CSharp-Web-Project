@@ -3,20 +3,21 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    using FindATrade.Data.Models;
     using FindATrade.Services.Data;
-    using FindATrade.Web.ViewModels.Company;
     using FindATrade.Web.ViewModels.CompanyService;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class CompanyServiceController : Controller
     {
         private readonly ICompanyServiceService companyServiceService;
+        private readonly IImageService imageService;
 
-        public CompanyServiceController(ICompanyServiceService companyServiceService)
+        public CompanyServiceController(
+            ICompanyServiceService companyServiceService,
+            IImageService imageService)
         {
             this.companyServiceService = companyServiceService;
+            this.imageService = imageService;
         }
 
         public async Task<IActionResult> Create()
@@ -68,6 +69,7 @@
             if (!this.ModelState.IsValid)
             {
                 input.Categories = await this.companyServiceService.GetGategoriesAsync();
+
                 return this.View(input);
             }
 
@@ -81,9 +83,19 @@
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var model = await this.companyServiceService.GetByIdAsync<SingleServiceOutputModel>(id);
-            model.CompanyServicesByCategory = await this.companyServiceService.GetAllByCategory<CompanyServiceByCategoryModel>(model.CategoryName);
+
+            model.Images = await this.imageService.GenerateImageUrlsForService(model.Id);
+
+            model.CompanyServicesByCategory = await this.companyServiceService.GetAllByCategory(model.CategoryName);
+
             model.IsOwner = this.companyServiceService.IsUsersCompany(model.Id, userId);
+
             return this.View(model);
+        }
+
+        public async Task<IActionResult> GetImages()
+        {
+            return this.View();
         }
     }
 }
