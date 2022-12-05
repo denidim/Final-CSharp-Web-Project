@@ -9,7 +9,7 @@
 
     public interface ICompanyServiceService
     {
-        Task<IEnumerable<CompanyServiceOutputModel>> GetAllCompanyServices(params object[] objects);
+        Task<IEnumerable<CompanyServiceOutputModel>> GetAllByUserIdOrCompanyId(params object[] objects);
 
         Task CreateAsync(CreateCompanyServiceInputModel input, int id);
 
@@ -21,8 +21,10 @@
 
         IEnumerable<int> GetAllForVettingIds();
 
-        Task<IEnumerable<T>> GetAllByCategory<T>(string categoryName);
+        Task<IEnumerable<CompanyServiceByCategoryModel>> GetAllByCategory(string categoryName);
 
         bool IsUsersCompany(int serviceId, string userId);
+
+        
     }
 }

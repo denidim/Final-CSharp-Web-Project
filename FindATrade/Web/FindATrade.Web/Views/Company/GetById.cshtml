@@ -14,8 +14,8 @@
         <div class="col-lg-5">
             <h1 class="font-weight-light">@Model.UserCompany.Name</h1>
             <p class="text-break">
-            <div class="myDIV"><p class="text-break"@(Model.UserCompany.Description.Length > 100 ? Model.UserCompany.Description.Substring(0, 100) : Model.UserCompany.Description)...</p></div>
-            <div class="hide">@Model.UserCompany.Description</div>
+                <div class="myDIV"><p class="text-break" @(Model.UserCompany.Description.Length > 100 ? Model.UserCompany.Description.Substring(0, 100) : Model.UserCompany.Description)...</p></div>
+                <div class="hide">@Model.UserCompany.Description</div>
             </p>
             <ul class="list-group">
                 <li class="list-group-item align-items-center">
@@ -45,7 +45,7 @@
                 </li>
             </ul>
 
-            @if(@Model.IsOwner)
+            @if (@Model.IsOwner)
             {
                 <a class="btn btn-primary" asp-controller="Company" asp-action="Edit" asp-route-id="@Model.UserCompany.Id">Edit Company</a>
             }
@@ -56,21 +56,25 @@
 </div>
 <!-- Content Row-->
 <div class="row gx-4 gx-lg-5">
-    @foreach (var service in Model.UserCompanyServices)
+    @if (Model.UserCompanyServices != null)
     {
-        <div class="col-md-4 mb-5">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h2 class="card-title">@service.Title</h2>
-                    <p class="card-text">@(service.Description.Length > 30 ? service.Description.Substring(0, 30) : service.Description)</p>
+        @foreach (var service in Model.UserCompanyServices)
+        {
+            <div class="col-md-4 mb-5">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="card-title">@service.Title</h2>
+                        <p class="card-text">@(service.Description.Length > 30 ? service.Description.Substring(0, 30) : service.Description)</p>
+                    </div>
+                    <div class="card-footer">
+                        <a asp-controller="CompanyService" asp-action="GetSingle" asp-route-id="@service.Id" class="btn btn-primary">See Service</a>
+                    </div>
+                    @*<a class="btn btn-primary btn-sm" href="#!">More Info</a></div>*@
                 </div>
-                <div class="card-footer">
-                    <a asp-controller="CompanyService" asp-action="GetSingle" asp-route-id="@service.Id" class="btn btn-primary">See Service</a>
-                </div>
-                @*<a class="btn btn-primary btn-sm" href="#!">More Info</a></div>*@
             </div>
-        </div>
+        }
     }
+
 </div>
 <h2>Ratings</h2>
 
@@ -95,12 +99,12 @@
 
 <!-- Call to Action-->
 <div class="card text-white bg-secondary my-5 py-4 text-center">
-    @if(Model.OverallRating!= null)
+    @if (Model.OverallRating != null)
     {
         <div class="card-body"><p class="text-white m-0">Overall Rating</p></div>
         <p>Reliability -> @Model.OverallRating.Reliability Tidiness -> @Model.OverallRating.Tidiness Workmanship -> @Model.OverallRating.Workmanship Courtesy -> @Model.OverallRating.Courtesy QuoteAccuracy -> @Model.OverallRating.QuoteAccuracy</p>
     }
-    
+
     @if (!Model.IsOwner)
     {
         <a asp-controller="Review" asp-action="Write" asp-route-id="@Model.UserCompany.Id" class="btn btn-primary">Leve a review</a>

@@ -2,16 +2,15 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
+    using FindATrade.Common;
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
     using FindATrade.Services.Mapping;
     using FindATrade.Web.ViewModels.Company;
     using FindATrade.Web.ViewModels.Home;
-    using Google.Api.Gax;
     using Microsoft.EntityFrameworkCore;
 
     public class CompanyService : ICompanyService
@@ -48,7 +47,7 @@
             if (input.Image != null)
             {
                 var image = new Image();
-                image.ImageStorageName = this.GenerateFileName(input.Image.FileName);
+                image.ImageStorageName = ImageNameGenerator.GenerateFileName(input.Image.FileName);
                 image.ImageUrl = await this.cloudStorageService
                     .UploadFileAsync(input.Image, image.ImageStorageName);
                 compnay.Image = image;
@@ -138,29 +137,12 @@
                     await this.cloudStorageService.DeleteFileAsync(company.Image.ImageStorageName);
                 }
 
-                company.Image.ImageStorageName = this.GenerateFileName(input.Image.FileName);
+                company.Image.ImageStorageName = ImageNameGenerator.GenerateFileName(input.Image.FileName);
                 company.Image.ImageUrl = await this.cloudStorageService
                     .UploadFileAsync(input.Image, company.Image.ImageStorageName);
             }
 
             await this.companyRepo.SaveChangesAsync();
-        }
-
-        public async Task<string> GenerateImageUrl(int companyId)
-        {
-            // Get the sorage name from company image
-            var savedImageName = await this.imageRepo.All()
-                .Where(x => x.CompanyId == companyId)
-                .Select(x => x.ImageStorageName)
-                .SingleOrDefaultAsync();
-
-            if (savedImageName == null)
-            {
-                return null;
-            }
-
-            // creates new Url with exparation to show to the outside world
-            return await this.cloudStorageService.GetSignedUrlAsync(savedImageName);
         }
 
         public async Task<T> GetCompanyByIdAsync<T>(int id)
@@ -187,11 +169,11 @@
         {
             var output = new List<IndexPageViewModel>();
 
-            var company = this.companyRepo.All()
+            var company = await this.companyRepo.All()
                 .Include(x => x.Image)
                 .OrderBy(x => Guid.NewGuid())
                 .Take(10)
-                .ToList();
+                .ToListAsync();
 
             foreach (var item in company)
             {
@@ -216,13 +198,6 @@
             }
 
             return output;
-        }
-
-        private string GenerateFileName(string fileName)
-        {
-            var name = Path.GetFileNameWithoutExtension(fileName);
-            var extension = Path.GetExtension(fileName);
-            return $"{name}-{DateTime.Now.ToUniversalTime().ToString("yyyyMMddHHmmss")}{extension}";
         }
     }
 }
