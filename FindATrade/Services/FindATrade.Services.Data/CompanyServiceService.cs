@@ -132,22 +132,8 @@
                 }
             }
 
-            if (input.Images != null)
-            {
-                foreach (var image in input.Images)
-                {
-                    var newImage = new Image();
-                    newImage.ImageStorageName = ImageNameGenerator.GenerateFileName(image.Name);
-                    newImage.ImageUrl = await this.cloudStorageService
-                        .UploadFileAsync(image, newImage.ImageStorageName);
-
-                    service.Images.Add(newImage);
-                }
-            }
-
             await this.serviceRepo.SaveChangesAsync();
         }
-
 
         public async Task<IEnumerable<Category>> GetGategoriesAsync()
         {

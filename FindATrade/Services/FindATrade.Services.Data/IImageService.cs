@@ -16,5 +16,7 @@
         Task CloudDelete(string name);
 
         Task Delete(string name);
+
+        Task Add(AddImages images, int id);
     }
 }

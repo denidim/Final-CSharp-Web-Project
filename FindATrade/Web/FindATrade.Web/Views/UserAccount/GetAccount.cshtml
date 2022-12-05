@@ -51,17 +51,14 @@ else
                     }
                 </ul>
                 <a class="btn btn-primary" asp-area="" asp-controller="Company" asp-action="Edit" asp-route-id="@Model.UserCompany.Id">EditCompany</a>
+                <a class="btn btn-primary" asp-controller="CompanyService" asp-action="Create" asp-route-id="@Model.UserCompany.Id">Add Service</a>
             </div>
         </div>
 
     </div>
 
 
-    if (Model.UserCompanyServices == null)
-    {
-        <a class="btn btn-primary" asp-controller="CompanyService" asp-action="Create" asp-route-id="@Model.UserCompany.Id">Add Service</a>
-    }
-    else
+    if (Model.UserCompanyServices != null)
     {
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
             <strong>Note!</strong>

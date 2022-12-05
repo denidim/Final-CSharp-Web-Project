@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using FindATrade.Common;
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
     using FindATrade.Web.ViewModels.CompanyService;
@@ -96,6 +97,28 @@
             this.imageRepo.HardDelete(image);
 
             await this.imageRepo.SaveChangesAsync();
+        }
+
+        public async Task Add(AddImages images, int id)
+        {
+            if (images != null)
+            {
+                foreach (var image in images.Images)
+                {
+                    var newImage = new Image();
+                    newImage.ImageStorageName = ImageNameGenerator.GenerateFileName(image.Name);
+                    newImage.ImageUrl = await this.cloudStorageService
+                        .UploadFileAsync(image, newImage.ImageStorageName);
+
+                    var servcie = await this.serviceRepo.All()
+                        .Include(x => x.Images)
+                        .SingleOrDefaultAsync(x => x.Id == id);
+
+                    servcie.Images.Add(newImage);
+                }
+
+                await this.serviceRepo.SaveChangesAsync();
+            }
         }
     }
 }

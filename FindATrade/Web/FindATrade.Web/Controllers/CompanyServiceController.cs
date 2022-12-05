@@ -1,12 +1,11 @@
 ﻿namespace FindATrade.Web.Controllers
 {
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
-
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels.CompanyService;
     using Microsoft.AspNetCore.Mvc;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
 
     public class CompanyServiceController : Controller
     {
@@ -79,7 +78,7 @@
             return this.RedirectToAction("GetAccount", "UserAccount");
         }
 
-        public async Task<IActionResult> EditPictures(int id)
+        public async Task<IActionResult> EditImage(int id)
         {
             var model = await this.imageService.GetAllPictures(id);
 
@@ -98,6 +97,20 @@
             await this.imageService.CloudDelete(name);
 
             await this.imageService.Delete(name);
+
+            return this.RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult AddImages()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddImages(AddImages input, int id)
+        {
+
+            await this.imageService.Add(input, id);
 
             return this.RedirectToAction("Index", "Home");
         }
