@@ -65,7 +65,7 @@
         public async Task<IEnumerable<AllPicturesModel>> GetAllPictures(int serviceId)
         {
             return await this.imageRepo.All()
-                .Where(x => x.Id == serviceId)
+                .Where(x => x.ServiceId == serviceId)
                 .Select(x => new AllPicturesModel
                 {
                     Name = x.ImageStorageName,

@@ -1,10 +1,10 @@
 ﻿namespace FindATrade.Web.Controllers
 {
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
     using FindATrade.Services.Data;
-    using FindATrade.Web.ViewModels.Company;
     using FindATrade.Web.ViewModels.CompanyService;
     using Microsoft.AspNetCore.Mvc;
 
@@ -79,16 +79,23 @@
             return this.RedirectToAction("GetAccount", "UserAccount");
         }
 
-        public async Task<IActionResult> EditPictures(int serviceId)
+        public async Task<IActionResult> EditPictures(int id)
         {
-            var model = await this.imageService.GetAllPictures(serviceId);
+            var model = await this.imageService.GetAllPictures(id);
+
+            if (model == null || !model.Any())
+            {
+                this.ViewBag.Message = "You have no images for edit";
+
+                return this.RedirectToAction(nameof(this.GetSingle), new { id = id });
+            }
 
             return this.View(model);
         }
 
-        public async Task<IActionResult> DeletePicture(string name)
+        public async Task<IActionResult> DeletePicture(int id)
         {
-            await this.imageService.Delete(name);
+            await this.imageService.Delete("somename");
 
             return this.RedirectToAction(nameof(this.EditPictures));
         }
