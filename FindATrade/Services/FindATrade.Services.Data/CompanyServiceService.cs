@@ -148,6 +148,7 @@
             await this.serviceRepo.SaveChangesAsync();
         }
 
+
         public async Task<IEnumerable<Category>> GetGategoriesAsync()
         {
             return await this.categoryRepo.All().ToListAsync();

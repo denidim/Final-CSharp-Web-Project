@@ -6,6 +6,7 @@
 
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
+    using FindATrade.Web.ViewModels.CompanyService;
     using Microsoft.EntityFrameworkCore;
 
     public class ImageService : IImageService
@@ -59,6 +60,23 @@
             }
 
             return urls;
+        }
+
+        public async Task<IEnumerable<AllPicturesModel>> GetAllPictures(int serviceId)
+        {
+            return await this.imageRepo.All()
+                .Where(x => x.Id == serviceId)
+                .Select(x => new AllPicturesModel
+                {
+                    Name = x.ImageStorageName,
+                    Url = x.ImageUrl,
+                })
+                .ToListAsync();
+        }
+
+        public async Task Delete(string name)
+        {
+            await this.cloudStorageService.DeleteFileAsync(name);
         }
     }
 }

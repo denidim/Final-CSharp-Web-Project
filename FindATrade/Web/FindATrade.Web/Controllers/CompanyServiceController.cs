@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using FindATrade.Services.Data;
+    using FindATrade.Web.ViewModels.Company;
     using FindATrade.Web.ViewModels.CompanyService;
     using Microsoft.AspNetCore.Mvc;
 
@@ -76,6 +77,20 @@
             await this.companyServiceService.UpdateAsync(id, input);
 
             return this.RedirectToAction("GetAccount", "UserAccount");
+        }
+
+        public async Task<IActionResult> EditPictures(int serviceId)
+        {
+            var model = await this.imageService.GetAllPictures(serviceId);
+
+            return this.View(model);
+        }
+
+        public async Task<IActionResult> DeletePicture(string name)
+        {
+            await this.imageService.Delete(name);
+
+            return this.RedirectToAction(nameof(this.EditPictures));
         }
 
         public async Task<IActionResult> GetSingle(int id)

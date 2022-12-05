@@ -1,0 +1,23 @@
+﻿@using FindATrade.Web.ViewModels.CompanyService;
+@model IEnumerable<AllPicturesModel>
+
+<div class="text-center"><h1>Most popular</h1></div>
+
+<div class="text-center">
+    <div class="row" style="height: auto !important;">
+        <div class="col-md-8">
+            
+            <div class="row" style="height: auto !important">
+                @foreach (var image in Model)
+                {
+                    <div class="card col-md-6">
+                        <img class="card-img-top" src="@image.Url" alt="Card image cap">
+                        <div class="card-body">
+                            <a asp-controller="CompanyService" asp-action="DeletePicture" asp-route-id="@image.Name" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

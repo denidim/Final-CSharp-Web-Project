@@ -56,6 +56,7 @@
             @if (Model.IsOwner)
             {
                 <a class="btn btn-primary" asp-controller="CompanyService" asp-action="Edit" asp-route-id="@Model.Id">Edit Service</a>
+                <a class="btn btn-primary" asp-controller="CompanyService" asp-action="EditPictures" asp-route-id="@Model.Id">Edit Pictures</a>
             }
 
         </div>
