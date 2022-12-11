@@ -37,18 +37,26 @@
             </ul>
 
             <h4>Pricing and packages</h4>
-            @foreach (var item in Model.Packages)
+            @if(!Model.Packages.Any() || Model.Packages == null)
             {
-                <ul class="list-group">
-                    <li class="list-group-item align-items-center">
-                        Price: <span class="badge bg-primary rounded-pill">@item.Price</span>
-                    </li>
-                    <li class="list-group-item align-items-center">
-                        Description: <span class="badge bg-primary text-wrap" style="width: 18rem;">@item.Description</span>
-                    </li>
-                </ul>
-                <hr />
+                <h5>negotiable</h5>
             }
+            else
+            {
+                @foreach (var item in Model.Packages)
+                {
+                    <ul class="list-group">
+                        <li class="list-group-item align-items-center">
+                            Price: <span class="badge bg-primary rounded-pill">@item.Price</span>
+                        </li>
+                        <li class="list-group-item align-items-center">
+                            Description: <span class="badge bg-primary text-wrap" style="width: 18rem;">@item.Description</span>
+                        </li>
+                    </ul>
+                    <hr />
+                }
+            }
+            
             @if (Model.IsOwner)
             {
                 <a class="btn btn-primary" asp-controller="CompanyService" asp-action="Edit" asp-route-id="@Model.Id">Edit Service</a>
