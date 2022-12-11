@@ -12,7 +12,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -22,19 +22,19 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Company" asp-action="Create">Create Company</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Company" asp-action="Create">Create Company</a>
                         </li>
 
                         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="AccountManagement" asp-controller="ManageAccount" asp-action="AllForVetting">Waiting List</a>
+                                <a class="nav-link text-white" asp-area="AccountManagement" asp-controller="ManageAccount" asp-action="AllForVetting">Waiting List</a>
                             </li>
                         }
                     </ul>
@@ -43,15 +43,15 @@
             </div>
         </nav>
     </header>
-    
+
     <div class="container">
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
             @this.RenderBody()
         </main>
     </div>
-    
-    <footer class="border-top footer text-muted">
+
+    <footer class="border-top footer text-muted navbar-dark bg-primary">
         <div class="container">
             &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
@@ -67,3 +67,33 @@
     @await this.RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+@*<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+    Account
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+    <li class="dropdown-item">
+    <a class="nav-link text-white" asp-area="" asp-controller="UserAccount" asp-action="GetAccount">My Account</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link text-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @this.User.Identity.Name!</a>
+    </li>
+    <li class="dropdown-item">
+    <a class="nav-link text-white" asp-area="PaidPackages" asp-controller="PaidPackage" asp-action="Index">Premium Package</a>
+    </li>
+    <li class="dropdown-item">
+    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })">
+    <button type="submit" class="nav-link btn btn-link text-white">Logout</button>
+    </form>
+    </li>
+
+    <li><a class="dropdown-item" href="#">Action</a></li>
+    <li><a class="dropdown-item" href="#">Another action</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="#">Something else here</a></li>
+
+
+
+    </ul>
+    </li>*@
