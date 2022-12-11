@@ -145,6 +145,22 @@
             await this.companyRepo.SaveChangesAsync();
         }
 
+        public async Task Delete(int id)
+        {
+            var company = await this.companyRepo.All()
+                .Include(x => x.Services)
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (company.Services.Any())
+            {
+                throw new ArgumentException("Cannot delete company with services");
+            }
+
+            this.companyRepo.Delete(company);
+
+            await this.companyRepo.SaveChangesAsync();
+        }
+
         public async Task<T> GetCompanyByIdAsync<T>(int id)
         {
             var company = await this.companyRepo.All()

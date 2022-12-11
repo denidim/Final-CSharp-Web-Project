@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
     using Microsoft.AspNetCore.Http;
 
     public class CreateCompanyInputModel
@@ -29,8 +28,8 @@
         [Display(Name = "Company Description")]
         public string Description { get; set; }
 
-        [Display(Name = "Company Logo")]
-        public IFormFile Image { get; set; }
+        [Display(Name = "Image File")]
+        public virtual IFormFile Image { get; set; }
 
         public CreateCompanyAddressInputModel Address { get; set; }
 

@@ -50,8 +50,11 @@ else
                         </li>
                     }
                 </ul>
-                <a class="btn btn-primary" asp-area="" asp-controller="Company" asp-action="Edit" asp-route-id="@Model.UserCompany.Id">EditCompany</a>
+                <a class="btn btn-primary" asp-area="" asp-controller="Company" asp-action="Edit" asp-route-id="@Model.UserCompany.Id">Edit Company</a>
                 <a class="btn btn-primary" asp-controller="CompanyService" asp-action="Create" asp-route-id="@Model.UserCompany.Id">Add Service</a>
+                <form asp-controller="Company" asp-action="Delete" asp-route-id="@Model.UserCompany.Id" id="deleteForm">
+                </form>
+                <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Company</button>
             </div>
         </div>
 
@@ -147,3 +150,25 @@ else
         <partial name="_Subscription" model="@Model.UserCompanyServices" />
     }
 }
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Company</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure that you want to delete "@Model.UserCompany.Name"?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-success" onclick="deleteForm.submit()">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>

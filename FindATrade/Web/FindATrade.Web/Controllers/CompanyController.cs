@@ -3,15 +3,13 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
-    using FindATrade.Data.Common.Repositories;
+
     using FindATrade.Data.Models;
-    using FindATrade.Services;
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels.Company;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
 
     [AllowAnonymous]
     public class CompanyController : BaseController
@@ -86,6 +84,13 @@
             await this.companyService.UpdateAsync(id, input);
 
             return this.RedirectToAction("GetAccount", "UserAccount");
+        }
+
+        public IActionResult Delete(int id)
+        {
+            this.companyService.Delete(id);
+
+            return this.RedirectToAction("index", "Home");
         }
 
         public async Task<IActionResult> GetById(int id)
