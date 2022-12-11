@@ -74,8 +74,8 @@
     <hr />
     <div id="SkillsContainer">
         <label asp-for="Skills"></label>
-        <a class="btn btn-success" onclick="AddSkill()">+</a>
-        <a class="btn btn-danger" onclick="DeleteIngredientForm()">-</a>
+        <a class="btn btn-success" onclick="Add()">+</a>
+        <a class="btn btn-danger" onclick="Remove()">-</a>
         <span asp-validation-for="Skills" class="text-danger"></span>
     </div>
     <hr />
@@ -87,10 +87,16 @@
     <script>
         //Skills[0].Name
         var skillIndex = 0;
-        function AddSkill() {
+        function Add() {
             $("#SkillsContainer")
-                .append("<div class='form-control'>Name: <input class='form-control' type='text' name='Skills[" + skillIndex + "].Name' /></div>");
+                .append("<input class='form-control' type='text' name='Skills[" + skillIndex + "].Name' />");
+
             skillIndex++;
+        }
+        function Remove() {
+            $("#SkillsContainer > input:last-child")
+                .remove();
+            skillIndex--;
         }
     </script>
 }
