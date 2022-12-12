@@ -19,25 +19,25 @@ else
             <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" width="800" height="400" src="@Model.UserCompany.OutputImageUrl" alt="Image"></div>
             <div class="col-lg-5">
                 <h1 class="font-weight-light">@Model.UserCompany.Name</h1>
-                <p class="text-break">@Model.UserCompany.Description</p>
+                <p class="text-wrap text-break">@Model.UserCompany.Description</p>
                 <ul class="list-group">
                     <li class="list-group-item align-items-center">
                         <p class="font-weight-light">
                             Phone:
-                            <span class="badge bg-primary rounded-pill">@Model.UserCompany.PhoneNumber</span>
+                            <span class="badge bg-primary rounded-pill text-wrap text-break">@Model.UserCompany.PhoneNumber</span>
                         </p>
                     </li>
                     <li class="list-group-item align-items-center">
                         <p class="font-weight-light">
                             Email:
-                            <span class="badge bg-primary rounded-pill">@Model.UserCompany.Email</span>
+                            <span class="badge bg-primary rounded-pill text-wrap text-break">@Model.UserCompany.Email</span>
                         </p>
 
                     </li>
                     <li class="list-group-item align-items-center">
                         <p class="font-weight-light">
                             Address:
-                            <span class="badge bg-primary rounded-pill">@Model.UserCompany.Address</span>
+                            <span class="badge bg-primary rounded-pill text-wrap text-break">@Model.UserCompany.Address</span>
                         </p>
                     </li>
                     @if (Model.UserCompany.Skills != null)
@@ -45,7 +45,7 @@ else
                         <li class="list-group-item align-items-center">
                             <p class="font-weight-light">
                                 Skills:
-                                <span class="badge bg-primary rounded-pill text-wrap">@(string.Join(" ", Model.UserCompany.Skills.ToList().Select(x => x.Name)))</span>
+                                <span class="badge bg-primary rounded-pill text-wrap text-break">@(string.Join(" | ", Model.UserCompany.Skills.ToList().Select(x => x.Name)))</span>
                             </p>
                         </li>
                     }
@@ -163,13 +163,26 @@ else
                     <h5 class="modal-title" id="exampleModalLabel">Delete Company</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <p>Are you sure that you want to delete "@Model.UserCompany.Name"?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                    <button type="button" class="btn btn-success" onclick="deleteForm.submit()">Yes</button>
-                </div>
+                @if (Model.UserCompanyServices != null)
+                {
+                    <div class="modal-body">
+                        <p>Cannot delete comapny with active services!</p>
+                        <p>Delete all services first!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                }
+                else
+                {
+                    <div class="modal-body">
+                        <p>Are you sure that you want to delete "@Model.UserCompany.Name"?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-success" onclick="deleteForm.submit()">Yes</button>
+                    </div>
+                }
             </div>
         </div>
     </div>

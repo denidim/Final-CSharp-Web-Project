@@ -25,7 +25,7 @@
         @*<img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="...">*@
         <div class="col-lg-5">
             <h1 class="font-weight-light">@Model.Title</h1>
-            <p>@Model.Description</p>
+            <p class="text-wrap text-break">@Model.Description</p>
             @*<p class="text-break">
             <div class="myDIV"><p class="text-break">@(Model.Description.Length > 100 ? Model.Description.Substring(0, 100) : Model.Description)...</p></div>
             <div class="hide">@Model.Description</div>
@@ -33,7 +33,7 @@
 
             <ul class="list-group">
                 <li class="list-group-item align-items-center">
-                    Category: <span class="badge bg-primary rounded-pill">@Model.CategoryName</span>
+                    Category: <span class="badge bg-primary rounded-pill text-wrap text-break">@Model.CategoryName</span>
                 </li>
             </ul>
 
@@ -48,10 +48,10 @@
                 {
                     <ul class="list-group">
                         <li class="list-group-item align-items-center">
-                            Price: <span class="badge bg-primary rounded-pill">@item.Price</span>
+                            Price: <span class="badge bg-primary rounded-pill text-wrap text-break">@item.Price</span>
                         </li>
                         <li class="list-group-item align-items-center">
-                            Description: <span class="badge bg-primary text-wrap" style="width: 18rem;">@item.Description</span>
+                            Description: <span class="badge bg-primary text-wrap text-break" style="width: 18rem;">@item.Description</span>
                         </li>
                     </ul>
                     <hr />
