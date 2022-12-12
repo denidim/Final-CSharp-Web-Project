@@ -19,17 +19,20 @@
         private readonly IDeletableEntityRepository<Skill> skillRepo;
         private readonly ICloudStorageService cloudStorageService;
         private readonly IDeletableEntityRepository<Image> imageRepo;
+        private readonly IDeletableEntityRepository<Address> addressRepo;
 
         public CompanyService(
             IDeletableEntityRepository<Company> companyRepo,
             IDeletableEntityRepository<Skill> skillRepo,
             ICloudStorageService cloudStorageService,
-            IDeletableEntityRepository<Image> imageRepo)
+            IDeletableEntityRepository<Image> imageRepo,
+            IDeletableEntityRepository<Address> addressRepo)
         {
             this.companyRepo = companyRepo;
             this.skillRepo = skillRepo;
             this.cloudStorageService = cloudStorageService;
             this.imageRepo = imageRepo;
+            this.addressRepo = addressRepo;
         }
 
         public async Task CreateAsync(CreateCompanyInputModel input, ApplicationUser currentUser)
@@ -148,17 +151,26 @@
         public async Task Delete(int id)
         {
             var company = await this.companyRepo.All()
-                .Include(x => x.Services)
-                .SingleOrDefaultAsync(x => x.Id == id);
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
 
-            if (company.Services.Any())
-            {
-                throw new ArgumentException("Cannot delete company with services");
-            }
+            var addres = await this.addressRepo.All()
+                .Where(x => x.Id == company.AddressId)
+                .FirstOrDefaultAsync();
+
+            this.addressRepo.Delete(addres);
+
+            await this.addressRepo.SaveChangesAsync();
 
             this.companyRepo.Delete(company);
 
             await this.companyRepo.SaveChangesAsync();
+        }
+
+        public bool IsUsersCompany(string userId)
+        {
+            return this.companyRepo.All()
+                .Any(x => x.AddedByUserId == userId);
         }
 
         public async Task<T> GetCompanyByIdAsync<T>(int id)

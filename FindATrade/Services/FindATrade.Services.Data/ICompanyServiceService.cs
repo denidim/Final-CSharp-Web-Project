@@ -1,7 +1,6 @@
 ﻿namespace FindATrade.Services.Data
 {
     using System.Collections.Generic;
-    using System.Runtime.InteropServices;
     using System.Threading.Tasks;
 
     using FindATrade.Data.Models;
@@ -23,8 +22,8 @@
 
         Task<IEnumerable<CompanyServiceByCategoryModel>> GetAllByCategory(string categoryName);
 
-        bool IsUsersCompany(int serviceId, string userId);
+        Task DeleteAsync(int id);
 
-        
+        bool IsUsersService(string userId);
     }
 }

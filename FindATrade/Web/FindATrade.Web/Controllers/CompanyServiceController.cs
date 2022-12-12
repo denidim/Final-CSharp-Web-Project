@@ -75,7 +75,7 @@
 
             await this.companyServiceService.UpdateAsync(id, input);
 
-            return this.RedirectToAction("GetAccount", "UserAccount");
+            return this.RedirectToAction(nameof(this.GetSingle), new { id = id });
         }
 
         public async Task<IActionResult> EditImage(int id)
@@ -84,8 +84,6 @@
 
             if (model == null || !model.Any())
             {
-                this.ViewBag.Message = "You have no images for edit";
-
                 return this.RedirectToAction(nameof(this.GetSingle), new { id = id });
             }
 
@@ -99,6 +97,13 @@
             await this.imageService.Delete(name);
 
             return this.RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await this.companyServiceService.DeleteAsync(id);
+
+            return this.RedirectToAction("GetAccount", "UserAccount");
         }
 
         public IActionResult AddImages()
@@ -125,7 +130,7 @@
 
             model.CompanyServicesByCategory = await this.companyServiceService.GetAllByCategory(model.CategoryName);
 
-            model.IsOwner = this.companyServiceService.IsUsersCompany(model.Id, userId);
+            model.IsOwner = this.companyServiceService.IsUsersService(userId);
 
             return this.View(model);
         }

@@ -60,16 +60,13 @@
                 Vetting = vetting,
             };
 
-            if (input.Packages != null)
+            foreach (var item in input.Packages)
             {
-                foreach (var item in input.Packages)
+                service.Packages.Add(new Package
                 {
-                    service.Packages.Add(new Package
-                    {
-                        Price = item.Price,
-                        Description = item.Description,
-                    });
-                }
+                    Price = item.Price,
+                    Description = item.Description,
+                });
             }
 
             if (input.Images != null)
@@ -103,34 +100,29 @@
             service.Description = input.Description;
             service.IsPremium = input.IsPremium;
 
-            if (service.Packages.Any())
-            {
-                var package = this.packagerepo
+            var packages = this.packagerepo
                 .All()
                 .Where(x => x.Service == service)
                 .ToList();
 
-                foreach (var item in package)
-                {
-                    this.packagerepo.HardDelete(item);
-                }
-
-                await this.packagerepo.SaveChangesAsync();
-            }
-
-            if (input.Packages != null)
+            for (int i = 0; i < input.Packages.Count; i++)
             {
-                foreach (var item in input.Packages.Where(x => x.Price != null && x.Description != null))
-                {
-                    var newPackage = new Package
-                    {
-                        Price = item.Price,
-                        Description = item.Description,
-                    };
-
-                    service.Packages.Add(newPackage);
-                }
+                packages[i].Description = input.Packages[i].Description;
+                packages[i].Price = input.Packages[i].Price;
             }
+
+            await this.packagerepo.SaveChangesAsync();
+
+            await this.serviceRepo.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var service = await this.serviceRepo.All()
+                .Where(x => x.Id == id)
+                .SingleOrDefaultAsync();
+
+            this.serviceRepo.Delete(service);
 
             await this.serviceRepo.SaveChangesAsync();
         }
@@ -149,11 +141,11 @@
                 .ToList();
         }
 
-        public bool IsUsersCompany(int serviceId, string userId)
+        public bool IsUsersService(string userId)
         {
-            return this.companyRepo.All()
-                .Any(x => x.Services.Any(x => x.Id == serviceId)
-                && x.AddedByUserId == userId);
+            return this.serviceRepo.All()
+                .Include(x => x.Company)
+                .Any(x => x.Company.AddedByUserId == userId);
         }
 
         public async Task<T> GetByIdAsync<T>(int id)

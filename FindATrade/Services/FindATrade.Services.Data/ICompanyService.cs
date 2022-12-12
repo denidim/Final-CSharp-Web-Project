@@ -21,5 +21,7 @@
         Task<IEnumerable<IndexPageViewModel>> GetPopular();
 
         Task Delete(int id);
+
+        bool IsUsersCompany(string userId);
     }
 }
