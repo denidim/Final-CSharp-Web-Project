@@ -43,16 +43,6 @@
         [HttpPost]
         public async Task<IActionResult> Create(CreateCompanyInputModel input)
         {
-            foreach (var item in input.Skills)
-            {
-                if (item.Name.Length > 30 || item.Name.Length < 4)
-                {
-                    this.ModelState.AddModelError(string.Empty, "Skill length must be between 4 and 30 characters");
-
-                    return this.View(input);
-                }
-            }
-
             if (!this.ModelState.IsValid)
             {
                 return this.View(input);
@@ -83,16 +73,6 @@
         [HttpPost]
         public async Task<IActionResult> Edit(int id, EditCompanyViewModel input)
         {
-            foreach (var item in input.Skills)
-            {
-                if (item.Name.Length > 30 || item.Name.Length < 4)
-                {
-                    this.ModelState.AddModelError(string.Empty, "Skill length must be between 4 and 30 characters");
-
-                    return this.View(input);
-                }
-            }
-
             if (!this.ModelState.IsValid)
             {
                 return this.View(input);

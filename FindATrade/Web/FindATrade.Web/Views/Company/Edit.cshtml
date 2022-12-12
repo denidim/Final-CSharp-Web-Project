@@ -70,14 +70,16 @@
         <span asp-validation-for="Image" class="text-danger"></span>
     </div>
     <hr />
-    <div id="SkillsContainer">
-        <label asp-for="Skills"></label>
-        <a class="btn btn-success" onclick="Add()">+</a>
-        <a class="btn btn-danger" onclick="Remove()">-</a>
-        <span asp-validation-for="Skills" class="text-danger"></span>
-    </div>
-    <hr />
-
+      <h6>you can add up to 3 skills to be shown in your page</h6>
+    @for (int i = 0; i < 3; i++)
+    {
+        <div class="form-group">
+            <label asp-for="Skills[i].Name"></label>
+            <input asp-for="Skills[i].Name" class="form-control" />
+            <span asp-validation-for="Skills[i].Name" class="text-danger"></span>
+        </div>
+        <hr />
+    }
     <input type="hidden" asp-for="Id" />
 </form>
 <button type="submit" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModel">Save Changes</button>
@@ -101,7 +103,14 @@
     </div>
 </div>
 
-                
+
+@*<div id="SkillsContainer">
+    <label asp-for="Skills"></label>
+    <a class="btn btn-success" onclick="Add()">+</a>
+    <a class="btn btn-danger" onclick="Remove()">-</a>
+    <span asp-validation-for="Skills" class="text-danger"></span>
+</div>
+<hr />
 @section Scripts{
     <script>
         //Skills[0].Name
@@ -118,4 +127,4 @@
             skillIndex--;
         }
     </script>
-}
+}*@

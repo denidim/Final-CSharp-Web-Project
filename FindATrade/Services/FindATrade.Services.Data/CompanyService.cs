@@ -112,20 +112,12 @@
                 .Where(x => x.CompanyId == company.Id)
                 .ToListAsync();
 
-                foreach (var item in skills)
+                for (int i = 0; i < skills.Count; i++)
                 {
-                    this.skillRepo.HardDelete(item);
+                    skills[i].Name = input.Skills[i].Name;
                 }
 
                 await this.skillRepo.SaveChangesAsync();
-            }
-
-            if (input.Skills != null)
-            {
-                foreach (var item in input.Skills)
-                {
-                    company.Skills.Add(new Skill { Name = item.Name, });
-                }
             }
 
             if (input.Image != null)
