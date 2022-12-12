@@ -45,7 +45,10 @@ else
                         <li class="list-group-item align-items-center">
                             <p class="font-weight-light">
                                 Skills:
-                                <span class="badge bg-primary rounded-pill text-wrap text-break">@(string.Join(" | ", Model.UserCompany.Skills.ToList().Select(x => x.Name)))</span>
+                                @foreach (var skill in Model.UserCompany.Skills.Where(x=>x.Name!=null))
+                                {
+                                    <span class="badge bg-primary rounded-pill text-wrap text-break">@skill.Name</span>
+                                }
                             </p>
                         </li>
                     }
