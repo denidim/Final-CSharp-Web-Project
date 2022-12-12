@@ -7,7 +7,8 @@
 
     public class SkillModel : IMapFrom<Skill>
     {
-        [StringLength(30)]
+        [Display(Name = "Skill Name (optional)")]
+        [StringLength(30, MinimumLength =3, ErrorMessage = "Skill Name must be between {2} and {1} characters.")]
         public string Name { get; set; }
     }
 }
