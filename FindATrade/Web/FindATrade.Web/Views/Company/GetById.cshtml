@@ -110,6 +110,10 @@
         <div class="card-body"><p class="text-white m-0">Overall Rating</p></div>
         <p>Reliability -> @Model.OverallRating.Reliability Tidiness -> @Model.OverallRating.Tidiness Workmanship -> @Model.OverallRating.Workmanship Courtesy -> @Model.OverallRating.Courtesy QuoteAccuracy -> @Model.OverallRating.QuoteAccuracy</p>
     }
+    else
+    {
+        <p>No Reviews yet</p>
+    }
 
     @if (!Model.IsOwner)
     {
