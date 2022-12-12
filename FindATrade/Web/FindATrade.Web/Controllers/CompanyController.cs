@@ -90,6 +90,13 @@
             return this.RedirectToAction("Index", "Home");
         }
 
+        public async Task<IActionResult> GetByServiceId(int id)
+        {
+            var companyId = await this.companyService.GetCompanyByServiceId(id);
+
+            return this.RedirectToAction(nameof(this.GetById), new { id = companyId });
+        }
+
         public async Task<IActionResult> GetById(int id)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);

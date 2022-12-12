@@ -166,6 +166,15 @@
             return company;
         }
 
+        public async Task<int?> GetCompanyByServiceId(int serviceId)
+        {
+            var company = await this.companyRepo.All()
+                .Where(x => x.Services.Any(x => x.Id == serviceId))
+                .FirstOrDefaultAsync();
+
+            return company.Id;
+        }
+
         public async Task<T> GetCompanyByUserIdAsync<T>(string id)
         {
             var company = await this.companyRepo.All()

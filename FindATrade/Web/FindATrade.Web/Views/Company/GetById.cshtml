@@ -20,26 +20,26 @@
                 <li class="list-group-item align-items-center">
                     <p class="font-weight-light">
                         Phone:
-                        <span class="badge bg-primary rounded-pill">@Model.UserCompany.PhoneNumber</span>
+                        <span class="badge bg-primary rounded-pill text-break">@Model.UserCompany.PhoneNumber</span>
                     </p>
                 </li>
                 <li class="list-group-item align-items-center">
                     <p class="font-weight-light">
                         Email:
-                        <span class="badge bg-primary rounded-pill">@Model.UserCompany.Email</span>
+                        <span class="badge bg-primary rounded-pill text-break">@Model.UserCompany.Email</span>
                     </p>
 
                 </li>
                 <li class="list-group-item align-items-center">
                     <p class="font-weight-light">
                         Address:
-                        <span class="badge bg-primary rounded-pill">@Model.UserCompany.Address</span>
+                        <span class="badge bg-primary rounded-pill text-break">@Model.UserCompany.Address</span>
                     </p>
                 </li>
                 <li class="list-group-item align-items-center">
                     <p class="font-weight-light">
                         Skills:
-                        <span class="badge bg-primary rounded-pill">@(string.Join(" ", Model.UserCompany.Skills.ToList().Select(x => x.Name)))</span>
+                        <span class="badge bg-primary rounded-pill text-break">@(string.Join(" | ", Model.UserCompany.Skills.ToList().Select(x => x.Name)))</span>
                     </p>
                 </li>
             </ul>

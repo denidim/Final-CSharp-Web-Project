@@ -23,5 +23,7 @@
         Task DeleteAsync(int id);
 
         bool IsUsersCompany(string userId);
+
+        Task<int?> GetCompanyByServiceId(int serviceId);
     }
 }
