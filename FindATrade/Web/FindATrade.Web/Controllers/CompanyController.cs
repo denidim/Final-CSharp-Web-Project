@@ -105,7 +105,7 @@
 
         public IActionResult Delete(int id)
         {
-            this.companyService.Delete(id);
+            this.companyService.DeleteAsync(id);
 
             return this.RedirectToAction("Index", "Home");
         }

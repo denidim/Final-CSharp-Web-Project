@@ -148,19 +148,10 @@
             await this.companyRepo.SaveChangesAsync();
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var company = await this.companyRepo.All()
-                .Where(x => x.Id == id)
-                .FirstOrDefaultAsync();
-
-            var addres = await this.addressRepo.All()
-                .Where(x => x.Id == company.AddressId)
-                .FirstOrDefaultAsync();
-
-            this.addressRepo.Delete(addres);
-
-            await this.addressRepo.SaveChangesAsync();
+            var company = this.companyRepo.All()
+                .FirstOrDefault(x => x.Id == id);
 
             this.companyRepo.Delete(company);
 
