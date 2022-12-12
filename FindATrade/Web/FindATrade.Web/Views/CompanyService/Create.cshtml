@@ -18,7 +18,7 @@
     </div>
     <div class="form-group">
         <label asp-for="Description"></label>
-        <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     <div class="form-group">
@@ -37,19 +37,31 @@
         <span asp-validation-for="Images" class="text-danger"></span>
     </div>
     <hr />
-    <p>You can add up to 3 Price Packages</p>
-    <div id="PackagesContainer">
-        <label asp-for="Packages"></label>
-        <a class="btn btn-success" onclick="Add()">+</a>
-        <a class="btn btn-danger" onclick="Remove()">-</a>
-        <span asp-validation-for="Packages" class="text-danger"></span>
-    </div>
-    <hr />
+    <h6>you can add up to 3 packages otherwise the default package (price rate) will display as negotiable</h6>
+    @for (int i = 0; i < 3; i++)
+    {
+        <div class="form-group">
+            <label asp-for="Packages[i].Description"></label>
+            <input asp-for="Packages[i].Description" class="form-control" />
+            <span asp-validation-for="Packages[i].Description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Packages[i].Price"></label>
+            <input asp-for="Packages[i].Price" class="form-control" />
+            <span asp-validation-for="Packages[i].Price" class="text-danger"></span>
+        </div>
+        <hr />
+    }
+    
     <input type="submit" class="button btn-primary" value="Add" />
 </form>
 
-@*TODO: Limit packages button*@
-
+@*<div id="PackagesContainer">
+    <label asp-for="Packages"></label>
+    <a class="btn btn-success" onclick="Add()">+</a>
+    <a class="btn btn-danger" onclick="Remove()">-</a>
+    <span asp-validation-for="Packages" class="text-danger"></span>
+</div>
 @section Scripts{
     <script>
         //Packages[0].Price
@@ -69,4 +81,4 @@
             }
         }
     </script>
-}
+}*@

@@ -3,6 +3,7 @@
 
 @{
     ViewBag.Title = "Edit Service";
+    var package = @Model.Packages.ToList();
 }
 
 <h1>@ViewBag.Title</h1>
@@ -36,17 +37,39 @@
         <span asp-validation-for="Images" class="text-danger"></span>
     </div>
     <hr />
-    <p>You can add up to 3 packages otherwise the defoult package(Price rate) will display as Negotiable</p>
-    <p></p>
-     @for (int i = 0; i < 3; i++)
-        {
-            <div class='form-group'>
-                Description: <input class='form-control' type='text' name='Packages[@i].Description' />
-                Price: <input class='form-control' type='text'  name='Packages[@i].Price' />
-            </div>
-        }
-
     <hr />
+
+    <h6>you can add up to 3 packages otherwise the default package (price rate) will display as negotiable</h6>
+
+    @for (int i = 0; i < Model.Packages.Count(); i++)
+    {
+        <div class="form-group">
+            <label asp-for="@Model.Packages[i].Description"></label>
+            <input asp-for="@Model.Packages[i].Description" class="form-control" />
+            <span asp-validation-for="@Model.Packages[i].Description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Packages[i].Price"></label>
+            <input asp-for="@Model.Packages[i].Price" class="form-control" />
+            <span asp-validation-for="@Model.Packages[i].Price" class="text-danger"></span>
+        </div>
+        <hr />
+    }
+    
+    @*@for (int i = 1; i < 3; i++)
+    {
+        <div class='form-group'>
+            <label asp-for="@Model.Packages[@i].Description"></label>
+            <input class='form-control' type='text' name='packages[i].description' />
+            @Html.ValidationMessageFor(m => m.Packages[@i].Description, "", new { @class = "text-danger" })
+            <label asp-for="@Model.Packages[i].Price"></label>
+            <input class='form-control' type='text' name='packages[i].price' />
+            @Html.ValidationMessageFor(m => m.Packages[@i].Price, "", new { @class = "text-danger" })
+        </div>
+        <hr />
+    }*@
+
+    
     <input type="hidden" asp-for="Id" />
 </form>
 <button type="submit" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModel">Save Changes</button>
