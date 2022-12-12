@@ -25,10 +25,11 @@
         @*<img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="...">*@
         <div class="col-lg-5">
             <h1 class="font-weight-light">@Model.Title</h1>
-            <p class="text-break">
-                <div class="myDIV"><p class="text-break">@(Model.Description.Length > 100 ? Model.Description.Substring(0, 100) : Model.Description)...</p></div>
-                <div class="hide">@Model.Description</div>
-            </p>
+            <p>@Model.Description</p>
+            @*<p class="text-break">
+            <div class="myDIV"><p class="text-break">@(Model.Description.Length > 100 ? Model.Description.Substring(0, 100) : Model.Description)...</p></div>
+            <div class="hide">@Model.Description</div>
+            </p>*@
 
             <ul class="list-group">
                 <li class="list-group-item align-items-center">
@@ -37,13 +38,13 @@
             </ul>
 
             <h4>Pricing and packages</h4>
-            @if(!Model.Packages.Any() || Model.Packages == null)
+            @if (!Model.Packages.Any() || Model.Packages == null || Model.Packages.Any(x => x.Price != null || x.Description != null))
             {
                 <h5>negotiable</h5>
             }
             else
             {
-                @foreach (var item in Model.Packages)
+                @foreach (var item in Model.Packages.Where(x => x.Price != null || x.Description != null))
                 {
                     <ul class="list-group">
                         <li class="list-group-item align-items-center">
@@ -56,12 +57,18 @@
                     <hr />
                 }
             }
-            
+
             @if (Model.IsOwner)
             {
                 <a class="btn btn-primary" asp-controller="CompanyService" asp-action="Edit" asp-route-id="@Model.Id">Edit Service</a>
                 <a class="btn btn-primary" asp-controller="CompanyService" asp-action="EditPictures" asp-route-id="@Model.Id">Edit Images</a>
                 <a class="btn btn-primary" asp-controller="CompanyService" asp-action="AddImages" asp-route-id="@Model.Id">Add Images</a>
+
+                <ul class="list-group">
+                    <li class="list-group-item align-items-center">
+                        <a class="btn btn-danger align-content-lg-end" asp-controller="CompanyService" asp-action="Delete" asp-route-id="@Model.Id">Delete Service</a>
+                    </li>
+                </ul>
             }
 
         </div>

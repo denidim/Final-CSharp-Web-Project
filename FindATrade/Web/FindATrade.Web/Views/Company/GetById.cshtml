@@ -15,10 +15,7 @@
         </div>
         <div class="col-lg-5">
             <h1 class="font-weight-light">@Model.UserCompany.Name</h1>
-            <p class="text-break">
-                <div class="myDIV"><p> class="text-break" @(Model.UserCompany.Description.Length > 100 ? Model.UserCompany.Description.Substring(0, 100) : Model.UserCompany.Description)...</p></div>
-                <div class="hide">@Model.UserCompany.Description</div>
-            </p>
+            <p>@Model.UserCompany.Description</p>
             <ul class="list-group">
                 <li class="list-group-item align-items-center">
                     <p class="font-weight-light">
@@ -117,7 +114,7 @@
     }
 </div>
 
-<style>
+@*<style>
     .hide {
         display: none;
     }
@@ -127,4 +124,4 @@
         color: black;
         font-size: 1.25em;
     }
-</style>
+</style>*@

@@ -24,7 +24,6 @@
         {
         }
 
-
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<Company> Companies { get; set; }
