@@ -129,15 +129,7 @@
 
             company.UserCompanyServices = await this.companyServiceService.GetAllByUserIdOrCompanyId(company.UserCompany.Id);
 
-            if (company.UserCompanyServices != null)
-            {
-                company.IsOwner = this.companyServiceService
-                    .IsUsersCompany(company.UserCompanyServices.First().Id, userId);
-            }
-            else
-            {
-                company.IsOwner = false;
-            }
+            company.IsOwner = this.companyService.IsUsersCompany(userId);
 
             return this.View(company);
         }
