@@ -23,7 +23,7 @@
 
         public VettingOutputModel Vetting { get; set; }
 
-        public ICollection<PackageModel> Packages { get; set; }
+        public IEnumerable<PackageModel> Packages { get; set; }
 
         public IEnumerable<string> Images { get; set; }
 

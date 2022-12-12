@@ -30,6 +30,6 @@
 
         public IEnumerable<IFormFile> Images { get; set; }
 
-        public IEnumerable<PackageModel> Packages { get; set; }
+        public List<PackageModel> Packages { get; set; }
     }
 }
