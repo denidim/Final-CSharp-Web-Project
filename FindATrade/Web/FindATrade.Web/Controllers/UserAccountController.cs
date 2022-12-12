@@ -43,12 +43,12 @@
 
             accountPage.UserCompany = await this.companyService.GetCompanyByUserIdAsync<CompanyOutputModel>(user.Id);
 
-            accountPage.UserCompany.OutputImageUrl = await this.imageService.GenerateSingleImageUrlForCompany(accountPage.UserCompany.Id);
-
-            accountPage.UserCompanyServices = await this.companyServiceService.GetAllByUserIdOrCompanyId(user.Id);
-
             if (accountPage.UserCompany != null)
             {
+                accountPage.UserCompany.OutputImageUrl = await this.imageService.GenerateSingleImageUrlForCompany(accountPage.UserCompany.Id);
+
+                accountPage.UserCompanyServices = await this.companyServiceService.GetAllByUserIdOrCompanyId(user.Id);
+
                 accountPage.OverallRating = this.ratingService.GetOverallRating(accountPage.UserCompany.Id);
             }
 
