@@ -7,7 +7,7 @@
 
     public class EmployeeTime : BaseDeletableModel<int>
     {
-        public int EmployeeId { get; set; }
+        public int? EmployeeId { get; set; }
 
         public Employee Employee { get; set; }
 

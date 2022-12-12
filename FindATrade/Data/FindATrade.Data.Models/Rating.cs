@@ -10,7 +10,7 @@
 
         public ApplicationUser AddedByUser { get; set; }
 
-        public int CompanyId { get; set; }
+        public int? CompanyId { get; set; }
 
         public Company Company { get; set; }
 

@@ -6,7 +6,7 @@
 
     public class PaidOrderPackageType : BaseDeletableModel<int>
     {
-        public int PaidOrderId { get; set; }
+        public int? PaidOrderId { get; set; }
 
         public PaidOrder PaidOrders { get; set; }
 

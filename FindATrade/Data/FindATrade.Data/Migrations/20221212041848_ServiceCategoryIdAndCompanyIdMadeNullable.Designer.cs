@@ -4,6 +4,7 @@ using FindATrade.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FindATrade.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221212041848_ServiceCategoryIdAndCompanyIdMadeNullable")]
+    partial class ServiceCategoryIdAndCompanyIdMadeNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -347,7 +349,7 @@ namespace FindATrade.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("EmployeeId")
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
@@ -365,8 +367,7 @@ namespace FindATrade.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EmployeeId")
-                        .IsUnique()
-                        .HasFilter("[EmployeeId] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("IsDeleted");
 
@@ -429,7 +430,7 @@ namespace FindATrade.Data.Migrations
                     b.Property<string>("AddedByUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("CompanyId")
+                    b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
@@ -551,7 +552,7 @@ namespace FindATrade.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("PaidOrderId")
+                    b.Property<int>("PaidOrderId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -566,8 +567,7 @@ namespace FindATrade.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("PaidOrderId")
-                        .IsUnique()
-                        .HasFilter("[PaidOrderId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("PaidOrderPackageTypes");
                 });
@@ -704,7 +704,7 @@ namespace FindATrade.Data.Migrations
                     b.Property<string>("Company")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CompanyId")
+                    b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
@@ -911,7 +911,9 @@ namespace FindATrade.Data.Migrations
                 {
                     b.HasOne("FindATrade.Data.Models.Employee", "Employee")
                         .WithOne("EmployeeTime")
-                        .HasForeignKey("FindATrade.Data.Models.EmployeeTime", "EmployeeId");
+                        .HasForeignKey("FindATrade.Data.Models.EmployeeTime", "EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Employee");
                 });
@@ -939,7 +941,9 @@ namespace FindATrade.Data.Migrations
 
                     b.HasOne("FindATrade.Data.Models.Company", "Company")
                         .WithMany("Likes")
-                        .HasForeignKey("CompanyId");
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("AddedByUser");
 
@@ -959,7 +963,9 @@ namespace FindATrade.Data.Migrations
                 {
                     b.HasOne("FindATrade.Data.Models.PaidOrder", "PaidOrders")
                         .WithOne("PaidOrderPackageType")
-                        .HasForeignKey("FindATrade.Data.Models.PaidOrderPackageType", "PaidOrderId");
+                        .HasForeignKey("FindATrade.Data.Models.PaidOrderPackageType", "PaidOrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("PaidOrders");
                 });
@@ -1012,7 +1018,9 @@ namespace FindATrade.Data.Migrations
                 {
                     b.HasOne("FindATrade.Data.Models.Company", null)
                         .WithMany("Skills")
-                        .HasForeignKey("CompanyId");
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("FindATrade.Data.Models.Vetting", b =>
