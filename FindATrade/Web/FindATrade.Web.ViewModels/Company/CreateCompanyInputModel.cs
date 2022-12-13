@@ -8,7 +8,7 @@
     public class CreateCompanyInputModel
     {
         [Required]
-        [StringLength(100, MinimumLength =3,ErrorMessage = "{0} must be between {2} and {1} characters.")]
+        [StringLength(100, MinimumLength =3, ErrorMessage = "{0} must be between {2} and {1} characters.")]
         public string Name { get; set; }
 
         [StringLength(50, MinimumLength = 6, ErrorMessage = "{0} must be between {2} and {1} characters.")]

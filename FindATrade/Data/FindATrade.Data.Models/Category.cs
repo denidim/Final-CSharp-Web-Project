@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using FindATrade.Common;
     using FindATrade.Data.Common.Models;
 
     public class Category : BaseDeletableModel<int>
@@ -13,7 +14,7 @@
         }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(CategoryConstants.CategoryMax, MinimumLength = CategoryConstants.CategoryMin, ErrorMessage = CategoryConstants.CategoryMessage)]
         public string Name { get; set; }
 
         public ICollection<Service> Services { get; set; }

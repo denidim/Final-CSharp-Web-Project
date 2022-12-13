@@ -6,7 +6,7 @@
 
         public const int StreetMax = 50;
 
-        public const string StreetMessage = "{0} must be between {2} and {1}";
+        public const string StreetMessage = "{0} must be between {2} and {1} cahracters";
 
         public const int HouseMin = 0;
 
@@ -22,19 +22,19 @@
 
         public const string HouseAdditinName = "Addition (optional)";
 
-        public const string HouseAdditionMessage = "{0} must be between {2} and {1}";
+        public const string HouseAdditionMessage = "{0} must be between {2} and {1} cahracters";
 
         public const int CityMin = 3;
 
         public const int CityMax = 50;
 
-        public const string CityMessage = "{0} must be between {2} and {1}";
+        public const string CityMessage = "{0} must be between {2} and {1} cahracters";
 
         public const int CountryMin = 3;
 
         public const int CountryMax = 50;
 
-        public const string CountryMessage = "{0} must be between {2} and {1}";
+        public const string CountryMessage = "{0} must be between {2} and {1} cahracters";
 
         public const string PostalCodeName = "Postal Code (optional)";
     }
