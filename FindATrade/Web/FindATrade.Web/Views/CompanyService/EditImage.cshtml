@@ -16,7 +16,7 @@
                     <div class="card col-md-6">
                         <img class="card-img-top" src="@image.Url" alt="Card image cap">
                         <div class="card-body">
-                            <a class="btn btn-danger" asp-controller="CompanyService" asp-action="DeletePicture" asp-route-name="@image.Name">Delete</a>
+                            <a class="btn btn-danger" asp-controller="CompanyService" asp-action="DeletePicture" asp-route-id="@image.ServiceId" asp-route-name="@image.Name">Delete</a>
                         </div>
                     </div>
                 }

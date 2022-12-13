@@ -90,13 +90,13 @@
             return this.View(model);
         }
 
-        public async Task<IActionResult> DeletePicture(string name)
+        public async Task<IActionResult> DeletePicture(int id, string name)
         {
             await this.imageService.CloudDelete(name);
 
             await this.imageService.Delete(name);
 
-            return this.RedirectToAction("Index", "Home");
+            return this.RedirectToAction(nameof(this.GetSingle), new { id = id });
         }
 
         public async Task<IActionResult> Delete(int id)

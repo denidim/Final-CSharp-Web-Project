@@ -75,6 +75,7 @@
                 {
                     Name = x.ImageStorageName,
                     Url = x.ImageUrl,
+                    ServiceId = serviceId,
                 })
                 .ToListAsync();
         }
