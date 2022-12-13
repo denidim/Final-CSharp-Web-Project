@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     using FindATrade.Common;
     using Microsoft.AspNetCore.Http;
 

@@ -1,11 +1,9 @@
 ﻿namespace FindATrade.Web.ViewModels.Company
 {
     using System.Collections.Generic;
-    using System.Linq;
 
     using AutoMapper;
     using FindATrade.Services.Mapping;
-    using FindATrade.Web.ViewModels.CompanyService;
 
     public class CompanyOutputModel : IMapFrom<Data.Models.Company>, IHaveCustomMappings
     {
