@@ -2,35 +2,34 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    using FindATrade.Common;
     using Microsoft.AspNetCore.Http;
 
     public class CreateCompanyInputModel
     {
         [Required]
-        [StringLength(100, MinimumLength =3, ErrorMessage = "{0} must be between {2} and {1} characters.")]
+        [StringLength(CompanyConstants.NameMax, MinimumLength = CompanyConstants.NameMin, ErrorMessage = CompanyConstants.NameMessage)]
         public string Name { get; set; }
 
-        [StringLength(50, MinimumLength = 6, ErrorMessage = "{0} must be between {2} and {1} characters.")]
+        [StringLength(CompanyConstants.WebsiteMax, MinimumLength = CompanyConstants.WebsiteMin, ErrorMessage = CompanyConstants.WebsiteMessage)]
         public string Website { get; set; }
 
         [Required]
-        [StringLength(100, MinimumLength = 6, ErrorMessage = "{0} must be between {2} and {1} characters.")]
+        [StringLength(CompanyConstants.EmailMax, MinimumLength = CompanyConstants.EmailMax, ErrorMessage = CompanyConstants.EmailMessage)]
         [EmailAddress]
         public string Email { get; set; }
 
         [Phone]
         [Required]
-        [StringLength(15, MinimumLength = 7, ErrorMessage = "{0} must be between {2} and {1} characters.")]
-        [Display(Name = "Company Phone")]
+        [StringLength(CompanyConstants.PhoneNumberMax, MinimumLength = CompanyConstants.PhoneNumberMin, ErrorMessage = CompanyConstants.PhoneNumberMessage)]
+        [Display(Name = CompanyConstants.PhoneNumberName)]
         public string PhoneNumber { get; set; }
 
         [Required]
-        [MinLength(50, ErrorMessage = "{0} must be at least {1} characters.")]
-        [Display(Name = "Company Description")]
+        [MinLength(CompanyConstants.DescriptionMin, ErrorMessage = CompanyConstants.DescriptionMessage)]
+        [Display(Name = CompanyConstants.DescriptionName)]
         public string Description { get; set; }
 
-        [Display(Name = "Image File")]
         public virtual IFormFile Image { get; set; }
 
         public CreateCompanyAddressInputModel Address { get; set; }

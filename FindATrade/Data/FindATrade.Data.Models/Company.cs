@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    using FindATrade.Common;
     using FindATrade.Data.Common.Models;
 
     public class Company : BaseDeletableModel<int>
@@ -16,25 +16,28 @@
         }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(CompanyConstants.NameMax, MinimumLength = CompanyConstants.NameMin, ErrorMessage = CompanyConstants.NameMessage)]
         public string Name { get; set; }
 
         public string AddedByUserId { get; set; }
 
         public ApplicationUser AddedByUser { get; set; }
 
+        [StringLength(CompanyConstants.WebsiteMax, MinimumLength = CompanyConstants.WebsiteMin, ErrorMessage = CompanyConstants.WebsiteMessage)]
         public string Website { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(CompanyConstants.EmailMax, MinimumLength = CompanyConstants.EmailMax, ErrorMessage = CompanyConstants.EmailMessage)]
         [EmailAddress]
         public string Email { get; set; }
 
         [Phone]
         [Required]
+        [StringLength(CompanyConstants.PhoneNumberMax, MinimumLength = CompanyConstants.PhoneNumberMin, ErrorMessage = CompanyConstants.PhoneNumberMessage)]
         public string PhoneNumber { get; set; }
 
         [Required]
+        [MinLength(CompanyConstants.DescriptionMin, ErrorMessage = CompanyConstants.DescriptionMessage)]
         public string Description { get; set; }
 
         public Image Image { get; set; }
