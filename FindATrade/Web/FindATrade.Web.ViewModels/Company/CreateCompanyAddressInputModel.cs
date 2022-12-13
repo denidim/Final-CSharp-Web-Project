@@ -1,34 +1,35 @@
 ﻿namespace FindATrade.Web.ViewModels.Company
 {
+    using System.ComponentModel.DataAnnotations;
+
     using FindATrade.Common;
     using FindATrade.Data.Models;
     using FindATrade.Services.Mapping;
-    using System.ComponentModel.DataAnnotations;
 
     public class CreateCompanyAddressInputModel : IMapFrom<Address>
     {
-        [StringLength(GlobalConstants, MinimumLength = 2, ErrorMessage = "{0} must be between {2} and {1} characters.")]
+        [StringLength(AddressConstants.StreetMax, MinimumLength = AddressConstants.StreetMin, ErrorMessage = AddressConstants.StreetMessage)]
         [Required]
         public string Street { get; set; }
 
-        [Display(Name = "House/Flat Number")]
-        [Range(0, 1000, ErrorMessage = "{0} must be netween {1} and {2}")]
+        [Display(Name = AddressConstants.HouseName)]
+        [Range(AddressConstants.HouseMin, AddressConstants.HouseMax, ErrorMessage = AddressConstants.HouseMessage)]
         [Required]
         public int HouseNumber { get; set; }
 
-        [Display(Name = "Addition (optional)")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "{0} must be between {2} and {1} characters.")]
+        [Display(Name = AddressConstants.HouseAdditinName)]
+        [StringLength(AddressConstants.HouseAdditionMax, MinimumLength = AddressConstants.HouseAdditionMin, ErrorMessage = AddressConstants.HouseAdditionMessage)]
         public string HouseNumberAddition { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "{0} must be between {2} and {1} characters.")]
+        [StringLength(AddressConstants.CityMax, MinimumLength = AddressConstants.CityMin, ErrorMessage = AddressConstants.CityMessage)]
         public string City { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "{0} must be between {2} and {1} characters.")]
+        [StringLength(AddressConstants.CountryMax, MinimumLength = AddressConstants.CountryMin, ErrorMessage = AddressConstants.CountryMessage)]
         public string Country { get; set; }
 
-        [Display(Name = "Postal Code (optional)")]
+        [Display(Name = AddressConstants.PostalCodeName)]
         public string PostalCode { get; set; }
     }
 }
