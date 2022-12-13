@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\FindATrade.Data.Models\FindATrade.Data.Models.csproj" />
+    <ProjectReference Include="..\..\FindATrade.Common\FindATrade.Common.csproj" />
     <ProjectReference Include="..\..\Services\FindATrade.Services.Mapping\FindATrade.Services.Mapping.csproj" />
   </ItemGroup>
 

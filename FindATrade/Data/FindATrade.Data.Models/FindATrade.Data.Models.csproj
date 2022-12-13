@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\FindATrade.Common\FindATrade.Common.csproj" />
     <ProjectReference Include="..\FindATrade.Data.Common\FindATrade.Data.Common.csproj" />
   </ItemGroup>
   
