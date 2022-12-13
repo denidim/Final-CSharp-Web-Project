@@ -1,7 +1,7 @@
 ﻿namespace FindATrade.Data.Models
 {
     using System.ComponentModel.DataAnnotations;
-
+    using FindATrade.Common;
     using FindATrade.Data.Common.Models;
 
     public class PaidOrderPackageType : BaseDeletableModel<int>
@@ -11,13 +11,15 @@
         public PaidOrder PaidOrders { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(PaidOrderPackageConstants.NameMax, MinimumLength = PaidOrderPackageConstants.NameMin, ErrorMessage = PaidOrderPackageConstants.PriceMessage)]
         public string Name { get; set; }
 
         [Required]
+        [Range(PaidOrderPackageConstants.PriceMin, PaidOrderPackageConstants.PriceMax, ErrorMessage = PaidOrderPackageConstants.PriceMessage)]
         public decimal Price { get; set; }
 
         [Required]
+        [StringLength(PaidOrderPackageConstants.TermsMax, MinimumLength = PaidOrderPackageConstants.TermsMin, ErrorMessage = PaidOrderPackageConstants.TermsMesage)]
         public string Terms { get; set; }
     }
 }
