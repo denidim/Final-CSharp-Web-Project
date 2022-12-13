@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FindATrade.Common
+﻿namespace FindATrade.Common
 {
-    internal class UserConstants
+    public static class UserConstants
     {
+        public const int FirstNameMin = 2;
+
+        public const int FirstNameMax = 30;
+
+        public const string FirstNameMessage = "{0} must be between {2} and {1}";
+
+        public const int LastNameMin = 2;
+
+        public const int LastNameMax = 30;
+
+        public const string LastNameMessage = "{0} must be between {2} and {1}";
     }
 }
