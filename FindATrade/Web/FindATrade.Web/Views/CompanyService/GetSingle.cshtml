@@ -61,7 +61,7 @@
             @if (Model.IsOwner)
             {
                 <a class="btn btn-primary" asp-controller="CompanyService" asp-action="Edit" asp-route-id="@Model.Id">Edit Service</a>
-                <a class="btn btn-primary" asp-controller="CompanyService" asp-action="EditPictures" asp-route-id="@Model.Id">Edit Images</a>
+                <a class="btn btn-primary" asp-controller="CompanyService" asp-action="EditImage" asp-route-id="@Model.Id">Edit Images</a>
                 <a class="btn btn-primary" asp-controller="CompanyService" asp-action="AddImages" asp-route-id="@Model.Id">Add Images</a>
 
                 <ul class="list-group">

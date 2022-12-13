@@ -83,9 +83,9 @@
             return this.RedirectToAction("GetAccount", "UserAccount");
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            this.companyService.DeleteAsync(id);
+            await this.companyService.DeleteAsync(id);
 
             return this.RedirectToAction("Index", "Home");
         }

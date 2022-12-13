@@ -45,7 +45,7 @@ else
                         <li class="list-group-item align-items-center">
                             <p class="font-weight-light">
                                 Skills:
-                                @foreach (var skill in Model.UserCompany.Skills.Where(x=>x.Name!=null))
+                                @foreach (var skill in Model.UserCompany.Skills.Where(x => x.Name != null))
                                 {
                                     <span class="badge bg-primary rounded-pill text-wrap text-break">@skill.Name</span>
                                 }
@@ -153,8 +153,6 @@ else
         <partial name="_Subscription" model="@Model.UserCompanyServices" />
     }
 }
-
-
 
 @if (Model.UserCompany != null)
 {
