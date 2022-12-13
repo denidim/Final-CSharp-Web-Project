@@ -2,7 +2,7 @@
 {
     using FindATrade.Services.Mapping;
 
-    public class CompanyServiceByCategoryModel
+    public class CompanyServiceByCategoryOutputModel
     {
         public int Id { get; set; }
 

@@ -20,7 +20,7 @@
 
         IEnumerable<int> GetAllForVettingIds();
 
-        Task<IEnumerable<CompanyServiceByCategoryModel>> GetAllByCategory(string categoryName);
+        Task<IEnumerable<CompanyServiceByCategoryOutputModel>> GetAllByCategory(string categoryName);
 
         Task DeleteAsync(int id);
 

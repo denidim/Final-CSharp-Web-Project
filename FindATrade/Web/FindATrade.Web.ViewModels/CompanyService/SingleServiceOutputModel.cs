@@ -27,7 +27,7 @@
 
         public IEnumerable<string> Images { get; set; }
 
-        public IEnumerable<CompanyServiceByCategoryModel> CompanyServicesByCategory { get; set; }
+        public IEnumerable<CompanyServiceByCategoryOutputModel> CompanyServicesByCategory { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

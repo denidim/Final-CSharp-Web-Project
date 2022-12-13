@@ -4,6 +4,6 @@
 
     public interface IGetCountsService
     {
-        IndexViewModel GetCounts();
+        IndexOutputViewModel GetCounts();
     }
 }

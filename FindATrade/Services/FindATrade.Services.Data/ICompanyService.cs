@@ -18,7 +18,7 @@
 
         Task UpdateAsync(int id, EditCompanyViewModel model);
 
-        Task<IEnumerable<IndexPageViewModel>> GetPopular();
+        Task<IEnumerable<IndexPageOutputViewModel>> GetPopular();
 
         Task DeleteAsync(int id);
 

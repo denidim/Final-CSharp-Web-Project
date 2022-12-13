@@ -22,9 +22,9 @@
             this.servicesRepo = servicesRepo;
         }
 
-        public IndexViewModel GetCounts()
+        public IndexOutputViewModel GetCounts()
         {
-            var data = new IndexViewModel
+            var data = new IndexOutputViewModel
             {
                 CategoriesCount = this.categoriesRepo.All().Count(),
                 CompaniesCount = this.companiesRepo.All().Count(),

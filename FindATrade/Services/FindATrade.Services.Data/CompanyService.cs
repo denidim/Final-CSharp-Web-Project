@@ -185,9 +185,9 @@
             return company;
         }
 
-        public async Task<IEnumerable<IndexPageViewModel>> GetPopular()
+        public async Task<IEnumerable<IndexPageOutputViewModel>> GetPopular()
         {
-            var output = new List<IndexPageViewModel>();
+            var output = new List<IndexPageOutputViewModel>();
 
             var company = await this.companyRepo.All()
                 .Include(x => x.Image)
@@ -197,7 +197,7 @@
 
             foreach (var item in company)
             {
-                var page = new IndexPageViewModel
+                var page = new IndexPageOutputViewModel
                 {
                     Id = item.Id,
                     Description = item.Description.Length >= 60 ? item.Description.Substring(0, 60) : item.Description,

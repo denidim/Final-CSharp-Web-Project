@@ -1,6 +1,6 @@
 ﻿namespace FindATrade.Web.ViewModels.Home
 {
-    public class IndexPageViewModel
+    public class IndexPageOutputViewModel
     {
         public int Id { get; set; }
 

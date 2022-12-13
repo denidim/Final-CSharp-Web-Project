@@ -157,9 +157,9 @@
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<CompanyServiceByCategoryModel>> GetAllByCategory(string categoryName)
+        public async Task<IEnumerable<CompanyServiceByCategoryOutputModel>> GetAllByCategory(string categoryName)
         {
-            var output = new List<CompanyServiceByCategoryModel>();
+            var output = new List<CompanyServiceByCategoryOutputModel>();
 
             var service = await this.serviceRepo.All()
                 .Include(x => x.Images)
@@ -168,7 +168,7 @@
 
             foreach (var item in service)
             {
-                var newService = new CompanyServiceByCategoryModel
+                var newService = new CompanyServiceByCategoryOutputModel
                 {
                     Id = item.Id,
                     Title = item.Title,
