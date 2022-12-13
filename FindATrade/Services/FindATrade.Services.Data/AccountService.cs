@@ -1,14 +1,12 @@
 ﻿namespace FindATrade.Services.Data
 {
-    using System.Collections.Generic;
     using System.Linq;
 
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
     using FindATrade.Services.Mapping;
+    using FindATrade.Web.ViewModels.AccountManagement;
     using FindATrade.Web.ViewModels.Company;
-    using FindATrade.Web.ViewModels.CompanyService;
-    using FindATrade.Web.ViewModels.UserAccount;
     using Microsoft.EntityFrameworkCore;
 
     public class AccountService : IAccountService
