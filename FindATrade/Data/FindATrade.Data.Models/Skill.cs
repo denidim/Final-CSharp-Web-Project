@@ -2,15 +2,16 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+    using FindATrade.Common;
     using FindATrade.Data.Common.Models;
 
     public class Skill : BaseDeletableModel<int>
     {
-        [StringLength(50)]
+        [StringLength(SkillConstants.NameMax, MinimumLength = SkillConstants.NameMin, ErrorMessage = SkillConstants.NameMessage)]
         public string Name { get; set; }
 
         public int? CompanyId { get; set; }
 
-        public string Company { get; set; }
+        public Company Company { get; set; }
     }
 }
