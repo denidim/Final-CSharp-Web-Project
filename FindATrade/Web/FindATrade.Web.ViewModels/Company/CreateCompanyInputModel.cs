@@ -4,6 +4,7 @@
     using System.ComponentModel.DataAnnotations;
 
     using FindATrade.Common;
+    using FindATrade.Common.CustomAttributes;
     using Microsoft.AspNetCore.Http;
 
     public class CreateCompanyInputModel
@@ -31,6 +32,8 @@
         [Display(Name = CompanyConstants.DescriptionName)]
         public string Description { get; set; }
 
+        [MaxFileSize(1 * 1024 * 1024)]
+        [PermittedExtensions(new string[] {".jpg", ".png", ".gif", ".jpeg" })]
         public virtual IFormFile Image { get; set; }
 
         public CreateCompanyAddressInputModel Address { get; set; }

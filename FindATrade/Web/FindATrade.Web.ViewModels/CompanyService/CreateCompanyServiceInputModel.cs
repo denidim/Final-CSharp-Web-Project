@@ -2,7 +2,9 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     using FindATrade.Common;
+    using FindATrade.Common.CustomAttributes;
     using FindATrade.Data.Models;
     using Microsoft.AspNetCore.Http;
 
@@ -29,6 +31,8 @@
 
         public IEnumerable<Category> Categories { get; set; }
 
+        [MaxFileSize(1 * 1024 * 1024)]
+        [PermittedExtensions(new string[] { ".jpg", ".png", ".gif", ".jpeg" })]
         public IEnumerable<IFormFile> Images { get; set; }
 
         public List<PackageModel> Packages { get; set; }
