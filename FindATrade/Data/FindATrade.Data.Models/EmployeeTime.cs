@@ -2,7 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-
+    using FindATrade.Common;
     using FindATrade.Data.Common.Models;
 
     public class EmployeeTime : BaseDeletableModel<int>
@@ -17,6 +17,7 @@
         [Required]
         public DateTime LogoutTime { get; set; }
 
+        [StringLength(EmployeeConstants.EmployeeTimeCommentMax, MinimumLength = EmployeeConstants.EmployeeTimeCommentMin, ErrorMessage = EmployeeConstants.EmployeeTimeCommentMessage)]
         public string Comment { get; set; }
     }
 }
