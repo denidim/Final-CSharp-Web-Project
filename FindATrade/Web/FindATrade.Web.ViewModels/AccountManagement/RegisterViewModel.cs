@@ -1,4 +1,4 @@
-﻿namespace FindATrade.Web.ViewModels
+﻿namespace FindATrade.Web.ViewModels.AccountManagement
 {
     using FindATrade.Common;
     using System.ComponentModel.DataAnnotations;
