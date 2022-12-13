@@ -1,4 +1,4 @@
-﻿namespace FindATrade.Web.ViewModels.UserAccount
+﻿namespace FindATrade.Web.ViewModels
 {
     using System.Collections.Generic;
 

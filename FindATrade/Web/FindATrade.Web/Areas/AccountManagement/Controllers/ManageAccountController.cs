@@ -1,16 +1,15 @@
 ﻿namespace FindATrade.Web.Areas.AccountManagement.Controllers
 {
-    using System.Runtime.Intrinsics.X86;
-    using System.Threading.Tasks;
     using FindATrade.Common;
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
     using FindATrade.Services.Data;
-    using FindATrade.Web.ViewModels.UserAccount;
+    using FindATrade.Web.ViewModels.AccountManagement;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using System.Threading.Tasks;
 
     [Area("AccountManagement")]
     public class ManageAccountController : Controller
