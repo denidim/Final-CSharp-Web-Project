@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    using FindATrade.Common;
     using FindATrade.Data.Models;
     using Microsoft.AspNetCore.Http;
 
@@ -16,13 +16,13 @@
         public int CompanyId { get; set; }
 
         [Required]
-        [StringLength(100, MinimumLength = 3, ErrorMessage = "{0} must be between {2} and {1} characters")]
+        [StringLength(ServiceConstants.TitleMax, MinimumLength = ServiceConstants.TitleMin, ErrorMessage = ServiceConstants.TitleMessage)]
         public string Title { get; set; }
 
         public bool IsPremium { get; set; }
 
         [Required]
-        [MinLength(20, ErrorMessage = "{0} must be between at least {1} characters")]
+        [MinLength(ServiceConstants.DescriptionMin, ErrorMessage = ServiceConstants.DescriptionMessage)]
         public string Description { get; set; }
 
         public int CategoryId { get; set; }

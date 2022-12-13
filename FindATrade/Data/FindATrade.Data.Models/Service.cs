@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using FindATrade.Common;
     using FindATrade.Data.Common.Models;
 
     public class Service : BaseDeletableModel<int>
@@ -14,12 +15,13 @@
         }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(ServiceConstants.TitleMax, MinimumLength = ServiceConstants.TitleMin, ErrorMessage = ServiceConstants.TitleMessage)]
         public string Title { get; set; }
 
         public bool IsPremium { get; set; }
 
         [Required]
+        [MinLength(ServiceConstants.DescriptionMin, ErrorMessage = ServiceConstants.DescriptionMessage)]
         public string Description { get; set; }
 
         public int? CompanyId { get; set; }
