@@ -6,7 +6,6 @@
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
     using FindATrade.Services.Data;
-    using FindATrade.Web.ViewModels.AccountManagement;
     using FindATrade.Web.ViewModels.UserAccount;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;

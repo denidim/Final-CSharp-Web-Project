@@ -1,4 +1,4 @@
-﻿namespace FindATrade.Web.ViewModels.AccountManagement
+﻿namespace FindATrade.Web.ViewModels.UserAccount
 {
     public class VettModel
     {
