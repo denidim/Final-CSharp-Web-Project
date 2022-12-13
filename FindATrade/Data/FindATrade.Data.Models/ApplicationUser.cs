@@ -4,6 +4,7 @@ namespace FindATrade.Data.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using FindATrade.Common;
     using FindATrade.Data.Common.Models;
 
     using Microsoft.AspNetCore.Identity;
@@ -30,11 +31,11 @@ namespace FindATrade.Data.Models
         public DateTime? DeletedOn { get; set; }
 
         [Required]
-        [StringLength(30)]
+        [StringLength(UserConstants.FirstNameMax, MinimumLength = UserConstants.FirstNameMin, ErrorMessage = UserConstants.FirstNameMessage)]
         public string FirstName { get; set; }
 
         [Required]
-        [StringLength(30)]
+        [StringLength(UserConstants.LastNameMax, MinimumLength = UserConstants.LastNameMin, ErrorMessage = UserConstants.LastNameMessage)]
         public string LastName { get; set; }
 
         public Company Company { get; set; }

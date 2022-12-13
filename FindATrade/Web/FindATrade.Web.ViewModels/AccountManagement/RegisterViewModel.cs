@@ -1,5 +1,6 @@
 ﻿namespace FindATrade.Web.ViewModels.UserAccount
 {
+    using FindATrade.Common;
     using System.ComponentModel.DataAnnotations;
 
     public class RegisterViewModel
@@ -18,11 +19,11 @@
         public string PasswordConfirm { get; set; } = null!;
 
         [Required]
-        [StringLength(20, MinimumLength = 2)]
+        [StringLength(UserConstants.FirstNameMax, MinimumLength = UserConstants.FirstNameMin, ErrorMessage = UserConstants.FirstNameMessage)]
         public string FirstName { get; set; } = null!;
 
         [Required]
-        [StringLength(20, MinimumLength = 2)]
+        [StringLength(UserConstants.LastNameMax, MinimumLength = UserConstants.LastNameMin, ErrorMessage = UserConstants.LastNameMessage)]
         public string LastName { get; set; } = null!;
     }
 }
