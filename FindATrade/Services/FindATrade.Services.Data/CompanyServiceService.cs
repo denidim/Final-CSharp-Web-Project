@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using System.Xml.XPath;
     using FindATrade.Common;
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
@@ -19,6 +19,9 @@
         private readonly IDeletableEntityRepository<Company> companyRepo;
         private readonly IDeletableEntityRepository<Package> packagerepo;
         private readonly IDeletableEntityRepository<Image> imageRepo;
+        private readonly IDeletableEntityRepository<Vetting> vettingRepo;
+        private readonly IDeletableEntityRepository<PaidOrder> paidOrderRepo;
+        private readonly IDeletableEntityRepository<PaidOrderPackageType> paidOrderPackageTypeRepo;
         private readonly IVettingService vettingService;
         private readonly ICloudStorageService cloudStorageService;
 
@@ -28,6 +31,9 @@
             IDeletableEntityRepository<Company> companyRepo,
             IDeletableEntityRepository<Package> packagerepo,
             IDeletableEntityRepository<Image> imageRepo,
+            IDeletableEntityRepository<Vetting> vettingRepo,
+            IDeletableEntityRepository<PaidOrder> paidOrderRepo,
+            IDeletableEntityRepository<PaidOrderPackageType> paidOrderPackageTypeRepo,
             IVettingService vettingService,
             ICloudStorageService cloudStorageService)
         {
@@ -36,6 +42,9 @@
             this.companyRepo = companyRepo;
             this.packagerepo = packagerepo;
             this.imageRepo = imageRepo;
+            this.vettingRepo = vettingRepo;
+            this.paidOrderRepo = paidOrderRepo;
+            this.paidOrderPackageTypeRepo = paidOrderPackageTypeRepo;
             this.vettingService = vettingService;
             this.cloudStorageService = cloudStorageService;
         }
@@ -120,7 +129,43 @@
         {
             var service = await this.serviceRepo.All()
                 .Where(x => x.Id == id)
+                .Include(x => x.Packages)
+                .Include(x => x.Images)
+                .Include(x => x.PaidOrder)
+                .ThenInclude(x => x.PaidOrderPackageType)
+                .Include(x => x.Vetting)
                 .SingleOrDefaultAsync();
+
+            if (service.Vetting != null)
+            {
+                this.vettingRepo.Delete(service.Vetting);
+            }
+
+            if (service.PaidOrder != null)
+            {
+                if (service.PaidOrder.PaidOrderPackageType != null)
+                {
+                    this.paidOrderPackageTypeRepo.Delete(service.PaidOrder.PaidOrderPackageType);
+                }
+
+                this.paidOrderRepo.Delete(service.PaidOrder);
+            }
+
+            if (service.Images != null)
+            {
+                foreach (var image in service.Images)
+                {
+                    this.imageRepo.Delete(image);
+                }
+            }
+
+            if (service.Packages != null)
+            {
+                foreach (var package in service.Packages)
+                {
+                    this.packagerepo.Delete(package);
+                }
+            }
 
             this.serviceRepo.Delete(service);
 
