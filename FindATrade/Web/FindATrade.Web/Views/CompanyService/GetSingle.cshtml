@@ -66,7 +66,8 @@
 
                 <ul class="list-group">
                     <li class="list-group-item align-items-center">
-                        <a class="btn btn-danger align-content-lg-end" asp-controller="CompanyService" asp-action="Delete" asp-route-id="@Model.Id">Delete Service</a>
+                        <form asp-controller="CompanyService" asp-action="Delete" asp-route-id="@Model.Id" id="deleteForm"></form>
+                        <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
                     </li>
                 </ul>
             }
@@ -82,6 +83,28 @@
     <!-- Content Row-->
     <partial name="_MoreByCategory" model="@Model.CompanyServicesByCategory" />
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to delete "@Model.Title"?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-success" onclick="deleteForm.submit()">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <style>
     .hide {
