@@ -22,11 +22,11 @@
 
         public async Task<T> GetPaidOrder<T>()
         {
-            var company = await this.paidOrderRepo.All()
+            var paidOrder = await this.paidOrderRepo.All()
                 .To<T>()
                 .FirstOrDefaultAsync();
 
-            return company;
+            return paidOrder;
         }
 
         public async Task AddSubscription(int serviceId, int id)
@@ -36,7 +36,6 @@
                 StartDate = System.DateTime.UtcNow,
                 EndDate = System.DateTime.UtcNow.AddDays(30),
             };
-
 
             var service = await this.serviceRepo.All()
                 .FirstOrDefaultAsync(x => x.Id == serviceId);

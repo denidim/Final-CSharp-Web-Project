@@ -13,6 +13,7 @@
                 return;
             }
 
+            await dbContext.PaidOrders.AddAsync(new Models.PaidOrder { Name = "Regular", Price = 10.00m, Terms = "Your Service will be on the front page and first on serches", StartDate = default(DateTime), EndDate = default(DateTime) });
 
             await dbContext.SaveChangesAsync();
         }
