@@ -85,7 +85,15 @@
 
         public async Task<IActionResult> Delete(int id)
         {
-            await this.companyService.DeleteAsync(id);
+            try
+            {
+                await this.companyService.DeleteAsync(id);
+            }
+            catch (System.Exception ex)
+            {
+                this.ModelState.AddModelError(string.Empty, ex.Message);
+            }
+
 
             return this.RedirectToAction("Index", "Home");
         }

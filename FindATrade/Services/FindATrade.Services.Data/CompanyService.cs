@@ -20,19 +20,25 @@
         private readonly ICloudStorageService cloudStorageService;
         private readonly IDeletableEntityRepository<Image> imageRepo;
         private readonly IDeletableEntityRepository<Address> addressRepo;
+        private readonly IDeletableEntityRepository<Rating> ratingRepo;
+        private readonly IDeletableEntityRepository<Like> likeRepo;
 
         public CompanyService(
             IDeletableEntityRepository<Company> companyRepo,
             IDeletableEntityRepository<Skill> skillRepo,
             ICloudStorageService cloudStorageService,
             IDeletableEntityRepository<Image> imageRepo,
-            IDeletableEntityRepository<Address> addressRepo)
+            IDeletableEntityRepository<Address> addressRepo,
+            IDeletableEntityRepository<Rating> ratingRepo,
+            IDeletableEntityRepository<Like> likeRepo)
         {
             this.companyRepo = companyRepo;
             this.skillRepo = skillRepo;
             this.cloudStorageService = cloudStorageService;
             this.imageRepo = imageRepo;
             this.addressRepo = addressRepo;
+            this.ratingRepo = ratingRepo;
+            this.likeRepo = likeRepo;
         }
 
         public async Task CreateAsync(CreateCompanyInputModel input, ApplicationUser currentUser)
@@ -143,7 +149,52 @@
         public async Task DeleteAsync(int id)
         {
             var company = this.companyRepo.All()
+                .Include(x => x.Services)
+                .Include(x => x.Skills)
+                .Include(x => x.Ratings)
+                .Include(x => x.Likes)
+                .Include(x => x.Image)
+                .Include(x => x.Address)
                 .FirstOrDefault(x => x.Id == id);
+
+            if (company.Services.Any())
+            {
+                throw new ArgumentException("Cannot delete company with active services delete all services first");
+            }
+
+            if (company.Image != null)
+            {
+                this.imageRepo.Delete(company.Image);
+            }
+
+            if (company.Address != null)
+            {
+                this.addressRepo.Delete(company.Address);
+            }
+
+            if (company.Skills != null)
+            {
+                foreach (var skill in company.Skills)
+                {
+                    this.skillRepo.Delete(skill);
+                }
+            }
+
+            if (company.Ratings != null)
+            {
+                foreach (var rating in company.Ratings)
+                {
+                    this.ratingRepo.Delete(rating);
+                }
+            }
+
+            if (company.Likes != null)
+            {
+                foreach (var like in company.Likes)
+                {
+                    this.likeRepo.Delete(like);
+                }
+            }
 
             this.companyRepo.Delete(company);
 
