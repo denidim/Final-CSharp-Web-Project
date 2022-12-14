@@ -1,13 +1,12 @@
 ﻿namespace FindATrade.Services.Data
 {
-    using System.Linq;
-
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
     using FindATrade.Services.Mapping;
     using FindATrade.Web.ViewModels.AccountManagement;
     using FindATrade.Web.ViewModels.Company;
     using Microsoft.EntityFrameworkCore;
+    using System.Linq;
 
     public class AccountService : IAccountService
     {
@@ -67,7 +66,6 @@
 
             return compnay;
         }
-
 
         public UserInfoOutputModel GetUserInfo(ApplicationUser user)
         {

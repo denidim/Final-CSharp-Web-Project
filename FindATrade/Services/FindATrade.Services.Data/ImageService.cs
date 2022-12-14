@@ -10,6 +10,7 @@
     using FindATrade.Data.Models;
     using FindATrade.Web.ViewModels.CompanyService;
     using Microsoft.EntityFrameworkCore;
+    using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
     public class ImageService : IImageService
     {
@@ -37,7 +38,7 @@
 
             if (savedImageName == null)
             {
-                return null;
+                return ImageConstants.DefaultImage;
             }
 
             // creates new Url with exparation to show to the outside world

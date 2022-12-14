@@ -3,7 +3,7 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
-
+    using FindATrade.Common;
     using FindATrade.Data.Models;
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels.Company;
@@ -106,11 +106,6 @@
             company.UserCompany = await this.companyService.GetCompanyByIdAsync<CompanyOutputModel>(id);
 
             company.UserCompany.OutputImageUrl = await this.imageService.GenerateSingleImageUrlForCompany(id);
-
-            if (company.UserCompany.OutputImageUrl == null)
-            {
-                company.UserCompany.OutputImageUrl = "https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
-            }
 
             company.OverallRating = this.ratingService.GetOverallRating(company.UserCompany.Id);
 

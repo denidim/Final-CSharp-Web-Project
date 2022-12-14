@@ -190,6 +190,7 @@
             var output = new List<IndexPageOutputViewModel>();
 
             var company = await this.companyRepo.All()
+                //.Where(x => x.Services.Any(x => x.Vetting.Passed == true))
                 .Include(x => x.Image)
                 .OrderBy(x => Guid.NewGuid())
                 .Take(10)
@@ -211,7 +212,7 @@
                 }
                 else
                 {
-                    page.OutputImageUrl = "https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
+                    page.OutputImageUrl = ImageConstants.DefaultImage;
                 }
 
                 output.Add(page);
