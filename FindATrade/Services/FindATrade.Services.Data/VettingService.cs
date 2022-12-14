@@ -21,7 +21,7 @@
         public async Task<T> GetByServiceIdAsync<T>(int id)
         {
             return await this.vettingRepo.All()
-                .Where(x => x.Id == id)
+                .Where(x => x.Service.Id == id)
                 .To<T>()
                 .FirstOrDefaultAsync();
         }

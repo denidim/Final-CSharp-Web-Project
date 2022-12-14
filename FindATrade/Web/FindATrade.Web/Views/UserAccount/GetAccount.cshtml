@@ -3,13 +3,13 @@
 @model UserAccountOutputModel
 
 @{
-    this.ViewBag.Title = "My Account";
+    this.ViewData["Title"] = "My Account";
 
-    this.ViewBag.Message = "This is how customers see your acount";
+    this.ViewData["Message"] = "This is how customers see your acount";
 }
 
-<h1>@this.ViewBag.Title</h1>
-<h2>@this.ViewBag.Message</h2>
+<h1>@this.ViewData["Title"]</h1>
+<h2>@this.ViewData["Message"]</h2>
 
 <p class="text-danger m-0"> </p>
 

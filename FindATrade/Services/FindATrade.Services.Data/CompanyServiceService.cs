@@ -208,7 +208,7 @@
 
             var service = await this.serviceRepo.All()
                 .Include(x => x.Images)
-                .Where(x => x.Category.Name == categoryName)
+                .Where(x => x.Category.Name == categoryName && x.Vetting.Passed == true)
                 .ToListAsync();
 
             foreach (var item in service)
@@ -288,7 +288,7 @@
                 }
                 else
                 {
-                    images.Add("https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+                    images.Add(ImageConstants.DefaultImage);
                 }
 
                 var package = new List<PackageModel>();
@@ -328,6 +328,7 @@
                 {
                     newService.PaidOrder = null;
                 }
+
 
                 newService.Vetting = await this.vettingService.GetByServiceIdAsync<VettingOutputModel>(service.Id);
 
