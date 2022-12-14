@@ -1,6 +1,7 @@
 ﻿namespace FindATrade.Data.Models
 {
     using System.ComponentModel.DataAnnotations;
+
     using FindATrade.Common;
     using FindATrade.Data.Common.Models;
 

@@ -92,6 +92,8 @@
             catch (System.Exception ex)
             {
                 this.ModelState.AddModelError(string.Empty, ex.Message);
+
+                return this.RedirectToAction("Error", "Home");
             }
 
 

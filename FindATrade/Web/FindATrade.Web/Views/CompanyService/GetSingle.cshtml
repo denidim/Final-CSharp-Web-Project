@@ -61,6 +61,7 @@
                 <a class="btn btn-primary" asp-controller="CompanyService" asp-action="Edit" asp-route-id="@Model.Id">Edit Service</a>
                 <a class="btn btn-primary" asp-controller="CompanyService" asp-action="EditImage" asp-route-id="@Model.Id">Edit Images</a>
                 <a class="btn btn-primary" asp-controller="CompanyService" asp-action="AddImages" asp-route-id="@Model.Id">Add Images</a>
+                <a class="btn btn-primary" asp-area="AccountManagement" asp-controller="Subscription" asp-action="Add" asp-route-id="@Model.Id">Add Subscription</a>
 
                 <ul class="list-group">
                     <li class="list-group-item align-items-center">
@@ -78,13 +79,19 @@
 
         </div>
     </div>
+
+    if(Model.IsOwner)
+    {
+        <partial name="_Subscription" model="@Model.Subscription" />
+    }
+
     <!-- Call to Action-->
     <div class="card text-white bg-secondary my-5 py-4 text-center">
         <div class="card-body">
             <a class="btn btn-primary" asp-controller="Company" asp-action="GetByServiceId" asp-route-id="@Model.Id">Go to Company</a>
             </div>
     </div>
-    <!-- Content Row-->
+
     <partial name="_MoreByCategory" model="@Model.CompanyServicesByCategory" />
 </div>
 

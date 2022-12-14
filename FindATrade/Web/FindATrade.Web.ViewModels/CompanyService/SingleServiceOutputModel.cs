@@ -5,6 +5,7 @@
     using AutoMapper;
     using FindATrade.Data.Models;
     using FindATrade.Services.Mapping;
+    using FindATrade.Web.ViewModels.Subscription;
     using Microsoft.AspNetCore.Http;
 
     public class SingleServiceOutputModel : IMapFrom<Service>, IHaveCustomMappings
@@ -26,6 +27,8 @@
         public IEnumerable<PackageModel> Packages { get; set; }
 
         public IEnumerable<string> Images { get; set; }
+
+        public AddSubscriptionModel Subscription { get; set; }
 
         public IEnumerable<CompanyServiceByCategoryOutputModel> CompanyServicesByCategory { get; set; }
 

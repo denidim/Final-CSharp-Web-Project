@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="Administration\" />
-    <Folder Include="PaidPackages\" />
   </ItemGroup>
 
 </Project>
