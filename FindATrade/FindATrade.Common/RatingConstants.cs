@@ -34,9 +34,9 @@
 
         public const int CourtesyMax = 10;
 
-        public const string CourtesyName = "{0} (1/10)";
+        public const string CourtesyName = "Courtesy (1/10)";
 
-        public const string CourtesyMessage = "Courtesy must be between {2} and {1}";
+        public const string CourtesyMessage = "{0} must be between {2} and {1}";
 
         public const int QuoteAccuracyMin = 1;
 
