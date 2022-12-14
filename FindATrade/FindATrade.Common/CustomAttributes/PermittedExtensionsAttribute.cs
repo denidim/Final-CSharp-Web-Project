@@ -26,7 +26,7 @@
 
                 if (!this.permittedExtensions.Contains(extension.ToLower()))
                 {
-                    return new ValidationResult($"This image file extension is not allowed.");
+                    return new ValidationResult(ValidationAttributesConstants.PeemittedExtensionsMessage);
                 }
             }
 

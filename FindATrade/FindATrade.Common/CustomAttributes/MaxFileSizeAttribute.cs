@@ -21,7 +21,7 @@
             {
                 if (file.Length > this.maxFileSize)
                 {
-                    return new ValidationResult($"Maximum allowed file size is {this.maxFileSize} bytes.");
+                    return new ValidationResult(string.Format(ValidationAttributesConstants.MaxSizeAttributeMEssage, this.maxFileSize));
                 }
             }
 
