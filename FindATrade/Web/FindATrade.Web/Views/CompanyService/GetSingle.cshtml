@@ -21,15 +21,9 @@
         <div class="col-lg-7">
             <partial name="_Carousel" model="@Model.Images" />
         </div>
-
-        @*<img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="...">*@
         <div class="col-lg-5">
             <h1 class="font-weight-light">@Model.Title</h1>
             <p class="text-wrap text-break">@Model.Description</p>
-            @*<p class="text-break">
-            <div class="myDIV"><p class="text-break">@(Model.Description.Length > 100 ? Model.Description.Substring(0, 100) : Model.Description)...</p></div>
-            <div class="hide">@Model.Description</div>
-            </p>*@
 
             <ul class="list-group">
                 <li class="list-group-item align-items-center">
@@ -73,6 +67,12 @@
                         <form asp-controller="CompanyService" asp-action="Delete" asp-route-id="@Model.Id" id="deleteForm"></form>
                         <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Service</button>
                     </li>
+                    <li class="list-group-item align-items-center">
+                        Vetting status: <span class="badge bg-primary text-wrap text-break" style="width: 18rem;">@(Model.Vetting.Passed == false ? "In progress": "Passed")</span>
+                    </li>
+                    <li class="list-group-item align-items-center">
+                        Vetting message: <span class="badge bg-primary text-wrap text-break" style="width: 18rem;">@Model.Vetting.Description</span>
+                    </li>
                 </ul>
             }
 
@@ -107,18 +107,3 @@
         </div>
     </div>
 </div>
-
-
-
-<style>
-    .hide {
-        display: none;
-    }
-
-    .myDIV:hover + .hide {
-        display: block;
-        color: black;
-        font-size: 1.25em;
-        word-break: break-word;
-    }
-</style>
