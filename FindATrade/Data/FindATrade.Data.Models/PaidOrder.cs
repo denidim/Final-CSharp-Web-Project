@@ -1,15 +1,24 @@
 ﻿namespace FindATrade.Data.Models
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using FindATrade.Common;
     using FindATrade.Data.Common.Models;
 
     public class PaidOrder : BaseDeletableModel<int>
     {
+        [Required]
+        [StringLength(PaidOrderConstants.NameMax, MinimumLength = PaidOrderConstants.NameMin, ErrorMessage = PaidOrderConstants.NameMesage)]
+        public string Name { get; set; }
 
-        public PaidOrderPackageType PaidOrderPackageType { get; set; }
+        [Required]
+        [Range(PaidOrderConstants.PriceMin, PaidOrderConstants.PriceMax, ErrorMessage = PaidOrderConstants.PriceMessage)]
+        public decimal Price { get; set; }
+
+        [Required]
+        [StringLength(PaidOrderConstants.NameMax, MinimumLength = PaidOrderConstants.NameMin, ErrorMessage = PaidOrderConstants.NameMesage)]
+        public string Terms { get; set; }
 
         [Required]
         public DateTime StartDate { get; set; }

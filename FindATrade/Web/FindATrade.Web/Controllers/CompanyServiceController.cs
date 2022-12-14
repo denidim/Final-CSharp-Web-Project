@@ -2,6 +2,7 @@
 {
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels.CompanyService;
+    using FindATrade.Web.ViewModels.Subscription;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
     using System.Security.Claims;
@@ -11,13 +12,16 @@
     {
         private readonly ICompanyServiceService companyServiceService;
         private readonly IImageService imageService;
+        private readonly ISubscriptionService subscriptionService;
 
         public CompanyServiceController(
             ICompanyServiceService companyServiceService,
-            IImageService imageService)
+            IImageService imageService,
+            ISubscriptionService subscriptionService)
         {
             this.companyServiceService = companyServiceService;
             this.imageService = imageService;
+            this.subscriptionService = subscriptionService;
         }
 
         public async Task<IActionResult> Create()
@@ -127,6 +131,8 @@
             var model = await this.companyServiceService.GetByIdAsync<SingleServiceOutputModel>(id);
 
             model.Images = await this.imageService.GenerateImageUrlsForService(model.Id);
+
+            model.Subscription = await this.subscriptionService.GetPaidOrder<SubscriptionModel>();
 
             model.CompanyServicesByCategory = await this.companyServiceService.GetAllByCategory(model.CategoryName);
 

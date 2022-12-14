@@ -28,7 +28,7 @@
 
         public IEnumerable<string> Images { get; set; }
 
-        public AddSubscriptionModel Subscription { get; set; }
+        public SubscriptionModel Subscription { get; set; }
 
         public IEnumerable<CompanyServiceByCategoryOutputModel> CompanyServicesByCategory { get; set; }
 

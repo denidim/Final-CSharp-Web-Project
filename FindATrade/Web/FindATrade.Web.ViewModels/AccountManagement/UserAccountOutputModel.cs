@@ -13,6 +13,6 @@
 
         public OverallCompanyRating OverallRating { get; set; }
 
-        public IEnumerable<CompanyServiceOutputModel> UserCompanyServices { get; set; }
+        public IEnumerable<SingleServiceOutputModel> UserCompanyServices { get; set; }
     }
 }

@@ -38,8 +38,6 @@
 
         public DbSet<PaidOrder> PaidOrders { get; set; }
 
-        public DbSet<PaidOrderPackageType> PaidOrderPackageTypes { get; set; }
-
         public DbSet<Rating> Ratings { get; set; }
 
         public DbSet<Service> Services { get; set; }

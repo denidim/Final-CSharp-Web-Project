@@ -13,7 +13,6 @@
                 return;
             }
 
-            await dbContext.PaidOrderPackageTypes.AddAsync(new Models.PaidOrderPackageType { Name = "Regular Subscription", Terms = "Your service will be shown on the first pages for 30 days", Price = 10.00m });
 
             await dbContext.SaveChangesAsync();
         }

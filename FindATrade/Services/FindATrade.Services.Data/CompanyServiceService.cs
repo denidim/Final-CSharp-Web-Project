@@ -10,6 +10,7 @@
     using FindATrade.Data.Models;
     using FindATrade.Services.Mapping;
     using FindATrade.Web.ViewModels.CompanyService;
+    using FindATrade.Web.ViewModels.Subscription;
     using Microsoft.EntityFrameworkCore;
 
     public class CompanyServiceService : ICompanyServiceService
@@ -21,7 +22,6 @@
         private readonly IDeletableEntityRepository<Image> imageRepo;
         private readonly IDeletableEntityRepository<Vetting> vettingRepo;
         private readonly IDeletableEntityRepository<PaidOrder> paidOrderRepo;
-        private readonly IDeletableEntityRepository<PaidOrderPackageType> paidOrderPackageTypeRepo;
         private readonly IVettingService vettingService;
         private readonly ICloudStorageService cloudStorageService;
 
@@ -33,7 +33,6 @@
             IDeletableEntityRepository<Image> imageRepo,
             IDeletableEntityRepository<Vetting> vettingRepo,
             IDeletableEntityRepository<PaidOrder> paidOrderRepo,
-            IDeletableEntityRepository<PaidOrderPackageType> paidOrderPackageTypeRepo,
             IVettingService vettingService,
             ICloudStorageService cloudStorageService)
         {
@@ -44,7 +43,6 @@
             this.imageRepo = imageRepo;
             this.vettingRepo = vettingRepo;
             this.paidOrderRepo = paidOrderRepo;
-            this.paidOrderPackageTypeRepo = paidOrderPackageTypeRepo;
             this.vettingService = vettingService;
             this.cloudStorageService = cloudStorageService;
         }
@@ -132,7 +130,6 @@
                 .Include(x => x.Packages)
                 .Include(x => x.Images)
                 .Include(x => x.PaidOrder)
-                .ThenInclude(x => x.PaidOrderPackageType)
                 .Include(x => x.Vetting)
                 .SingleOrDefaultAsync();
 
@@ -143,11 +140,6 @@
 
             if (service.PaidOrder != null)
             {
-                if (service.PaidOrder.PaidOrderPackageType != null)
-                {
-                    this.paidOrderPackageTypeRepo.Delete(service.PaidOrder.PaidOrderPackageType);
-                }
-
                 this.paidOrderRepo.Delete(service.PaidOrder);
             }
 
@@ -236,7 +228,7 @@
             return output;
         }
 
-        public async Task<IEnumerable<CompanyServiceOutputModel>> GetAllByUserIdOrCompanyId(params object[] objects)
+        public async Task<IEnumerable<SingleServiceOutputModel>> GetAllByUserIdOrCompanyId(params object[] objects)
         {
             int companyId = -1;
 
@@ -273,7 +265,7 @@
                 return null;
             }
 
-            var companyService = new List<CompanyServiceOutputModel>();
+            var companyService = new List<SingleServiceOutputModel>();
 
             foreach (var service in userCompany.Services)
             {
@@ -302,7 +294,7 @@
                     });
                 }
 
-                var newService = new CompanyServiceOutputModel()
+                var newService = new SingleServiceOutputModel()
                 {
                     Id = service.Id,
                     Title = service.Title,
@@ -315,18 +307,18 @@
 
                 if (service.PaidOrder != null)
                 {
-                    newService.PaidOrder = new PaidOrderOutputModel()
+                    newService.Subscription = new SubscriptionModel()
                     {
                         StartDate = service.PaidOrder.StartDate.ToString(),
                         EndDate = service.PaidOrder.EndDate.ToString(),
-                        Name = service.PaidOrder.PaidOrderPackageType.Name,
-                        Price = service.PaidOrder.PaidOrderPackageType.Price.ToString(),
-                        Terms = service.PaidOrder.PaidOrderPackageType.Terms,
+                        Name = service.PaidOrder.Name,
+                        Price = service.PaidOrder.Price.ToString(),
+                        Terms = service.PaidOrder.Terms,
                     };
                 }
                 else
                 {
-                    newService.PaidOrder = null;
+                    newService.Subscription = null;
                 }
 
                 newService.Vetting = await this.vettingService.GetByServiceIdAsync<VettingOutputModel>(service.Id);

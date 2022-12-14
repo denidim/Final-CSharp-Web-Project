@@ -14,15 +14,14 @@
             this.subscriptionService = subscriptionService;
         }
 
-        public IActionResult Add()
+        public IActionResult Add(int serviceId, int id)
         {
-            var model = this.subscriptionService.GetPaidOrder<AddSubscriptionModel>();
-
-            return View(model);
+            //await this.subscriptionService.AddSubscription(serviceId, id);
+            return this.View();
         }
 
         [HttpPost]
-        public IActionResult Add(AddSubscriptionModel input)
+        public IActionResult Add(SubscriptionModel input)
         {
 
 

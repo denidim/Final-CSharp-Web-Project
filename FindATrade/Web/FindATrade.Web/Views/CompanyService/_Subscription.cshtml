@@ -1,15 +1,60 @@
-﻿@using FindATrade.Web.ViewModels.CompanyService;
-@model IEnumerable<CompanyServiceOutputModel>;
+﻿@using FindATrade.Web.ViewModels.Subscription;
+@model object[]
 
-<h2>Subscriptions</h2>
+@{
+    var subscription = Model[0] as SubscriptionModel;
+    var serviceId = (int)Model[1];
+}
 
 
+<h1>Subscriptions</h1>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Terms</td>
+            <td>Price</td>
+            <td>Buy</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@subscription.Name</td>
+            <td>@subscription.Terms</td>
+            <td>@subscription.Price</td>
+            <td>
+                <a class="btn btn-primary" asp-area="AccountManagement" asp-controller="Subscription" asp-action="Add" asp-route-serviceId="@serviceId" asp-route-id="@subscription.Id">Buy</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+@*<h1>My Subscriptions</h1>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Terms</td>
+            <td>Price</td>
+            <td>Buy</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.Name</td>
+            <td>@Model.Terms</td>
+            <td>@Model.Price</td>
+            <td>
+                <a class="btn btn-primary" asp-area="AccountManagement" asp-controller="Subscription" asp-action="Add" asp-route-id="@Model.Id">Buy</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+*@
 @*<a class="btn btn-primary text-dark" asp-area="AccountManagement" asp-controller="ManageAccount" asp-action="AddSubscribtion" asp-route-id="@Model">Add subscribtion</a>*@
-@foreach (var service in Model)
-{
-    if (service.PaidOrder != null)
-    {
-        <table class="table">
+@*<table class="table">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -42,5 +87,4 @@
                 </tr>
             </tbody>
         </table>
-    }
-}
+*@

@@ -8,7 +8,7 @@
 
     public interface ICompanyServiceService
     {
-        Task<IEnumerable<CompanyServiceOutputModel>> GetAllByUserIdOrCompanyId(params object[] objects);
+        Task<IEnumerable<SingleServiceOutputModel>> GetAllByUserIdOrCompanyId(params object[] objects);
 
         Task CreateAsync(CreateCompanyServiceInputModel input, int id);
 

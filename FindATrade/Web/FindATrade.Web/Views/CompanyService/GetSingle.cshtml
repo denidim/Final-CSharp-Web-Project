@@ -61,7 +61,7 @@
                 <a class="btn btn-primary" asp-controller="CompanyService" asp-action="Edit" asp-route-id="@Model.Id">Edit Service</a>
                 <a class="btn btn-primary" asp-controller="CompanyService" asp-action="EditImage" asp-route-id="@Model.Id">Edit Images</a>
                 <a class="btn btn-primary" asp-controller="CompanyService" asp-action="AddImages" asp-route-id="@Model.Id">Add Images</a>
-                <a class="btn btn-primary" asp-area="AccountManagement" asp-controller="Subscription" asp-action="Add" asp-route-id="@Model.Id">Add Subscription</a>
+                
 
                 <ul class="list-group">
                     <li class="list-group-item align-items-center">
@@ -80,9 +80,9 @@
         </div>
     </div>
 
-    if(Model.IsOwner)
+    @if(Model.IsOwner)
     {
-        <partial name="_Subscription" model="@Model.Subscription" />
+        <partial name="_Subscription" model="new object[] { @Model.Subscription, @Model.Id}" />
     }
 
     <!-- Call to Action-->

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FindATrade.Common
+﻿namespace FindATrade.Common
 {
-    public static class PaidOrderPackageConstants
+    public static class PaidOrderConstants
     {
         public const int NameMin = 5;
 
