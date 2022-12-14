@@ -56,7 +56,7 @@
                 StartVetting = DateTime.UtcNow,
                 ApprovalDate = default(DateTime),
                 Passed = false,
-                Description = "Vetting in progress",
+                Description = VettingConstants.Progress,
             };
 
             var service = new Service
@@ -328,7 +328,6 @@
                 {
                     newService.PaidOrder = null;
                 }
-
 
                 newService.Vetting = await this.vettingService.GetByServiceIdAsync<VettingOutputModel>(service.Id);
 

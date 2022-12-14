@@ -148,7 +148,7 @@
             {
                 services.Vetting.ApprovalDate = System.DateTime.UtcNow;
                 services.Vetting.Passed = true;
-                services.Vetting.Description = input.Description;
+                services.Vetting.Description = VettingConstants.Passed;
             }
             else
             {
