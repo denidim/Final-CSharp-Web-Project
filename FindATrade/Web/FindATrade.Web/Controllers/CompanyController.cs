@@ -121,7 +121,14 @@
 
             company.IsOwner = this.companyService.IsUsersCompany(userId);
 
-            return this.View(company);
+            if (company.UserCompanyServices != null)
+            {
+                return this.View(company);
+            }
+            else
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
         }
     }
 }
