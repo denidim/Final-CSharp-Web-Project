@@ -4,6 +4,10 @@
 
     public interface ISubscriptionService
     {
-        Task<T> GetPaidOrder<T>();
+        Task<T> GetPaidOrderAsync<T>(int id);
+
+        Task AddSubscriptionAsync(int serviceId);
+
+        Task RemoveExpiredSubscriptionsAsync();
     }
 }

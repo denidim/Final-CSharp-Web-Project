@@ -13,17 +13,21 @@
     {
         private readonly IGetCountsService getCountsService;
         private readonly ICompanyService companyService;
+        private readonly ISubscriptionService subscriptionService;
 
         public HomeController(
             IGetCountsService getCountsService,
-            ICompanyService companyService)
+            ICompanyService companyService,
+            ISubscriptionService subscriptionService)
         {
             this.getCountsService = getCountsService;
             this.companyService = companyService;
+            this.subscriptionService = subscriptionService;
         }
 
         public async Task<IActionResult> Index()
         {
+            await this.subscriptionService.RemoveExpiredSubscriptionsAsync();
             var viewModel = this.getCountsService.GetCounts();
 
             viewModel.PopularCompanies = await this.companyService.GetPopular();

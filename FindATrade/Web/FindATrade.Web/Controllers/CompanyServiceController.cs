@@ -1,14 +1,15 @@
 ﻿namespace FindATrade.Web.Controllers
 {
-    using FindATrade.Services.Data;
-    using FindATrade.Web.ViewModels.CompanyService;
-    using FindATrade.Web.ViewModels.Subscription;
-    using Microsoft.AspNetCore.Mvc;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    public class CompanyServiceController : Controller
+    using FindATrade.Services.Data;
+    using FindATrade.Web.ViewModels.CompanyService;
+    using FindATrade.Web.ViewModels.Subscription;
+    using Microsoft.AspNetCore.Mvc;
+
+    public class CompanyServiceController : BaseController
     {
         private readonly ICompanyServiceService companyServiceService;
         private readonly IImageService imageService;
@@ -23,6 +24,7 @@
             this.imageService = imageService;
             this.subscriptionService = subscriptionService;
         }
+
 
         public async Task<IActionResult> Create()
         {
@@ -132,7 +134,7 @@
 
             model.Images = await this.imageService.GenerateImageUrlsForService(model.Id);
 
-            model.Subscription = await this.subscriptionService.GetPaidOrder<SubscriptionModel>();
+            model.Subscription = await this.subscriptionService.GetPaidOrderAsync<SubscriptionModel>(model.Id);
 
             model.CompanyServicesByCategory = await this.companyServiceService.GetAllByCategory(model.CategoryName);
 

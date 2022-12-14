@@ -1,15 +1,13 @@
 ﻿namespace FindATrade.Web.Controllers
 {
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
-    using FindATrade.Common;
     using FindATrade.Data.Models;
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels.Company;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
 
     [AllowAnonymous]
     public class CompanyController : BaseController

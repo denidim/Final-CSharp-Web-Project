@@ -19,5 +19,13 @@
         public const int TermsMax = 500;
 
         public const string TermsMesage = "{0} must be between {2} and {1} characters";
+
+        public const int Time = 1;
+
+        public const decimal Price = 10.00m;
+
+        public const string Name = "Regular";
+
+        public const string Terms = "Your Service will be on the front page and first on serches";
     }
 }

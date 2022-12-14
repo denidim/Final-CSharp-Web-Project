@@ -6,11 +6,12 @@
     using FindATrade.Web.ViewModels.Review;
     using Microsoft.AspNetCore.Mvc;
 
-    public class ReviewController : Controller
+    public class ReviewController : BaseController
     {
         private readonly IRatingService ratingService;
 
-        public ReviewController(IRatingService ratingService)
+        public ReviewController(
+            IRatingService ratingService)
         {
             this.ratingService = ratingService;
         }

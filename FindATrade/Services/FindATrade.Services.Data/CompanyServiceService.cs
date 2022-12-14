@@ -309,8 +309,8 @@
                 {
                     newService.Subscription = new SubscriptionModel()
                     {
-                        StartDate = service.PaidOrder.StartDate.ToString(),
-                        EndDate = service.PaidOrder.EndDate.ToString(),
+                        StartDate = service.PaidOrder.StartDate,
+                        EndDate = service.PaidOrder.EndDate,
                         Name = service.PaidOrder.Name,
                         Price = service.PaidOrder.Price.ToString(),
                         Terms = service.PaidOrder.Terms,

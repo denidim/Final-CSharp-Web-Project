@@ -9,7 +9,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    public class UserAccountController : Controller
+    public class UserAccountController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IAccountService accountService;

@@ -1,4 +1,5 @@
-﻿@using FindATrade.Web.ViewModels.Subscription;
+﻿@using FindATrade.Common;
+@using FindATrade.Web.ViewModels.Subscription;
 @model object[]
 
 @{
@@ -15,76 +16,25 @@
             <td>Name</td>
             <td>Terms</td>
             <td>Price</td>
-            <td>Buy</td>
+            <td>@(subscription == null ? "Buy" : "End date")</td>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td>@subscription.Name</td>
-            <td>@subscription.Terms</td>
-            <td>@subscription.Price</td>
+            <td>@PaidOrderConstants.Name</td>
+            <td>@PaidOrderConstants.Terms</td>
+            <td>@PaidOrderConstants.Price</td>
             <td>
-                <a class="btn btn-primary" asp-area="AccountManagement" asp-controller="Subscription" asp-action="Add" asp-route-serviceId="@serviceId" asp-route-id="@subscription.Id">Buy</a>
+                @if (subscription == null)
+                {
+                    <a class="btn btn-primary" asp-area="AccountManagement" asp-controller="Subscription" asp-action="Add" asp-route-serviceId="@serviceId">Buy</a>
+
+                }
+                else
+                {
+                    @subscription.EndDate
+                }
             </td>
         </tr>
     </tbody>
 </table>
-
-@*<h1>My Subscriptions</h1>
-
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <td>Name</td>
-            <td>Terms</td>
-            <td>Price</td>
-            <td>Buy</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>@Model.Name</td>
-            <td>@Model.Terms</td>
-            <td>@Model.Price</td>
-            <td>
-                <a class="btn btn-primary" asp-area="AccountManagement" asp-controller="Subscription" asp-action="Add" asp-route-id="@Model.Id">Buy</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
-*@
-@*<a class="btn btn-primary text-dark" asp-area="AccountManagement" asp-controller="ManageAccount" asp-action="AddSubscribtion" asp-route-id="@Model">Add subscribtion</a>*@
-@*<table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Service</th>
-                    <th scope="col">Order</th>
-                    <th scope="col">Type</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>@service.Title</td>
-                    <td>@service.PaidOrder.StartDate</td>
-                    <td>@service.PaidOrder.Name</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td></td>
-                    <td>@service.PaidOrder.EndDate</td>
-                    <td>@service.PaidOrder.Price</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <div class="myDIV">Show service description.</div>
-                        <div class="hide">@service.Description</div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-*@

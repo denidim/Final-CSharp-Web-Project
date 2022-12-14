@@ -1,7 +1,9 @@
 ﻿namespace FindATrade.Services.Data
 {
+    using System;
+    using System.Linq;
     using System.Threading.Tasks;
-
+    using FindATrade.Common;
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
     using FindATrade.Services.Mapping;
@@ -20,27 +22,48 @@
             this.serviceRepo = serviceRepo;
         }
 
-        public async Task<T> GetPaidOrder<T>()
+        public async Task<T> GetPaidOrderAsync<T>(int id)
         {
             var paidOrder = await this.paidOrderRepo.All()
+                .Include(x => x.Service)
+                .Where(x => x.Service.Id == id)
                 .To<T>()
                 .FirstOrDefaultAsync();
 
             return paidOrder;
         }
 
-        public async Task AddSubscription(int serviceId, int id)
+        public async Task AddSubscriptionAsync(int serviceId)
         {
-            var paidOrder = new PaidOrder()
-            {
-                StartDate = System.DateTime.UtcNow,
-                EndDate = System.DateTime.UtcNow.AddDays(30),
-            };
-
             var service = await this.serviceRepo.All()
                 .FirstOrDefaultAsync(x => x.Id == serviceId);
 
+            var paidOrder = new PaidOrder
+            {
+                Name = PaidOrderConstants.Name,
+                Price = PaidOrderConstants.Price,
+                Terms = PaidOrderConstants.Terms,
+                StartDate = DateTime.UtcNow,
+                EndDate = DateTime.UtcNow.AddMinutes(PaidOrderConstants.Time),
+            };
+
             service.PaidOrder = paidOrder;
+
+            await this.serviceRepo.SaveChangesAsync();
+        }
+
+        public async Task RemoveExpiredSubscriptionsAsync()
+        {
+            var services = await this.serviceRepo.All()
+                .Include(x => x.PaidOrder)
+                .Where(x => x.PaidOrder.EndDate < DateTime.UtcNow)
+                .ToListAsync();
+
+            foreach (var service in services)
+            {
+                this.paidOrderRepo.HardDelete(service.PaidOrder);
+                await this.serviceRepo.SaveChangesAsync();
+            }
         }
     }
 }

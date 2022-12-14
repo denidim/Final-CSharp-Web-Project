@@ -2,6 +2,7 @@
 {
     using FindATrade.Data.Models;
     using FindATrade.Services.Mapping;
+    using System;
 
     public class SubscriptionModel : IMapFrom<PaidOrder>
     {
@@ -13,8 +14,8 @@
 
         public string Terms { get; set; }
 
-        public string StartDate { get; set; }
+        public DateTime StartDate { get; set; }
 
-        public string EndDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }

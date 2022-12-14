@@ -1,5 +1,7 @@
 ﻿namespace FindATrade.Web.Areas.AccountManagement.Controllers
 {
+    using System.Threading.Tasks;
+
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels.Subscription;
     using Microsoft.AspNetCore.Mvc;
@@ -14,18 +16,11 @@
             this.subscriptionService = subscriptionService;
         }
 
-        public IActionResult Add(int serviceId, int id)
+        public async Task<IActionResult> Add(int serviceId)
         {
-            //await this.subscriptionService.AddSubscription(serviceId, id);
-            return this.View();
-        }
+            await this.subscriptionService.AddSubscriptionAsync(serviceId);
 
-        [HttpPost]
-        public IActionResult Add(SubscriptionModel input)
-        {
-
-
-            return RedirectToAction();
+            return this.RedirectToAction("GetSingle", "CompanyService", new { id = serviceId, area = " " });
         }
     }
 }
