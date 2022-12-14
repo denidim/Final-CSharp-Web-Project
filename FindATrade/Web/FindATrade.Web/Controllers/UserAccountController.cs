@@ -53,10 +53,6 @@
                 accountPage.OverallRating = this.ratingService.GetOverallRating(accountPage.UserCompany.Id);
             }
 
-            this.ViewBag.Title = "My Account";
-
-            this.ViewBag.Message = "This is how customers see your acount";
-
             return this.View(accountPage);
         }
     }
