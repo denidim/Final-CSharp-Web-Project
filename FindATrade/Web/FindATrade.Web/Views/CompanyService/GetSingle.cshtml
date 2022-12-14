@@ -38,9 +38,13 @@
             </ul>
 
             <h4>Pricing and packages</h4>
-            @if (!Model.Packages.Any() || Model.Packages == null || Model.Packages.Any(x => x.Price != null || x.Description != null))
+            @if (!Model.Packages.Any() || Model.Packages == null || Model.Packages.All(x => x.Price != null || x.Description != null))
             {
-                <h5>negotiable</h5>
+                <ul class="list-group">
+                    <li class="list-group-item align-items-center">
+                        Price: <span class="badge bg-primary rounded-pill text-wrap text-break">negotiable</span>
+                    </li>
+                </ul>
             }
             else
             {
@@ -67,7 +71,7 @@
                 <ul class="list-group">
                     <li class="list-group-item align-items-center">
                         <form asp-controller="CompanyService" asp-action="Delete" asp-route-id="@Model.Id" id="deleteForm"></form>
-                        <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                        <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Service</button>
                     </li>
                 </ul>
             }
@@ -90,7 +94,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Delete Service</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
