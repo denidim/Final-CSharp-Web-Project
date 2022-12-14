@@ -14,22 +14,27 @@
 
         [Range(RatingConstants.WorkmanshipMin, RatingConstants.CourtesyMax, ErrorMessage = RatingConstants.WorkmanshipMessage)]
         [Required]
+        [Display(Name = RatingConstants.WorkmanshipName)]
         public int Workmanship { get; set; }
 
         [Range(RatingConstants.TidinessMin, RatingConstants.TidinessMax, ErrorMessage = RatingConstants.TidinessMessage)]
         [Required]
+        [Display(Name = RatingConstants.TidinesName)]
         public int Tidiness { get; set; }
 
         [Range(RatingConstants.ReliabilityMin, RatingConstants.ReliabilityMax, ErrorMessage = RatingConstants.ReliabilityMessage)]
         [Required]
+        [Display(Name = RatingConstants.ReliabilityName)]
         public int Reliability { get; set; }
 
         [Range(RatingConstants.CourtesyMin, RatingConstants.CourtesyMax, ErrorMessage = RatingConstants.CourtesyMessage)]
         [Required]
+        [Display(Name = RatingConstants.CourtesyName)]
         public int Courtesy { get; set; }
 
         [Range(RatingConstants.QuoteAccuracyMin, RatingConstants.QuoteAccuracyMax, ErrorMessage = RatingConstants.QuoteAccuracyMessage)]
         [Required]
+        [Display(Name = RatingConstants.QuateAccuracyName)]
         public int QuoteAccuracy { get; set; }
 
     }

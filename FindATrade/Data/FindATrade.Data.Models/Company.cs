@@ -27,7 +27,7 @@
         public string Website { get; set; }
 
         [Required]
-        [StringLength(CompanyConstants.EmailMax, MinimumLength = CompanyConstants.EmailMax, ErrorMessage = CompanyConstants.EmailMessage)]
+        [StringLength(CompanyConstants.EmailMax, MinimumLength = CompanyConstants.EmailMin, ErrorMessage = CompanyConstants.EmailMessage)]
         [EmailAddress]
         public string Email { get; set; }
 
