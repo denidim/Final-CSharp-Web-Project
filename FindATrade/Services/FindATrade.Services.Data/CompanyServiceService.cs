@@ -182,7 +182,7 @@
                 }
                 else
                 {
-                    newService.OutputImageUrl = "https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
+                    newService.OutputImageUrl = ImageConstants.DefaultImage;
                 }
 
                 output.Add(newService);

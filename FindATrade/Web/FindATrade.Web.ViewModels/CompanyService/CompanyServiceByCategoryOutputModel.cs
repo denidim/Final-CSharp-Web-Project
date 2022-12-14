@@ -1,6 +1,5 @@
 ﻿namespace FindATrade.Web.ViewModels.CompanyService
 {
-    using FindATrade.Services.Mapping;
 
     public class CompanyServiceByCategoryOutputModel
     {

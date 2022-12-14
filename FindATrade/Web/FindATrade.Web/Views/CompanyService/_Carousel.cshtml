@@ -1,4 +1,5 @@
-﻿@model List<string>
+﻿@using FindATrade.Common;
+@model List<string>
 
 <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
@@ -19,7 +20,7 @@
         else
         {
             <div class="carousel-item active" data-bs-interval="10000">
-                <img src="https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="d-block w-100" alt="...">
+                <img src="@ImageConstants.DefaultImage" class="d-block w-100" alt="...">
             </div>
         }
     </div>
