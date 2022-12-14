@@ -39,6 +39,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
 
             var accountPage = new UserAccountOutputModel();
+
             accountPage.UserInfo = this.accountService.GetUserInfo(user);
 
             accountPage.UserCompany = await this.companyService.GetCompanyByUserIdAsync<CompanyOutputModel>(user.Id);
@@ -53,6 +54,7 @@
             }
 
             this.ViewBag.Title = "My Account";
+
             this.ViewBag.Message = "This is how customers see your acount";
 
             return this.View(accountPage);
