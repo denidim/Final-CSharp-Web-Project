@@ -4,12 +4,16 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
+    @{
+        var user = await this.UserManager.GetUserAsync(this.User);
+    }
+
 <ul class="navbar-nav ml-auto">
     @if (this.SignInManager.IsSignedIn(this.User))
     {
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
-                Account
+                @user.FirstName
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li class="dropdown-item">
