@@ -5,11 +5,12 @@
 
     using FindATrade.Common;
     using FindATrade.Services.Data;
+    using FindATrade.Web.Controllers;
     using Hangfire;
     using Microsoft.AspNetCore.Mvc;
 
     [Area("AccountManagement")]
-    public class SubscriptionController : Controller
+    public class SubscriptionController : BaseController
     {
         private readonly ISubscriptionService subscriptionService;
         private readonly IBackgroundJobClient backgroundJobClient;

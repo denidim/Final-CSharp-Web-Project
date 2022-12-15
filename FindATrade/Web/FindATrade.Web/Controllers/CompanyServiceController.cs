@@ -7,6 +7,7 @@
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels.CompanyService;
     using FindATrade.Web.ViewModels.Subscription;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     public class CompanyServiceController : BaseController
@@ -126,6 +127,7 @@
             return this.RedirectToAction("Index", "Home");
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> GetSingle(int id)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);

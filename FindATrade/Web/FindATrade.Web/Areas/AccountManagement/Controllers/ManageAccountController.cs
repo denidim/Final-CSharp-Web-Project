@@ -4,6 +4,7 @@
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
     using FindATrade.Services.Data;
+    using FindATrade.Web.Controllers;
     using FindATrade.Web.ViewModels.AccountManagement;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -12,7 +13,7 @@
     using System.Threading.Tasks;
 
     [Area("AccountManagement")]
-    public class ManageAccountController : Controller
+    public class ManageAccountController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
@@ -170,7 +171,6 @@
         {
             return this.RedirectToAction("GetSingle", "CompanyService", new { id = id, area = " " });
         }
-
 
         public IActionResult AllForVetting()
         {

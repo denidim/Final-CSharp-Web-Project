@@ -1,15 +1,16 @@
-﻿using FindATrade.Services.Data;
-using FindATrade.Web.ViewModels.Likes;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace FindATrade.Web.Controllers
+﻿namespace FindATrade.Web.Controllers
 {
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using FindATrade.Services.Data;
+    using FindATrade.Web.ViewModels.Likes;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class LikesController : BaseController
     {
         private readonly ILikeService likeService;
