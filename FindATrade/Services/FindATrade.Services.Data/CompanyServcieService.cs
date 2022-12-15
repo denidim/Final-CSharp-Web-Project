@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using System.Xml.XPath;
+
     using FindATrade.Common;
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
@@ -13,7 +13,7 @@
     using FindATrade.Web.ViewModels.Subscription;
     using Microsoft.EntityFrameworkCore;
 
-    public class CompanyServiceService : ICompanyServiceService
+    public class CompanyServcieService : ICompanyServiceService
     {
         private readonly IDeletableEntityRepository<Service> serviceRepo;
         private readonly IDeletableEntityRepository<Category> categoryRepo;
@@ -25,7 +25,7 @@
         private readonly IVettingService vettingService;
         private readonly ICloudStorageService cloudStorageService;
 
-        public CompanyServiceService(
+        public CompanyServcieService(
             IDeletableEntityRepository<Service> serviceRepo,
             IDeletableEntityRepository<Category> categoryRepo,
             IDeletableEntityRepository<Company> companyRepo,

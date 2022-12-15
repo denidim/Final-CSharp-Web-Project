@@ -1,12 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FindATrade.Services.Data
+﻿namespace FindATrade.Services.Data
 {
-    internal class VoteService
+    using System.Threading.Tasks;
+
+    using FindATrade.Data.Common.Repositories;
+    using FindATrade.Data.Models;
+    using Microsoft.EntityFrameworkCore;
+
+    public class LikeService : ILikeService
     {
+        private readonly IDeletableEntityRepository<Like> likeRepo;
+
+        public LikeService(IDeletableEntityRepository<Like> likeRepo)
+        {
+            this.likeRepo = likeRepo;
+        }
+
+        public async Task SetLike(int companyId, string userId)
+        {
+            var like = await this.likeRepo.All()
+                .FirstOrDefaultAsync(x => x.CompanyId == companyId && x.AddedByUserId == userId);
+
+            if (like == null)
+            {
+                like = new Like
+                {
+                    CompanyId = companyId,
+                    AddedByUserId = userId,
+                };
+
+                await this.likeRepo.AddAsync(like);
+
+                await this.likeRepo.SaveChangesAsync();
+            }
+        }
     }
 }

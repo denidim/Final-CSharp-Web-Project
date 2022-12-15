@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace FindATrade.Services.Data
 {
-    internal interface Interface1
+    public interface ILikeService
     {
+        Task SetLike(int companyId, string userId);
     }
 }
