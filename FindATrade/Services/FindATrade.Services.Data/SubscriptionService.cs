@@ -45,7 +45,7 @@
                 Price = PaidOrderConstants.Price,
                 Terms = PaidOrderConstants.Terms,
                 StartDate = DateTime.UtcNow,
-                EndDate = DateTime.UtcNow.AddMinutes(PaidOrderConstants.Time),
+                EndDate = DateTime.UtcNow.AddMinutes(PaidOrderConstants.TimeSchedule),
             };
 
             service.PaidOrder = paidOrder;
@@ -53,18 +53,14 @@
             await this.serviceRepo.SaveChangesAsync();
         }
 
-        public async Task RemoveExpiredSubscriptionsAsync()
+        public async Task RemoveExpiredSubscriptionsAsync(int serviceId)
         {
-            var services = await this.serviceRepo.All()
+            var service = await this.serviceRepo.All()
                 .Include(x => x.PaidOrder)
-                .Where(x => x.PaidOrder.EndDate < DateTime.UtcNow)
-                .ToListAsync();
+                .FirstOrDefaultAsync(x => x.Id == serviceId);
 
-            foreach (var service in services)
-            {
-                this.paidOrderRepo.HardDelete(service.PaidOrder);
-                await this.serviceRepo.SaveChangesAsync();
-            }
+            this.paidOrderRepo.HardDelete(service.PaidOrder);
+            await this.serviceRepo.SaveChangesAsync();
         }
     }
 }

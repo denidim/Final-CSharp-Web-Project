@@ -8,6 +8,6 @@
 
         Task AddSubscriptionAsync(int serviceId);
 
-        Task RemoveExpiredSubscriptionsAsync();
+        Task RemoveExpiredSubscriptionsAsync(int serviceId);
     }
 }

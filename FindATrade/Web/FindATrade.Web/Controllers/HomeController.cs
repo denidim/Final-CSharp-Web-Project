@@ -1,10 +1,12 @@
 ﻿namespace FindATrade.Web.Controllers
 {
+    using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
 
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels;
+    using Hangfire;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -14,20 +16,22 @@
         private readonly IGetCountsService getCountsService;
         private readonly ICompanyService companyService;
         private readonly ISubscriptionService subscriptionService;
+        private readonly IBackgroundJobClient backgroundJobClient;
 
         public HomeController(
             IGetCountsService getCountsService,
             ICompanyService companyService,
-            ISubscriptionService subscriptionService)
+            ISubscriptionService subscriptionService,
+            IBackgroundJobClient backgroundJobClient)
         {
             this.getCountsService = getCountsService;
             this.companyService = companyService;
             this.subscriptionService = subscriptionService;
+            this.backgroundJobClient = backgroundJobClient;
         }
 
         public async Task<IActionResult> Index()
         {
-            await this.subscriptionService.RemoveExpiredSubscriptionsAsync();
             var viewModel = this.getCountsService.GetCounts();
 
             viewModel.PopularCompanies = await this.companyService.GetPopular();

@@ -20,7 +20,7 @@
 
         public const string TermsMesage = "{0} must be between {2} and {1} characters";
 
-        public const int Time = 1;
+        public const int TimeSchedule = 3;
 
         public const decimal Price = 10.00m;
 
