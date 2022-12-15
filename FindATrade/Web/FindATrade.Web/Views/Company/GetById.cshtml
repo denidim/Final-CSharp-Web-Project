@@ -127,24 +127,27 @@
         <a asp-controller="Review" asp-action="Write" asp-route-id="@Model.UserCompany.Id" class="btn btn-primary">Leve a review</a>
     }
 </div>
-
+<form method="post" id="antiForgeryForm"></form>
 @section Scripts{
     <script>
         $("button[data-like]").each(function (el) {
             $(this).click(function () {
                 var companyId = @Model.UserCompany.Id;
                 var data = { companyId: companyId }
-
+                var antiForgeryTocken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
                 $.ajax({
                     type: "POST",
                     url: "/api/Likes",
                     data: JSON.stringify(data),
+                    headers: {
+                        'X-CSRF-TOKEN': antiForgeryTocken
+                    },
                     success: function (data) {
                         $('#likesCountValue').html(data.likesCount);
                     },
                     contentType: 'application/json',
                 });
             })
-        });
+        }); 
     </script>
 }

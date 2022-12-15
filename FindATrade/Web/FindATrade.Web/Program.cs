@@ -82,6 +82,11 @@ namespace FindATrade.Web
             services.AddRazorPages();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
+            services.AddAntiforgery(options =>
+            {
+                options.HeaderName = "X-CSRF-TOKEN";
+            });
+
             services.Configure<GCSConfigOptions>(configuration);
 
             services.AddSingleton(configuration);

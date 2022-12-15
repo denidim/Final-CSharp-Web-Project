@@ -21,7 +21,6 @@ namespace FindATrade.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        [IgnoreAntiforgeryToken]
         public async Task<ActionResult<LikesOutputModel>> Post(PostLikeInputModel model)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
