@@ -45,8 +45,15 @@
                         }
                     </p>
                 </li>
+                <li class="list-group-item align-items-center">
+                    Likes:
+                    <span class="badge bg-primary rounded-pill text-wrap text-break" id="likesCountValue">@Model.UserCompany.Likes</span>
+                </li>
             </ul>
-
+            <button class="btn btn-danger btn-pill" data-like="1">
+                <i class="fa fa-heart mr-1"></i>
+                Like
+            </button>
             @if (@Model.IsOwner)
             {
                 <a class="btn btn-primary" asp-controller="UserAccount" asp-action="GetAccount">Edit Company</a>
@@ -60,7 +67,7 @@
 <div class="row gx-4 gx-lg-5">
     @if (Model.UserCompanyServices != null)
     {
-        @foreach (var service in Model.UserCompanyServices.Where(x=>x.Vetting.Passed == true))
+        @foreach (var service in Model.UserCompanyServices.Where(x => x.Vetting.Passed == true))
         {
             <div class="col-md-4 mb-5">
                 <div class="card h-100">
@@ -121,14 +128,23 @@
     }
 </div>
 
-@*<style>
-    .hide {
-        display: none;
-    }
+@section Scripts{
+    <script>
+        $("button[data-like]").each(function (el) {
+            $(this).click(function () {
+                var companyId = @Model.UserCompany.Id;
+                var data = { companyId: companyId }
 
-    .myDIV:hover + .hide {
-        display: block;
-        color: black;
-        font-size: 1.25em;
-    }
-</style>*@
+                $.ajax({
+                    type: "POST",
+                    url: "/api/Likes",
+                    data: JSON.stringify(data),
+                    success: function (data) {
+                        $('#likesCountValue').html(data.likesCount);
+                    },
+                    contentType: 'application/json',
+                });
+            })
+        });
+    </script>
+}

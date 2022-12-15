@@ -1,5 +1,6 @@
 ﻿namespace FindATrade.Services.Data
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using FindATrade.Data.Common.Repositories;
@@ -13,6 +14,15 @@
         public LikeService(IDeletableEntityRepository<Like> likeRepo)
         {
             this.likeRepo = likeRepo;
+        }
+
+        public async Task<int> GetLikeCount(int companyId)
+        {
+            var likes = await this.likeRepo.All()
+                .Where(x => x.CompanyId == companyId)
+                .ToListAsync();
+
+            return likes.Count();
         }
 
         public async Task SetLike(int companyId, string userId)
