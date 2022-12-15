@@ -1,5 +1,7 @@
 ﻿namespace FindATrade.Web.Areas.AccountManagement.Controllers
 {
+    using System.Threading.Tasks;
+
     using FindATrade.Common;
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
@@ -10,7 +12,6 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-    using System.Threading.Tasks;
 
     [Area("AccountManagement")]
     public class ManageAccountController : BaseController
