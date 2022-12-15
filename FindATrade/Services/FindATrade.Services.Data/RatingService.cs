@@ -22,24 +22,29 @@
             this.ratingRepo = ratingRepo;
         }
 
-        public async Task CreateReview(ReviewModel model, int companyId)
+        public async Task CreateReviewAsync(ReviewModel model, int companyId, string userId)
         {
-            var company = await this.companyRepo.All()
-                .Include(x => x.Ratings)
-                .FirstOrDefaultAsync(x => x.Id == companyId);
+            var rating = await this.ratingRepo.All()
+                .FirstOrDefaultAsync(x => x.CompanyId == companyId && x.AddedByUserId == userId);
 
-            Rating rating = new Rating()
+            if (rating == null)
             {
-                Courtesy = model.Courtesy,
-                Tidiness = model.Tidiness,
-                Description = model.Description,
-                Reliability = model.Reliability,
-                Workmanship = model.Workmanship,
-                QuoteAccuracy = model.QuoteAccuracy,
-            };
+                rating = new Rating()
+                {
+                    AddedByUserId = userId,
+                    CompanyId = companyId,
+                    Courtesy = model.Courtesy,
+                    Tidiness = model.Tidiness,
+                    Description = model.Description,
+                    Reliability = model.Reliability,
+                    Workmanship = model.Workmanship,
+                    QuoteAccuracy = model.QuoteAccuracy,
+                };
+            }
 
-            company.Ratings.Add(rating);
-            await this.companyRepo.SaveChangesAsync();
+            await this.ratingRepo.AddAsync(rating);
+
+            await this.ratingRepo.SaveChangesAsync();
         }
 
         public OverallCompanyRating GetOverallRating(int companyId)

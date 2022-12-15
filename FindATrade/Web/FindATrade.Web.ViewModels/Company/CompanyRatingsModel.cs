@@ -5,6 +5,8 @@
 
     public class CompanyRatingsModel : OverallCompanyRating, IMapFrom<Rating>
     {
+        public string AddedByUserId { get; set; }
+
         public string Description { get; set; }
     }
 }

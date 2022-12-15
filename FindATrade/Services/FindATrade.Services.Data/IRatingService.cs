@@ -7,7 +7,7 @@
 
     public interface IRatingService
     {
-        Task CreateReview(ReviewModel model, int companyId);
+        Task CreateReviewAsync(ReviewModel model, int companyId, string userId);
 
         OverallCompanyRating GetOverallRating(int companyId);
     }

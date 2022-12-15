@@ -1,7 +1,9 @@
 ﻿@using FindATrade.Web.ViewModels.Company;
+@using System.Security.Claims;
 @model SingleCompanyModel
 
 @{
+    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
     this.ViewBag.Title = "Title";
 }
 
@@ -122,7 +124,7 @@
         <p>No Reviews yet</p>
     }
 
-    @if (!Model.IsOwner)
+    @if (!Model.IsOwner && !Model.UserCompany.Ratings.Any(x=>x.AddedByUserId == userId))
     {
         <a asp-controller="Review" asp-action="Write" asp-route-id="@Model.UserCompany.Id" class="btn btn-primary">Leve a review</a>
     }

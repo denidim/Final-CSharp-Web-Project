@@ -1,5 +1,6 @@
 ﻿namespace FindATrade.Web.Controllers
 {
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using FindATrade.Services.Data;
@@ -24,7 +25,9 @@
         [HttpPost]
         public async Task<IActionResult> Write(ReviewModel model, int id)
         {
-            await this.ratingService.CreateReview(model, id);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            await this.ratingService.CreateReviewAsync(model, id, userId);
 
             return this.RedirectToAction("GetById", "Company", new { id = id });
         }
