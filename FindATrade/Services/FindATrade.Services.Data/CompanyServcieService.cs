@@ -266,7 +266,7 @@
                     .Where(x => x.ServiceId == service.Id)
                     .ToListAsync();
 
-                if (serviceImages.Any() || serviceImages != null)
+                if (serviceImages.Any() && serviceImages != null)
                 {
                     string singleImage = await this.cloudStorageService
                             .GetSignedUrlAsync(service.Images.First().ImageStorageName);

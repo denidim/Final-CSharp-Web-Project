@@ -242,10 +242,10 @@
             var output = new List<IndexPageOutputViewModel>();
 
             var company = await this.companyRepo.All()
-                .Where(x => x.Services.Any(x => x.Vetting.Passed == true))
+                //.Where(x => x.Services.Any(x => x.Vetting.Passed == true))
                 .Include(x => x.Image)
                 .OrderBy(x => Guid.NewGuid())
-                .Take(10)
+                .Take(12)
                 .ToListAsync();
 
             foreach (var item in company)

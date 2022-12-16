@@ -13,9 +13,9 @@
                 return;
             }
 
-            await dbContext.Categories.AddAsync(new Models.Category { Name = "Бояджия" });
-            await dbContext.Categories.AddAsync(new Models.Category { Name = "Програмист" });
-            await dbContext.Categories.AddAsync(new Models.Category { Name = "Графичен Дизайн" });
+            await dbContext.Categories.AddAsync(new Models.Category { Name = "Developer" });
+            await dbContext.Categories.AddAsync(new Models.Category { Name = "Coder" });
+            await dbContext.Categories.AddAsync(new Models.Category { Name = "Architect" });
 
             await dbContext.SaveChangesAsync();
         }
