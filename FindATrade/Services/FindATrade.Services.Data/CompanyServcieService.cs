@@ -262,14 +262,13 @@
             {
                 var images = new List<string>();
 
-                var serviceImages = await this.imageRepo.All()
-                    .Where(x => x.ServiceId == service.Id)
-                    .ToListAsync();
+                var serviceImage = await this.imageRepo.All()
+                    .FirstOrDefaultAsync(x => x.ServiceId == service.Id);
 
-                if (serviceImages.Any() && serviceImages != null)
+                if (serviceImage != null)
                 {
                     string singleImage = await this.cloudStorageService
-                            .GetSignedUrlAsync(service.Images.First().ImageStorageName);
+                            .GetSignedUrlAsync(serviceImage.ImageStorageName);
 
                     images.Add(singleImage);
                 }
