@@ -18,20 +18,17 @@
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
-        private readonly RoleManager<ApplicationRole> roleManager;
         private readonly IDeletableEntityRepository<Service> serviceRepo;
         private readonly ICompanyServiceService companyServiceService;
 
         public ManageAccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<ApplicationRole> roleManager,
             IDeletableEntityRepository<Service> serviceRepo,
             ICompanyServiceService companyServiceService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this.roleManager = roleManager;
             this.serviceRepo = serviceRepo;
             this.companyServiceService = companyServiceService;
         }

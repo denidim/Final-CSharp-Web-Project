@@ -10,8 +10,6 @@
 
         public int ServicesCount { get; set; }
 
-        // TODO: add Image
         public IEnumerable<IndexPageOutputViewModel> PopularCompanies { get; set; }
-
     }
 }

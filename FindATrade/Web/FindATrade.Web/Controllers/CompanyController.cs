@@ -7,6 +7,7 @@
     using FindATrade.Data.Models;
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels.Company;
+    using Hangfire.Annotations;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -162,17 +163,20 @@
                     return this.RedirectToAction("Error", "Home");
                 }
 
-                company.UserCompany.OutputImageUrl = await this.imageService.GenerateSingleImageUrlForCompany(id);
+                company.UserCompany.OutputImageUrl = await this.imageService
+                    .GenerateSingleImageUrlForCompany(id);
 
                 company.OverallRating = this.ratingService.GetOverallRating(company.UserCompany.Id);
 
-                company.UserCompanyServices = await this.companyServiceService.GetAllByUserIdOrCompanyId(company.UserCompany.Id);
+                company.UserCompanyServices = await this.companyServiceService
+                    .GetAllByUserIdOrCompanyId(company.UserCompany.Id);
 
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 company.IsOwner = this.companyService.IsUsersCompany(userId, company.UserCompany.Id);
 
-                if (company.UserCompanyServices == null || company.UserCompanyServices.All(x => x.Vetting.Passed == false))
+                if (company.UserCompanyServices == null ||
+                    company.UserCompanyServices.All(x => x.Vetting.Passed == false))
                 {
                     if (company.IsOwner)
                     {
@@ -190,6 +194,11 @@
             {
                 return this.RedirectToAction("Error", "Home");
             }
+        }
+
+        public IActionResult All(int id)
+        {
+            var viewModel = new AllCompaniesViewModel
         }
 
         private bool CheckIfCompanyBelongsToCurrentUser(int id)
