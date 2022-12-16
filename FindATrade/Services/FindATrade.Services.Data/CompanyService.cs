@@ -274,14 +274,15 @@
             return output;
         }
 
-        public async Task<IEnumerable<IndexPageOutputViewModel>> GetPopular()
+        public async Task<IEnumerable<IndexPageOutputViewModel>> GetSubscribed()
         {
             var output = new List<IndexPageOutputViewModel>();
 
             var company = await this.companyRepo.All()
                 //.Where(x => x.Services.Any(x => x.Vetting.Passed == true))
+                //.Where(x => x.Services.Any(x => x.PaidOrder.StartDate > DateTime.Now))
                 .Include(x => x.Image)
-                .OrderBy(x => Guid.NewGuid())
+                .OrderByDescending(x => x.Id)
                 .Take(12)
                 .ToListAsync();
 
@@ -293,7 +294,6 @@
                     Description = item.Description.Length >= 60 ? item.Description.Substring(0, 60) : item.Description,
                     Name = item.Name,
                 };
-
 
                 if (item.Image != null)
                 {

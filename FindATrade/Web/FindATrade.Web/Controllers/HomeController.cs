@@ -37,7 +37,7 @@
             {
                 var viewModel = this.getCountsService.GetCounts();
 
-                viewModel.PopularCompanies = await this.companyService.GetPopular();
+                viewModel.PopularCompanies = await this.companyService.GetSubscribed();
 
                 return this.View(viewModel);
             }
