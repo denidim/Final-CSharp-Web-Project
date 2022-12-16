@@ -246,33 +246,27 @@
                 userId = (string)obj;
             }
 
-            var userCompany = this.companyRepo
-                .All()
-                .Where(x => x.AddedByUserId == userId || x.Id == companyId)
-                .Include(x => x.Services)
-                .ThenInclude(x => x.Vetting)
-                .Include(x => x.Services)
-                .ThenInclude(x => x.PaidOrder)
-                .Include(x => x.Services)
-                .ThenInclude(x => x.Packages)
-                .Include(x => x.Services)
-                .ThenInclude(x => x.Category)
-                .Include(x => x.Services)
-                .ThenInclude(x => x.Images)
-                .FirstOrDefault();
+            var services = await this.serviceRepo.All()
+                .Where(x => x.Company.AddedByUserId == userId || x.Company.Id == companyId)
+                .Include(x => x.Category)
+                .ToListAsync();
 
-            if (userCompany == null || userCompany.Services.Count() < 1)
+            if (!services.Any() || services == null)
             {
                 return null;
             }
 
             var companyService = new List<SingleServiceOutputModel>();
 
-            foreach (var service in userCompany.Services)
+            foreach (var service in services)
             {
                 var images = new List<string>();
 
-                if (service.Images != null && service.Images.Count > 0)
+                var serviceImages = await this.imageRepo.All()
+                    .Where(x => x.ServiceId == service.Id)
+                    .ToListAsync();
+
+                if (serviceImages.Any() || serviceImages != null)
                 {
                     string singleImage = await this.cloudStorageService
                             .GetSignedUrlAsync(service.Images.First().ImageStorageName);
@@ -284,16 +278,26 @@
                     images.Add(ImageConstants.DefaultImage);
                 }
 
-                var package = new List<PackageModel>();
-
-                foreach (var packageItem in service.Packages)
-                {
-                    package.Add(new PackageModel()
+                var servicePackages = await this.packagerepo.All()
+                    .Where(x => x.ServiceId == service.Id)
+                    .Select(x => new PackageModel
                     {
-                        Price = packageItem.Price,
-                        Description = packageItem.Description,
-                    });
-                }
+                        Price = x.Price,
+                        Description = x.Description,
+                    })
+                    .ToListAsync();
+
+                var servicePaidOreders = await this.paidOrderRepo.All()
+                    .Where(x => x.Service == service)
+                    .Select(x => new SubscriptionModel
+                    {
+                        Id = x.Id,
+                        StartDate = x.StartDate,
+                        Name = x.Name,
+                        Price = x.Price.ToString(),
+                        Terms = x.Terms,
+                    })
+                    .FirstOrDefaultAsync();
 
                 var newService = new SingleServiceOutputModel()
                 {
@@ -302,25 +306,10 @@
                     IsPremium = service.IsPremium,
                     Description = service.Description,
                     CategoryName = service.Category.Name,
-                    Packages = package,
+                    Packages = servicePackages,
                     Images = images,
+                    Subscription = servicePaidOreders,
                 };
-
-                if (service.PaidOrder != null)
-                {
-                    newService.Subscription = new SubscriptionModel()
-                    {
-                        StartDate = service.PaidOrder.StartDate,
-                        EndDate = service.PaidOrder.EndDate,
-                        Name = service.PaidOrder.Name,
-                        Price = service.PaidOrder.Price.ToString(),
-                        Terms = service.PaidOrder.Terms,
-                    };
-                }
-                else
-                {
-                    newService.Subscription = null;
-                }
 
                 newService.Vetting = await this.vettingService.GetByServiceIdAsync<VettingOutputModel>(service.Id);
 
