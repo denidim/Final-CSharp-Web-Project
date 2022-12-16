@@ -3,11 +3,11 @@
 @model SingleCompanyModel
 
 @{
+    this.ViewData["Title"] = "Company Page";
     var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-    this.ViewBag.Title = "Title";
 }
 
-<h1 class="text-md-center">This is single company page</h1>
+<h1 class="text-md-center">@this.ViewData["Title"]</h1>
 
 <div class="container px-4 px-lg-5">
     <!-- Heading Row-->
@@ -63,30 +63,54 @@
 
         </div>
     </div>
-
 </div>
 <!-- Content Row-->
 <div class="row gx-4 gx-lg-5">
     @if (Model.UserCompanyServices != null)
     {
-        @foreach (var service in Model.UserCompanyServices.Where(x => x.Vetting.Passed == true))
+        @foreach (var service in Model.UserCompanyServices)
         {
-            <div class="col-md-4 mb-5">
-                <div class="card h-100">
-                    <div class="card-body">
-                        @if (service.Images.First() != null)
-                        {
-                            <img class="img-fluid rounded mb-4 mb-lg-0" src="@service.Images.First()" alt="image">
-                        }
-                        <h2 class="card-title">@service.Title</h2>
-                        <p class="card-text">@(service.Description.Length > 30 ? service.Description.Substring(0, 30) : service.Description)</p>
+            if (service.Vetting.Passed == true)
+            {
+                <div class="col-md-4 mb-5">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            @if (service.Images.First() != null)
+                            {
+                                <img class="img-fluid rounded mb-4 mb-lg-0" src="@service.Images.First()" alt="image">
+                            }
+                            <h2 class="card-title">@service.Title</h2>
+                            <p class="card-text">@(service.Description.Length > 30 ? service.Description.Substring(0, 30) : service.Description)</p>
+                        </div>
+                        <div class="card-footer">
+                            <a asp-controller="CompanyService" asp-action="GetSingle" asp-route-id="@service.Id" class="btn btn-primary">See Service</a>
+                        </div>
+                        @*<a class="btn btn-primary btn-sm" href="#!">More Info</a></div>*@
                     </div>
-                    <div class="card-footer">
-                        <a asp-controller="CompanyService" asp-action="GetSingle" asp-route-id="@service.Id" class="btn btn-primary">See Service</a>
-                    </div>
-                    @*<a class="btn btn-primary btn-sm" href="#!">More Info</a></div>*@
                 </div>
-            </div>
+            }
+            else
+            {
+                if (Model.IsOwner)
+                {
+                    <div class="col-md-4 mb-5">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                @if (service.Images.First() != null)
+                                {
+                                    <img class="img-fluid rounded mb-4 mb-lg-0" src="@service.Images.First()" alt="image">
+                                }
+                                <h2 class="card-title">@service.Title</h2>
+                                <p class="card-text">@(service.Description.Length > 30 ? service.Description.Substring(0, 30) : service.Description)</p>
+                            </div>
+                            <div class="card-footer">
+                                <a asp-controller="CompanyService" asp-action="GetSingle" asp-route-id="@service.Id" class="btn btn-primary">See Service</a>
+                            </div>
+                            @*<a class="btn btn-primary btn-sm" href="#!">More Info</a></div>*@
+                        </div>
+                    </div>
+                }
+            }
         }
     }
 
@@ -124,7 +148,7 @@
         <p>No Reviews yet</p>
     }
 
-    @if (!Model.IsOwner && !Model.UserCompany.Ratings.Any(x=>x.AddedByUserId == userId))
+    @if (!Model.IsOwner && !Model.UserCompany.Ratings.Any(x => x.AddedByUserId == userId))
     {
         <a asp-controller="Review" asp-action="Write" asp-route-id="@Model.UserCompany.Id" class="btn btn-primary">Leve a review</a>
     }
@@ -150,6 +174,6 @@
                     contentType: 'application/json',
                 });
             })
-        }); 
+        });
     </script>
 }
