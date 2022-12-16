@@ -36,24 +36,31 @@
 
         public async Task<IActionResult> GetAccount()
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            var accountPage = new UserAccountOutputModel();
-
-            accountPage.UserInfo = this.accountService.GetUserInfo(user);
-
-            accountPage.UserCompany = await this.companyService.GetCompanyByUserIdAsync<CompanyOutputModel>(user.Id);
-
-            if (accountPage.UserCompany != null)
+            try
             {
-                accountPage.UserCompany.OutputImageUrl = await this.imageService.GenerateSingleImageUrlForCompany(accountPage.UserCompany.Id);
+                var user = await this.userManager.GetUserAsync(this.User);
 
-                accountPage.UserCompanyServices = await this.companyServiceService.GetAllByUserIdOrCompanyId(user.Id);
+                var accountPage = new UserAccountOutputModel();
 
-                accountPage.OverallRating = this.ratingService.GetOverallRating(accountPage.UserCompany.Id);
+                accountPage.UserInfo = this.accountService.GetUserInfo(user);
+
+                accountPage.UserCompany = await this.companyService.GetCompanyByUserIdAsync<CompanyOutputModel>(user.Id);
+
+                if (accountPage.UserCompany != null)
+                {
+                    accountPage.UserCompany.OutputImageUrl = await this.imageService.GenerateSingleImageUrlForCompany(accountPage.UserCompany.Id);
+
+                    accountPage.UserCompanyServices = await this.companyServiceService.GetAllByUserIdOrCompanyId(user.Id);
+
+                    accountPage.OverallRating = this.ratingService.GetOverallRating(accountPage.UserCompany.Id);
+                }
+
+                return this.View(accountPage);
             }
-
-            return this.View(accountPage);
+            catch (System.Exception)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
         }
     }
 }

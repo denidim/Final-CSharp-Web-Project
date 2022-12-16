@@ -23,15 +23,22 @@
 
         public async Task<IActionResult> Add(int serviceId)
         {
-            await this.subscriptionService.AddSubscriptionAsync(serviceId);
+            try
+            {
+                await this.subscriptionService.AddSubscriptionAsync(serviceId);
 
-            this.backgroundJobClient
-                .Schedule<ISubscriptionService>(
-                sunscriptionService => sunscriptionService
-                .RemoveExpiredSubscriptionsAsync(serviceId),
-                TimeSpan.FromMinutes(PaidOrderConstants.TimeSchedule));
+                this.backgroundJobClient
+                    .Schedule<ISubscriptionService>(
+                    sunscriptionService => sunscriptionService
+                    .RemoveExpiredSubscriptionsAsync(serviceId),
+                    TimeSpan.FromMinutes(PaidOrderConstants.TimeSchedule));
 
-            return this.RedirectToAction("GetSingle", "CompanyService", new { id = serviceId, area = " " });
+                return this.RedirectToAction("GetSingle", "CompanyService", new { id = serviceId, area = " " });
+            }
+            catch (Exception)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
         }
     }
 }

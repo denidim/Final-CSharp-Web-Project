@@ -1,116 +1,192 @@
 ﻿namespace FindATrade.Web.Controllers
 {
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
-
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels.CompanyService;
     using FindATrade.Web.ViewModels.Subscription;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
 
     public class CompanyServiceController : BaseController
     {
         private readonly ICompanyServiceService companyServiceService;
         private readonly IImageService imageService;
         private readonly ISubscriptionService subscriptionService;
+        private readonly ICompanyService companyService;
 
         public CompanyServiceController(
             ICompanyServiceService companyServiceService,
             IImageService imageService,
-            ISubscriptionService subscriptionService)
+            ISubscriptionService subscriptionService,
+            ICompanyService companyService)
         {
             this.companyServiceService = companyServiceService;
             this.imageService = imageService;
             this.subscriptionService = subscriptionService;
+            this.companyService = companyService;
         }
 
-
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int id)
         {
-            var model = new CreateCompanyServiceInputModel
+            try
             {
-                Categories = await this.companyServiceService.GetGategoriesAsync(),
-            };
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            return this.View(model);
+                bool isUserComapny = this.companyService.IsUsersCompany(userId, id);
+
+                if (!isUserComapny)
+                {
+                    return this.RedirectToAction("Error", "Home");
+                }
+
+                var model = new CreateCompanyServiceInputModel
+                {
+                    Categories = await this.companyServiceService.GetGategoriesAsync(),
+                };
+
+                return this.View(model);
+            }
+            catch (System.Exception)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateCompanyServiceInputModel input, int id)
         {
-            if (!this.ModelState.IsValid)
-            {
-                input.Categories = await this.companyServiceService.GetGategoriesAsync();
-
-                return this.View(input);
-            }
-
             try
             {
+                if (!this.ModelState.IsValid)
+                {
+                    input.Categories = await this.companyServiceService.GetGategoriesAsync();
+
+                    return this.View(input);
+                }
+
                 await this.companyServiceService.CreateAsync(input, id);
+
+                return this.RedirectToAction("GetAccount", "UserAccount");
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
-                this.ModelState.AddModelError(string.Empty, ex.Message);
+                return this.RedirectToAction("Error", "Home");
             }
-
-            this.TempData["Message"] = "Service added successfully";
-
-            return this.RedirectToAction("GetAccount", "UserAccount");
         }
 
         public async Task<IActionResult> Edit(int id)
         {
-            var model = await this.companyServiceService.GetByIdAsync<EditServiceViewModel>(id);
+            try
+            {
+                bool isUsersService = this.CheckIfServiceBelongToCurrentUser(id);
 
-            model.Categories = await this.companyServiceService.GetGategoriesAsync();
+                var model = await this.companyServiceService.GetByIdAsync<EditServiceViewModel>(id);
 
-            return this.View(model);
+                if (model == null || !isUsersService)
+                {
+                    return this.RedirectToAction("Error", "Home");
+                }
+
+                model.Categories = await this.companyServiceService.GetGategoriesAsync();
+
+                return this.View(model);
+            }
+            catch (System.Exception)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(int id, EditServiceViewModel input)
         {
-            if (!this.ModelState.IsValid)
+            try
             {
-                input.Categories = await this.companyServiceService.GetGategoriesAsync();
+                if (!this.ModelState.IsValid)
+                {
+                    input.Categories = await this.companyServiceService.GetGategoriesAsync();
 
-                return this.View(input);
+                    return this.View(input);
+                }
+
+                await this.companyServiceService.UpdateAsync(id, input);
+
+                return this.RedirectToAction(nameof(this.GetSingle), new { id = id });
             }
-
-            await this.companyServiceService.UpdateAsync(id, input);
-
-            return this.RedirectToAction(nameof(this.GetSingle), new { id = id });
+            catch (System.Exception)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
         }
 
         public async Task<IActionResult> EditImage(int id)
         {
-            var model = await this.imageService.GetAllPictures(id);
-
-            if (model == null || !model.Any())
+            try
             {
-                return this.RedirectToAction(nameof(this.GetSingle), new { id = id });
-            }
+                bool isUsersService = this.CheckIfServiceBelongToCurrentUser(id);
 
-            return this.View(model);
+                if (!isUsersService)
+                {
+                    return this.RedirectToAction("Error", "Home");
+                }
+
+                var model = await this.imageService.GetAllPictures(id);
+
+                if (model == null || !model.Any())
+                {
+                    return this.RedirectToAction(nameof(this.GetSingle), new { id = id });
+                }
+
+                return this.View(model);
+            }
+            catch (System.Exception)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
         }
 
         public async Task<IActionResult> DeletePicture(int id, string name)
         {
-            await this.imageService.CloudDelete(name);
+            try
+            {
+                bool isUsersService = this.CheckIfServiceBelongToCurrentUser(id);
 
-            await this.imageService.Delete(name);
+                if (!isUsersService)
+                {
+                    return this.RedirectToAction("Error", "Home");
+                }
 
-            return this.RedirectToAction(nameof(this.GetSingle), new { id = id });
+                await this.imageService.CloudDelete(name);
+
+                return this.RedirectToAction(nameof(this.GetSingle), new { id = id });
+            }
+            catch (System.Exception)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            await this.companyServiceService.DeleteAsync(id);
+            try
+            {
+                bool isUsersService = this.CheckIfServiceBelongToCurrentUser(id);
 
-            return this.RedirectToAction("GetAccount", "UserAccount");
+                if (!isUsersService)
+                {
+                    return this.RedirectToAction("Error", "Home");
+                }
+
+                await this.companyServiceService.DeleteAsync(id);
+
+                return this.RedirectToAction("GetAccount", "UserAccount");
+            }
+            catch (System.Exception)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
         }
 
         public IActionResult AddImages()
@@ -121,28 +197,67 @@
         [HttpPost]
         public async Task<IActionResult> AddImages(AddImages input, int id)
         {
+            try
+            {
+                bool isUsersService = this.CheckIfServiceBelongToCurrentUser(id);
 
-            await this.imageService.Add(input, id);
+                if (!isUsersService)
+                {
+                    return this.RedirectToAction("Error", "Home");
+                }
 
-            return this.RedirectToAction("Index", "Home");
+                if (input.Images == null)
+                {
+                    return this.RedirectToAction(nameof(this.AddImages), new { id = id });
+                }
+
+                await this.imageService.Add(input, id);
+
+                return this.RedirectToAction("Index", "Home");
+            }
+            catch (System.Exception)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
         }
 
         [AllowAnonymous]
         public async Task<IActionResult> GetSingle(int id)
         {
+            try
+            {
+                var model = await this.companyServiceService.GetByIdAsync<SingleServiceOutputModel>(id);
+
+                if (model == null)
+                {
+                    return this.RedirectToAction("Error", "Home");
+                }
+
+                model.Images = await this.imageService.GenerateImageUrlsForService(model.Id);
+
+                model.Subscription = await this.subscriptionService.GetPaidOrderAsync<SubscriptionModel>(model.Id);
+
+                model.CompanyServicesByCategory = await this.companyServiceService.GetAllByCategory(model.CategoryName);
+
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                model.IsOwner = this.companyServiceService.IsUsersService(userId, model.Id);
+
+                return this.View(model);
+            }
+            catch (System.Exception)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+        }
+
+        private bool CheckIfServiceBelongToCurrentUser(int id)
+        {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var model = await this.companyServiceService.GetByIdAsync<SingleServiceOutputModel>(id);
+            bool isUsersService = this.companyServiceService.IsUsersService(userId, id);
 
-            model.Images = await this.imageService.GenerateImageUrlsForService(model.Id);
-
-            model.Subscription = await this.subscriptionService.GetPaidOrderAsync<SubscriptionModel>(model.Id);
-
-            model.CompanyServicesByCategory = await this.companyServiceService.GetAllByCategory(model.CategoryName);
-
-            model.IsOwner = this.companyServiceService.IsUsersService(userId);
-
-            return this.View(model);
+            return isUsersService;
         }
     }
 }

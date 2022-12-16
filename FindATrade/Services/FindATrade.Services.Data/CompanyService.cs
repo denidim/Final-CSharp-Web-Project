@@ -201,9 +201,10 @@
             await this.companyRepo.SaveChangesAsync();
         }
 
-        public bool IsUsersCompany(string userId)
+        public bool IsUsersCompany(string userId, int companyId)
         {
             return this.companyRepo.All()
+                .Where(x => x.Id == companyId)
                 .Any(x => x.AddedByUserId == userId);
         }
 

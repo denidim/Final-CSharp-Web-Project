@@ -24,13 +24,20 @@
         [Authorize]
         public async Task<ActionResult<LikesOutputModel>> Post(PostLikeInputModel model)
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            try
+            {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            await this.likeService.SetLike(model.CompanyId, userId);
+                await this.likeService.SetLike(model.CompanyId, userId);
 
-            var likesCount = await this.likeService.GetLikeCount(model.CompanyId);
+                var likesCount = await this.likeService.GetLikeCount(model.CompanyId);
 
-            return new LikesOutputModel { LikesCount = likesCount };
+                return new LikesOutputModel { LikesCount = likesCount };
+            }
+            catch (System.Exception)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
         }
     }
 }

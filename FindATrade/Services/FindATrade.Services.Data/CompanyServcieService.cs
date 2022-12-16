@@ -178,9 +178,10 @@
                 .ToList();
         }
 
-        public bool IsUsersService(string userId)
+        public bool IsUsersService(string userId, int serviceId)
         {
             return this.serviceRepo.All()
+                .Where(x => x.Id == serviceId)
                 .Include(x => x.Company)
                 .Any(x => x.Company.AddedByUserId == userId);
         }

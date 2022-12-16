@@ -24,6 +24,6 @@
 
         Task DeleteAsync(int id);
 
-        bool IsUsersService(string userId);
+        bool IsUsersService(string userId, int serviceId);
     }
 }

@@ -49,39 +49,46 @@
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (!this.ModelState.IsValid)
+            try
             {
+                if (!this.ModelState.IsValid)
+                {
+                    return this.View(model);
+                }
+
+                var user = new ApplicationUser()
+                {
+                    Email = model.Email,
+                    EmailConfirmed = true,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    UserName = model.Email,
+                };
+
+                var result = await this.userManager.CreateAsync(user, model.Password);
+
+                //await this.userManager
+                //        .AddClaimAsync(user, new System.Security.Claims.Claim(ClaimTypeConstants.FirstName, user.FirstName ?? user.Email));
+
+                await this.userManager.AddToRoleAsync(user, GlobalConstants.UserRoleName);
+
+                if (result.Succeeded)
+                {
+                    await this.signInManager.SignInAsync(user, isPersistent: false);
+                    return this.RedirectToAction("GetAccount", "UserAccount", new { area = " " });
+                }
+
+                foreach (var item in result.Errors)
+                {
+                    this.ModelState.AddModelError(string.Empty, item.Description);
+                }
+
                 return this.View(model);
             }
-
-            var user = new ApplicationUser()
+            catch (System.Exception)
             {
-                Email = model.Email,
-                EmailConfirmed = true,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                UserName = model.Email,
-            };
-
-            var result = await this.userManager.CreateAsync(user, model.Password);
-
-            //await this.userManager
-            //        .AddClaimAsync(user, new System.Security.Claims.Claim(ClaimTypeConstants.FirstName, user.FirstName ?? user.Email));
-
-            await this.userManager.AddToRoleAsync(user, GlobalConstants.UserRoleName);
-
-            if (result.Succeeded)
-            {
-                await this.signInManager.SignInAsync(user, isPersistent: false);
-                return this.RedirectToAction("GetAccount", "UserAccount", new { area = " " });
+                return this.RedirectToAction("Error", "Home");
             }
-
-            foreach (var item in result.Errors)
-            {
-                this.ModelState.AddModelError(string.Empty, item.Description);
-            }
-
-            return this.View(model);
         }
 
         [HttpGet]
@@ -100,30 +107,37 @@
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (!this.ModelState.IsValid)
+            try
             {
+                if (!this.ModelState.IsValid)
+                {
+                    return this.View(model);
+                }
+
+                var user = await this.userManager.FindByEmailAsync(model.Email);
+
+                if (user != null)
+                {
+                    var result = await this.signInManager.PasswordSignInAsync(user, model.Password, false, false);
+
+                    if (result.Succeeded)
+                    {
+                        if (model.ReturnUrl != null)
+                        {
+                            return this.Redirect(model.ReturnUrl);
+                        }
+
+                        return this.RedirectToAction("GetAccount", "UserAccount", new { area = " " });
+                    }
+                }
+
+                this.ModelState.AddModelError(string.Empty, "Invalid login");
                 return this.View(model);
             }
-
-            var user = await this.userManager.FindByEmailAsync(model.Email);
-
-            if (user != null)
+            catch (System.Exception)
             {
-                var result = await this.signInManager.PasswordSignInAsync(user, model.Password, false, false);
-
-                if (result.Succeeded)
-                {
-                    if (model.ReturnUrl != null)
-                    {
-                        return this.Redirect(model.ReturnUrl);
-                    }
-
-                    return this.RedirectToAction("GetAccount", "UserAccount", new { area = " " });
-                }
+                return this.RedirectToAction("Error", "Home");
             }
-
-            this.ModelState.AddModelError(string.Empty, "Invalid login");
-            return this.View(model);
         }
 
         public async Task<IActionResult> Logout()
@@ -133,51 +147,56 @@
             return this.RedirectToAction("Index", "Home");
         }
 
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult Vett()
         {
             return this.View();
         }
 
         [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Vett(int id, VettModel input)
         {
-            var services = await this.serviceRepo
+            try
+            {
+                var services = await this.serviceRepo
                 .All()
                 .Include(x => x.Vetting)
                 .FirstAsync(x => x.Id == id);
 
-            if (input.IsPassed == true)
-            {
-                services.Vetting.ApprovalDate = System.DateTime.UtcNow;
-                services.Vetting.Passed = true;
-                services.Vetting.Description = VettingConstants.Passed;
+                if (input.IsPassed == true)
+                {
+                    services.Vetting.ApprovalDate = System.DateTime.UtcNow;
+                    services.Vetting.Passed = true;
+                    services.Vetting.Description = VettingConstants.Passed;
+                }
+                else
+                {
+                    services.Vetting.Description = input.Description;
+                }
+
+                await this.serviceRepo.SaveChangesAsync();
+
+                return this.RedirectToAction("GetSingle", "CompanyService", new { id = id, area = " " });
             }
-            else
+            catch (System.Exception)
             {
-                services.Vetting.Description = input.Description;
+                return this.RedirectToAction("Error", "Home");
             }
-
-            await this.serviceRepo.SaveChangesAsync();
-
-            return this.RedirectToAction("GetSingle", "CompanyService", new { id = id, area = " " });
-        }
-
-        public IActionResult AddPremium()
-        {
-            return this.View();
-        }
-
-        [HttpPost]
-        public IActionResult AddPremium(int id)
-        {
-            return this.RedirectToAction("GetSingle", "CompanyService", new { id = id, area = " " });
         }
 
         public IActionResult AllForVetting()
         {
-            var ids = this.companyServiceService.GetAllForVettingIds();
+            try
+            {
+                var ids = this.companyServiceService.GetAllForVettingIds();
 
-            return this.View(ids);
+                return this.View(ids);
+            }
+            catch (System.Exception)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
         }
 
         //public async Task<IActionResult> CreateRoles()

@@ -32,11 +32,18 @@
 
         public async Task<IActionResult> Index()
         {
-            var viewModel = this.getCountsService.GetCounts();
+            try
+            {
+                var viewModel = this.getCountsService.GetCounts();
 
-            viewModel.PopularCompanies = await this.companyService.GetPopular();
+                viewModel.PopularCompanies = await this.companyService.GetPopular();
 
-            return this.View(viewModel);
+                return this.View(viewModel);
+            }
+            catch (Exception)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
         }
 
         public IActionResult Privacy()

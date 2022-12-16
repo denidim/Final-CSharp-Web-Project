@@ -1,5 +1,6 @@
 ﻿namespace FindATrade.Web.Controllers
 {
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -41,95 +42,162 @@
         [HttpPost]
         public async Task<IActionResult> Create(CreateCompanyInputModel input)
         {
-            if (!this.ModelState.IsValid)
-            {
-                return this.View(input);
-            }
-
-            ApplicationUser currentUser = await this.userManager.GetUserAsync(this.User);
-
             try
             {
-                await this.companyService.CreateAsync(input, currentUser);
-            }
-            catch (System.Exception ex)
-            {
-                this.ModelState.AddModelError(string.Empty, ex.Message);
-            }
+                if (!this.ModelState.IsValid)
+                {
+                    return this.View(input);
+                }
 
-            return this.RedirectToAction("GetAccount", "UserAccount");
+                ApplicationUser currentUser = await this.userManager.GetUserAsync(this.User);
+
+                await this.companyService.CreateAsync(input, currentUser);
+
+                return this.RedirectToAction("GetAccount", "UserAccount");
+            }
+            catch (System.Exception)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
         }
 
         public async Task<IActionResult> Edit(int id)
         {
-            var model = await this.companyService.GetCompanyByIdAsync<EditCompanyViewModel>(id);
+            try
+            {
+                bool isUserComapny = this.CheckIfCompanyBelongsToCurrentUser(id);
 
-            // TODO Get By Id Service
-            return this.View(model);
+                if (!isUserComapny)
+                {
+                    return this.RedirectToAction("Error", "Home");
+                }
+
+                var model = await this.companyService.GetCompanyByIdAsync<EditCompanyViewModel>(id);
+
+                if (model == null)
+                {
+                    return this.RedirectToAction("Error", "Home");
+                }
+
+                return this.View(model);
+            }
+            catch (System.Exception)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(int id, EditCompanyViewModel input)
         {
-            if (!this.ModelState.IsValid)
+            try
             {
-                return this.View(input);
+                if (!this.ModelState.IsValid)
+                {
+                    return this.View(input);
+                }
+
+                await this.companyService.UpdateAsync(id, input);
+
+                return this.RedirectToAction("GetAccount", "UserAccount");
             }
-
-            await this.companyService.UpdateAsync(id, input);
-
-            return this.RedirectToAction("GetAccount", "UserAccount");
+            catch (System.Exception)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
         }
 
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                await this.companyService.DeleteAsync(id);
-            }
-            catch (System.Exception ex)
-            {
-                this.ModelState.AddModelError(string.Empty, ex.Message);
+                bool isUserComapny = this.CheckIfCompanyBelongsToCurrentUser(id);
 
+                if (!isUserComapny)
+                {
+                    return this.RedirectToAction("Error", "Home");
+                }
+
+                await this.companyService.DeleteAsync(id);
+
+                return this.RedirectToAction("Index", "Home");
+            }
+            catch (System.Exception)
+            {
                 return this.RedirectToAction("Error", "Home");
             }
-
-            return this.RedirectToAction("Index", "Home");
         }
 
         [AllowAnonymous]
         public async Task<IActionResult> GetByServiceId(int id)
         {
-            var companyId = await this.companyService.GetCompanyByServiceId(id);
+            try
+            {
+                var companyId = await this.companyService.GetCompanyByServiceId(id);
 
-            return this.RedirectToAction(nameof(this.GetById), new { id = companyId });
+                if (companyId == null)
+                {
+                    return this.RedirectToAction("Error", "Home");
+                }
+
+                return this.RedirectToAction(nameof(this.GetById), new { id = companyId });
+            }
+            catch (System.Exception)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
         }
 
         [AllowAnonymous]
         public async Task<IActionResult> GetById(int id)
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            SingleCompanyModel company = new SingleCompanyModel();
-
-            company.UserCompany = await this.companyService.GetCompanyByIdAsync<CompanyOutputModel>(id);
-
-            company.UserCompany.OutputImageUrl = await this.imageService.GenerateSingleImageUrlForCompany(id);
-
-            company.OverallRating = this.ratingService.GetOverallRating(company.UserCompany.Id);
-
-            company.UserCompanyServices = await this.companyServiceService.GetAllByUserIdOrCompanyId(company.UserCompany.Id);
-
-            company.IsOwner = this.companyService.IsUsersCompany(userId);
-
-            if (company.UserCompanyServices != null)
+            try
             {
-                return this.View(company);
+                SingleCompanyModel company = new SingleCompanyModel();
+
+                company.UserCompany = await this.companyService.GetCompanyByIdAsync<CompanyOutputModel>(id);
+
+                if (company.UserCompany == null)
+                {
+                    return this.RedirectToAction("Error", "Home");
+                }
+
+                company.UserCompany.OutputImageUrl = await this.imageService.GenerateSingleImageUrlForCompany(id);
+
+                company.OverallRating = this.ratingService.GetOverallRating(company.UserCompany.Id);
+
+                company.UserCompanyServices = await this.companyServiceService.GetAllByUserIdOrCompanyId(company.UserCompany.Id);
+
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                company.IsOwner = this.companyService.IsUsersCompany(userId, company.UserCompany.Id);
+
+                if (company.UserCompanyServices == null || company.UserCompanyServices.All(x => x.Vetting.Passed == false))
+                {
+                    if (company.IsOwner)
+                    {
+                        return this.View(company);
+                    }
+
+                    return this.RedirectToAction("Error", "Home");
+                }
+                else
+                {
+                    return this.View(company);
+                }
             }
-            else
+            catch (System.Exception)
             {
                 return this.RedirectToAction("Error", "Home");
             }
+        }
+
+        private bool CheckIfCompanyBelongsToCurrentUser(int id)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            bool isUserComapny = this.companyService.IsUsersCompany(userId, id);
+            return isUserComapny;
         }
     }
 }
