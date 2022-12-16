@@ -237,15 +237,16 @@
             return company;
         }
 
-        public async Task<IEnumerable<IndexPageOutputViewModel>> GetPopular()
+        public async Task<IEnumerable<IndexPageOutputViewModel>> GetAll(int pageNumber, int itemsPerpage = 12)
         {
             var output = new List<IndexPageOutputViewModel>();
 
             var company = await this.companyRepo.All()
                 //.Where(x => x.Services.Any(x => x.Vetting.Passed == true))
                 .Include(x => x.Image)
-                .OrderBy(x => Guid.NewGuid())
-                .Take(12)
+                .OrderByDescending(x => x.Id)
+                .Skip((pageNumber - 1) * itemsPerpage)
+                .Take(itemsPerpage)
                 .ToListAsync();
 
             foreach (var item in company)
@@ -271,6 +272,48 @@
             }
 
             return output;
+        }
+
+        public async Task<IEnumerable<IndexPageOutputViewModel>> GetPopular()
+        {
+            var output = new List<IndexPageOutputViewModel>();
+
+            var company = await this.companyRepo.All()
+                //.Where(x => x.Services.Any(x => x.Vetting.Passed == true))
+                .Include(x => x.Image)
+                .OrderBy(x => Guid.NewGuid())
+                .Take(12)
+                .ToListAsync();
+
+            foreach (var item in company)
+            {
+                var page = new IndexPageOutputViewModel
+                {
+                    Id = item.Id,
+                    Description = item.Description.Length >= 60 ? item.Description.Substring(0, 60) : item.Description,
+                    Name = item.Name,
+                };
+
+
+                if (item.Image != null)
+                {
+                    page.OutputImageUrl = await this.cloudStorageService
+                        .GetSignedUrlAsync(item.Image.ImageStorageName);
+                }
+                else
+                {
+                    page.OutputImageUrl = ImageConstants.DefaultImage;
+                }
+
+                output.Add(page);
+            }
+
+            return output;
+        }
+
+        public int GetCount()
+        {
+            return this.companyRepo.All().Count();
         }
     }
 }

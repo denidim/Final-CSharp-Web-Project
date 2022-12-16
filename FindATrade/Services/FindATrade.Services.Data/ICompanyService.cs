@@ -25,5 +25,9 @@
         bool IsUsersCompany(string userId, int companyId);
 
         Task<int?> GetCompanyByServiceId(int serviceId);
+
+        Task<IEnumerable<IndexPageOutputViewModel>> GetAll(int pageNumber, int itemsPerPage = 12);
+
+        int GetCount();
     }
 }

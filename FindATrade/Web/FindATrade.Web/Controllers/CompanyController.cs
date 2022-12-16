@@ -3,10 +3,11 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
-
+    using FindATrade.Common;
     using FindATrade.Data.Models;
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels.Company;
+    using FindATrade.Web.ViewModels.Home;
     using Hangfire.Annotations;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -196,9 +197,17 @@
             }
         }
 
-        public IActionResult All(int id)
+        public async Task<IActionResult> All(int id = 1)
         {
             var viewModel = new AllCompaniesViewModel
+            {
+                AllCompanies = await this.companyService.GetAll(id, PagingConstants.ItemsPerPage),
+                PageNumber = id,
+                EntitiesCount = this.companyService.GetCount(),
+                ItemsPerPage = PagingConstants.ItemsPerPage,
+            };
+
+            return this.View(viewModel);
         }
 
         private bool CheckIfCompanyBelongsToCurrentUser(int id)

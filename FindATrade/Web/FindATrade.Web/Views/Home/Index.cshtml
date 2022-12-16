@@ -9,26 +9,26 @@ add searches
 
 <div class="text-center">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    </div>
-<div class ="text-center">
+</div>
+<div class="text-center">
     <div class="row" style="height: auto !important;">
-    <div class="col-md-8">
-        <h1>Most popular</h1>
-        <div class="row" style="height: auto !important">
-            @foreach (var company in this.Model.PopularCompanies)
-            {
-                <div class="card col-md-6">
-                    <img class="card-img-top" src="@company.OutputImageUrl" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">@company.Name</h5>
-                        <p class="card-text">@company.Description</p>
-                        <a asp-controller="Company" asp-action="GetById" asp-route-id="@company.Id" class="btn btn-primary">Go to company</a>
-                    </div>
+            <div class="col-md-8">
+                <h1>Most popular</h1>
+                <div class="row" style="height: auto !important">
+                    @foreach (var company in this.Model.PopularCompanies)
+                    {
+                        <div class="card col-md-3">
+                            <img class="card-img-top" src="@company.OutputImageUrl" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">@company.Name</h5>
+                                <p class="card-text">@company.Description</p>
+                                <a asp-controller="Company" asp-action="GetById" asp-route-id="@company.Id" class="btn btn-primary">Go to company</a>
+                            </div>
+                        </div>
+                    }
                 </div>
-            }
-        </div>
-    </div>
-     <div class="col-md-4">
+            </div>
+        <div class="col-md-4">
             <p>We have: </p>
             <ul class="list-group">
                 <li class="list-group-item align-items-center">
@@ -46,6 +46,37 @@ add searches
             </ul>
         </div>
     </div>
-   
+
 </div>
 
+<hr />
+@*<nav aria-label="...">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @if (!Model.HasPrevious) {<text>disabled</text>}">
+            <a class="page-link" asp-action="All" asp-route-id="@Model.PreviousPageNumber">Previous</a>
+        </li>
+        @for (int i = Model.PageNumber - 3; i < Model.PageNumber; i++)
+        {
+            if (i > 0)
+            {
+                <li class="page-item"><a class="page-link" asp-action="All" asp-route-id="i">@i</a></li>
+            }
+        }
+        <li class="page-item active" aria-current="page">
+            <span class="page-link">
+                @Model.PageNumber
+                <span class="sr-only"></span>
+            </span>
+        </li>
+        @for (int i = Model.PageNumber + 1; i <= Model.PageNumber + 3; i++)
+        {
+            if (i <= Model.PagesCount)
+            {
+                <li class="page-item"><a class="page-link" asp-action="All" asp-route-id="@i">@i</a></li>
+            }
+        }
+        <li class="page-item @if (!Model.HasNextPage) {<text>disabled</text>}">
+            <a class="page-link" asp-action="All" asp-route-id="@Model.NextPageNumber">Next</a>
+        </li>
+    </ul>
+</nav>*@
