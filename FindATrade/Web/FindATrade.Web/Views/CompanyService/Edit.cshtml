@@ -2,11 +2,11 @@
 @model EditServiceViewModel
 
 @{
-    ViewBag.Title = "Edit Service";
+    this.ViewData["Title"] = "Edit Service";
     var package = @Model.Packages.ToList();
 }
 
-<h1>@ViewBag.Title</h1>
+<h1>@this.ViewData["Title"]</h1>
 
 
 <form method="post" class="col-md-6 ofsset-md-3" enctype="multipart/form-data" id="editForm">
@@ -55,20 +55,6 @@
         </div>
         <hr />
     }
-    
-    @*@for (int i = 1; i < 3; i++)
-    {
-        <div class='form-group'>
-            <label asp-for="@Model.Packages[@i].Description"></label>
-            <input class='form-control' type='text' name='packages[i].description' />
-            @Html.ValidationMessageFor(m => m.Packages[@i].Description, "", new { @class = "text-danger" })
-            <label asp-for="@Model.Packages[i].Price"></label>
-            <input class='form-control' type='text' name='packages[i].price' />
-            @Html.ValidationMessageFor(m => m.Packages[@i].Price, "", new { @class = "text-danger" })
-        </div>
-        <hr />
-    }*@
-
     
     <input type="hidden" asp-for="Id" />
 </form>
