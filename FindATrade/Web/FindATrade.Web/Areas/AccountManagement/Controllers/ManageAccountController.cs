@@ -185,6 +185,7 @@
             }
         }
 
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult AllForVetting()
         {
             try

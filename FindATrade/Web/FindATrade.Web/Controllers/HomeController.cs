@@ -6,7 +6,6 @@
 
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels;
-    using Hangfire;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -15,19 +14,13 @@
     {
         private readonly IGetCountsService getCountsService;
         private readonly ICompanyService companyService;
-        private readonly ISubscriptionService subscriptionService;
-        private readonly IBackgroundJobClient backgroundJobClient;
 
         public HomeController(
             IGetCountsService getCountsService,
-            ICompanyService companyService,
-            ISubscriptionService subscriptionService,
-            IBackgroundJobClient backgroundJobClient)
+            ICompanyService companyService)
         {
             this.getCountsService = getCountsService;
             this.companyService = companyService;
-            this.subscriptionService = subscriptionService;
-            this.backgroundJobClient = backgroundJobClient;
         }
 
         public async Task<IActionResult> Index()
