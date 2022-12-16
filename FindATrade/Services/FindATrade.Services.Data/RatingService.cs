@@ -11,21 +11,17 @@
 
     public class RatingService : IRatingService
     {
-        private readonly IDeletableEntityRepository<Company> companyRepo;
         private readonly IDeletableEntityRepository<Rating> ratingRepo;
 
-        public RatingService(
-            IDeletableEntityRepository<Company> companyRepo,
-            IDeletableEntityRepository<Rating> ratingRepo)
+        public RatingService(IDeletableEntityRepository<Rating> ratingRepo)
         {
-            this.companyRepo = companyRepo;
             this.ratingRepo = ratingRepo;
         }
 
         public async Task CreateReviewAsync(ReviewModel model, int companyId, string userId)
         {
-            var rating = await this.ratingRepo.All()
-                .FirstOrDefaultAsync(x => x.CompanyId == companyId && x.AddedByUserId == userId);
+            var rating = this.ratingRepo.All()
+                .FirstOrDefault(x => x.CompanyId == companyId && x.AddedByUserId == userId);
 
             if (rating == null)
             {
@@ -40,9 +36,9 @@
                     Workmanship = model.Workmanship,
                     QuoteAccuracy = model.QuoteAccuracy,
                 };
-            }
 
-            await this.ratingRepo.AddAsync(rating);
+                await this.ratingRepo.AddAsync(rating);
+            }
 
             await this.ratingRepo.SaveChangesAsync();
         }
