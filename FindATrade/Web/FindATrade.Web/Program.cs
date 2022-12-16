@@ -108,6 +108,7 @@ namespace FindATrade.Web
             services.AddTransient<IImageService, ImageService>();
             services.AddTransient<ISubscriptionService, SubscriptionService>();
             services.AddTransient<ILikeService, LikeService>();
+            services.AddTransient<ISeederServcie, SeederService>();
         }
 
         private static void Configure(WebApplication app)
