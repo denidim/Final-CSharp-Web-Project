@@ -1,41 +1,30 @@
 ﻿namespace FindATrade.Services.Data.Tests
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
-    using MockQueryable.Moq;
+    using FindATrade.Services.Data.Tests.Mocks;
     using Moq;
     using Xunit;
 
     public class LikeServiceTest
     {
         private readonly LikeService likeService;
-        private readonly Mock<IDeletableEntityRepository<Like>> likesRepo = new Mock<IDeletableEntityRepository<Like>>();
+        private readonly Mock<IDeletableEntityRepository<Like>> likesRepo;
 
         public LikeServiceTest()
         {
+            // Arrange
+            this.likesRepo = LikesMockRepository.GetLikesMockRepo();
             this.likeService = new LikeService(this.likesRepo.Object);
         }
 
         [Fact]
         public async Task GetLikeCount_ShouldBe_MoreThan_0()
         {
-            // Arange
-            var list = new List<Like>()
-            {
-                new Like()
-                {
-                    Id = 1,
-                    CompanyId = 1,
-                },
-            };
-
-            this.likesRepo.Setup(r => r.AllAsNoTracking()).Returns(list.Where(x => x.IsDeleted == false).AsQueryable().BuildMock());
-
             // Act
             int count = await this.likeService.GetLikeCountAsync(1);
 
@@ -46,18 +35,6 @@
         [Fact]
         public async Task GetLikeCount_ShouldThrow_ArgumentNullException()
         {
-            // Arange
-            var list = new List<Like>()
-            {
-                new Like()
-                {
-                    Id = 1,
-                    CompanyId = 1,
-                },
-            };
-
-            this.likesRepo.Setup(r => r.AllAsNoTracking()).Returns(list.Where(x => x.IsDeleted == false).AsQueryable().BuildMock());
-
             // Act
 
             // Assert
@@ -65,23 +42,17 @@
         }
 
         [Fact]
-        public async Task SetLike_ShouldAddlike()
+        public async Task SetLike_ShouldAddLike()
         {
-            // Arange
-            var list = new List<Like>();
-
-            this.likesRepo.Setup(r => r.All()).Returns(list.AsQueryable().BuildMock());
-
-            this.likesRepo.Setup(r => r.AddAsync(It.IsAny<Like>())).Callback((Like like) => list.Add(like));
-
             // Act
-            await this.likeService.SetLike(1, "user");
-            await this.likeService.SetLike(1, "user");
+            await this.likeService.SetLike(1, "test");
+            await this.likeService.SetLike(1, "test");
 
             // Assert
-            Assert.Single(list);
-            Assert.Equal(1, list.First().CompanyId);
-            Assert.Equal("user", list.First().AddedByUserId);
+            var count = this.likesRepo.Object.All().Count();
+            var id = this.likesRepo.Object.All().Skip(1).First().AddedByUserId;
+            Assert.True(count == 2);
+            Assert.Equal("test",  id);
         }
     }
 }

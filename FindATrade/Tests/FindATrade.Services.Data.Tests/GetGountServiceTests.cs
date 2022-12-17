@@ -25,7 +25,7 @@
         }
 
         [Fact]
-        public async Task GetCountService_SouldWorkCorectly()
+        public void GetCountService_SouldWorkCorectly()
         {
             // Arange
             List<Category> categoryList = new List<Category>()

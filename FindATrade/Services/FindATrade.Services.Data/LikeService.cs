@@ -19,7 +19,7 @@
 
         public async Task<int> GetLikeCountAsync(int companyId)
         {
-            var likes = await this.likeRepo.AllAsNoTracking()
+            var likes = await this.likeRepo.All()
                 .Where(x => x.CompanyId == companyId)
                 .ToListAsync();
 

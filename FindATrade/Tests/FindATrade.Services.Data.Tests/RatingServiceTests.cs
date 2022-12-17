@@ -1,79 +1,60 @@
 ﻿namespace FindATrade.Services.Data.Tests
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
-    using FindATrade.Web.ViewModels.Company;
+    using FindATrade.Services.Data.Tests.Mocks;
     using FindATrade.Web.ViewModels.Review;
-    using MockQueryable.Moq;
     using Moq;
+    using System.Linq;
+    using System.Threading.Tasks;
     using Xunit;
 
     public class RatingServiceTests
     {
-        [Fact]
-        public async Task UserShoudVoteOnlyOnesForTheSameCompany()
+        private readonly  RatingService ratingService;
+        private readonly Mock<IDeletableEntityRepository<Rating>> ratingRepo;
+
+        public RatingServiceTests()
         {
-            var ratings = new List<Rating>();
-
-            var mockRepo = new Mock<IDeletableEntityRepository<Rating>>();
-
-            mockRepo.Setup(x => x.All()).Returns(ratings.AsQueryable().BuildMock());
-
-            mockRepo.Setup(x => x.AddAsync(It.IsAny<Rating>())).Callback((Rating rating) => ratings.Add(rating));
-
-            var service = new RatingService(mockRepo.Object);
-
-            await service.CreateReviewAsync(new ReviewModel(), 1, "User");
-            await service.CreateReviewAsync(new ReviewModel(), 1, "User");
-
-            Assert.Single(ratings);
-            Assert.Equal(1, ratings.First().CompanyId);
-            Assert.Equal("User", ratings.First().AddedByUserId);
+            // Arrange
+            this.ratingRepo = RatingMockRepository.GetRatingsMockRepo();
+            this.ratingService = new RatingService(this.ratingRepo.Object);
         }
 
         [Fact]
-        public async void GetOversllRatingShouldReturnNullIfRatingDoesentExists()
+        public async Task UserShouldVoteOnlyOnesForTheSameCompany()
         {
-            var ratings = new List<Rating>();
+            // Act
+            await ratingService.CreateReviewAsync(new ReviewModel(), 1, "User");
+            await ratingService.CreateReviewAsync(new ReviewModel(), 1, "User");
 
-            var mockRepo = new Mock<IDeletableEntityRepository<Rating>>();
+            // Assert
+            var count = this.ratingRepo.Object.All().Count();
+            var userId = this.ratingRepo.Object.All().Single().AddedByUserId;
+            Assert.True(count == 1);
+            Assert.Equal("User", userId);
+        }
 
-            mockRepo.Setup(x => x.All()).Returns(ratings.AsQueryable().BuildMock());
+        [Fact]
+        public async void GetOverallRatingShouldReturnNullIfRatingDoNotExists()
+        {
+            // Act
+            var overall = await this.ratingService.GetOverallRating(1);
 
-            mockRepo.Setup(x => x.AddAsync(It.IsAny<Rating>())).Callback((Rating rating) => ratings.Add(rating));
-
-            var service = new RatingService(mockRepo.Object);
-
-            var overall = new OverallCompanyRating();
-
-            overall = await service.GetOverallRating(1);
-
+            // Assert
             Assert.Null(overall);
         }
 
         [Fact]
-        public async void GetOversllRatingShoulReturnOverallCompanyRatingIfCompanyHasRating()
+        public async void GetOverallRatingShouldReturnOverallCompanyRatingIfCompanyHasRating()
         {
-            var ratings = new List<Rating>();
+            // Arrange
+            await this.ratingService.CreateReviewAsync(new ReviewModel(), 1, "User");
 
-            var mockRepo = new Mock<IDeletableEntityRepository<Rating>>();
+            // Act
+            var overall = await this.ratingService.GetOverallRating(1);
 
-            mockRepo.Setup(x => x.All()).Returns(ratings.AsQueryable().BuildMock());
-
-            mockRepo.Setup(x => x.AddAsync(It.IsAny<Rating>())).Callback((Rating rating) => ratings.Add(rating));
-
-            var service = new RatingService(mockRepo.Object);
-
-            var overall = new OverallCompanyRating();
-
-            await service.CreateReviewAsync(new ReviewModel(), 1, "User");
-
-            overall = await service.GetOverallRating(1);
-
+            // Assert
             Assert.NotNull(overall);
         }
     }

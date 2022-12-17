@@ -36,8 +36,13 @@
 
         public async Task AddSubscriptionAsync(int serviceId)
         {
-            var service = await this.serviceRepo.All()
-                .FirstOrDefaultAsync(x => x.Id == serviceId);
+            var service = this.serviceRepo.All()
+                .FirstOrDefault(x => x.Id == serviceId);
+
+            if (service == null)
+            {
+                throw new ArgumentNullException(nameof(service) + "not found");
+            }
 
             var paidOrder = new PaidOrder
             {
@@ -58,6 +63,11 @@
             var service = await this.serviceRepo.All()
                 .Include(x => x.PaidOrder)
                 .FirstOrDefaultAsync(x => x.Id == serviceId);
+
+            if (service == null)
+            {
+                throw new ArgumentNullException(nameof(service) + "not found");
+            }
 
             this.paidOrderRepo.HardDelete(service.PaidOrder);
             await this.serviceRepo.SaveChangesAsync();
