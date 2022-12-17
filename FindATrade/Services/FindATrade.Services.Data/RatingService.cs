@@ -20,8 +20,8 @@
 
         public async Task CreateReviewAsync(ReviewModel model, int companyId, string userId)
         {
-            var rating = this.ratingRepo.All()
-                .FirstOrDefault(x => x.CompanyId == companyId && x.AddedByUserId == userId);
+            var rating = await this.ratingRepo.All()
+                .FirstOrDefaultAsync(x => x.CompanyId == companyId && x.AddedByUserId == userId);
 
             if (rating == null)
             {
@@ -43,11 +43,11 @@
             await this.ratingRepo.SaveChangesAsync();
         }
 
-        public OverallCompanyRating GetOverallRating(int companyId)
+        public async Task<OverallCompanyRating> GetOverallRating(int companyId)
         {
-            var ratings = this.ratingRepo.All()
+            var ratings = await this.ratingRepo.All()
                 .Where(x => x.CompanyId == companyId)
-                .ToList();
+                .ToListAsync();
 
             if (!ratings.Any())
             {

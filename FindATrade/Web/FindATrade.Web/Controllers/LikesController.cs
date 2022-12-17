@@ -30,7 +30,7 @@
 
                 await this.likeService.SetLike(model.CompanyId, userId);
 
-                var likesCount = await this.likeService.GetLikeCount(model.CompanyId);
+                var likesCount = await this.likeService.GetLikeCountAsync(model.CompanyId);
 
                 return new LikesOutputModel { LikesCount = likesCount };
             }

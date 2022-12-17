@@ -8,6 +8,7 @@
     using FindATrade.Data.Models;
     using FindATrade.Web.ViewModels.Company;
     using FindATrade.Web.ViewModels.Review;
+    using MockQueryable.Moq;
     using Moq;
     using Xunit;
 
@@ -20,7 +21,7 @@
 
             var mockRepo = new Mock<IDeletableEntityRepository<Rating>>();
 
-            mockRepo.Setup(x => x.All()).Returns(ratings.AsQueryable());
+            mockRepo.Setup(x => x.All()).Returns(ratings.AsQueryable().BuildMock());
 
             mockRepo.Setup(x => x.AddAsync(It.IsAny<Rating>())).Callback((Rating rating) => ratings.Add(rating));
 
@@ -35,13 +36,13 @@
         }
 
         [Fact]
-        public void GetOversllRatingShouldReturnNullIfRatingDoesentExists()
+        public async void GetOversllRatingShouldReturnNullIfRatingDoesentExists()
         {
             var ratings = new List<Rating>();
 
             var mockRepo = new Mock<IDeletableEntityRepository<Rating>>();
 
-            mockRepo.Setup(x => x.All()).Returns(ratings.AsQueryable());
+            mockRepo.Setup(x => x.All()).Returns(ratings.AsQueryable().BuildMock());
 
             mockRepo.Setup(x => x.AddAsync(It.IsAny<Rating>())).Callback((Rating rating) => ratings.Add(rating));
 
@@ -49,7 +50,7 @@
 
             var overall = new OverallCompanyRating();
 
-            overall = service.GetOverallRating(1);
+            overall = await service.GetOverallRating(1);
 
             Assert.Null(overall);
         }
@@ -61,7 +62,7 @@
 
             var mockRepo = new Mock<IDeletableEntityRepository<Rating>>();
 
-            mockRepo.Setup(x => x.All()).Returns(ratings.AsQueryable());
+            mockRepo.Setup(x => x.All()).Returns(ratings.AsQueryable().BuildMock());
 
             mockRepo.Setup(x => x.AddAsync(It.IsAny<Rating>())).Callback((Rating rating) => ratings.Add(rating));
 
@@ -71,7 +72,7 @@
 
             await service.CreateReviewAsync(new ReviewModel(), 1, "User");
 
-            overall = service.GetOverallRating(1);
+            overall = await service.GetOverallRating(1);
 
             Assert.NotNull(overall);
         }

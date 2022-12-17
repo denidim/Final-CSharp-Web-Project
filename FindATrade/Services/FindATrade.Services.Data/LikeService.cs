@@ -1,5 +1,6 @@
 ﻿namespace FindATrade.Services.Data
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -16,11 +17,16 @@
             this.likeRepo = likeRepo;
         }
 
-        public async Task<int> GetLikeCount(int companyId)
+        public async Task<int> GetLikeCountAsync(int companyId)
         {
-            var likes = await this.likeRepo.All()
+            var likes = await this.likeRepo.AllAsNoTracking()
                 .Where(x => x.CompanyId == companyId)
                 .ToListAsync();
+
+            if (likes == null || likes.Count < 1)
+            {
+                throw new ArgumentNullException("company or like not found");
+            }
 
             return likes.Count();
         }
@@ -39,9 +45,9 @@
                 };
 
                 await this.likeRepo.AddAsync(like);
-
-                await this.likeRepo.SaveChangesAsync();
             }
+
+            await this.likeRepo.SaveChangesAsync();
         }
     }
 }

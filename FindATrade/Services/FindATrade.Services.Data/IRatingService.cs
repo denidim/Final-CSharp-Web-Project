@@ -9,6 +9,6 @@
     {
         Task CreateReviewAsync(ReviewModel model, int companyId, string userId);
 
-        OverallCompanyRating GetOverallRating(int companyId);
+        Task<OverallCompanyRating> GetOverallRating(int companyId);
     }
 }

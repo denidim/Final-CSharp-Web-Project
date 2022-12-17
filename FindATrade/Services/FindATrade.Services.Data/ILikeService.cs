@@ -6,6 +6,6 @@
     {
         Task SetLike(int companyId, string userId);
 
-        Task<int> GetLikeCount(int companyId);
+        Task<int> GetLikeCountAsync(int companyId);
     }
 }
