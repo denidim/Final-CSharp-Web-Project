@@ -68,17 +68,11 @@
         public async Task SetLike_ShouldAddlike()
         {
             // Arange
-            var list = new List<Like>()
-            {
-                new Like()
-                {
-                    Id = 1,
-                    CompanyId = 1,
-                    AddedByUserId = "user",
-                },
-            };
+            var list = new List<Like>();
 
             this.likesRepo.Setup(r => r.All()).Returns(list.AsQueryable().BuildMock());
+
+            this.likesRepo.Setup(r => r.AddAsync(It.IsAny<Like>())).Callback((Like like) => list.Add(like));
 
             // Act
             await this.likeService.SetLike(1, "user");
