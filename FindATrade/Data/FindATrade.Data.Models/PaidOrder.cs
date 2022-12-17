@@ -9,7 +9,7 @@
     public class PaidOrder : BaseDeletableModel<int>
     {
         [Required]
-        [StringLength(PaidOrderConstants.NameMax, MinimumLength = PaidOrderConstants.NameMin, ErrorMessage = PaidOrderConstants.NameMesage)]
+        [StringLength(PaidOrderConstants.NameMax, MinimumLength = PaidOrderConstants.NameMin, ErrorMessage = PaidOrderConstants.NameMessage)]
         public string Name { get; set; }
 
         [Required]
@@ -17,7 +17,7 @@
         public decimal Price { get; set; }
 
         [Required]
-        [StringLength(PaidOrderConstants.NameMax, MinimumLength = PaidOrderConstants.NameMin, ErrorMessage = PaidOrderConstants.NameMesage)]
+        [StringLength(PaidOrderConstants.NameMax, MinimumLength = PaidOrderConstants.NameMin, ErrorMessage = PaidOrderConstants.NameMessage)]
         public string Terms { get; set; }
 
         [Required]

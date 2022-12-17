@@ -17,7 +17,7 @@
         [Required]
         public int HouseNumber { get; set; }
 
-        [Display(Name = AddressConstants.HouseAdditinName)]
+        [Display(Name = AddressConstants.HouseAdditionName)]
         [StringLength(AddressConstants.HouseAdditionMax, MinimumLength = AddressConstants.HouseAdditionMin, ErrorMessage = AddressConstants.HouseAdditionMessage)]
         public string HouseNumberAddition { get; set; }
 

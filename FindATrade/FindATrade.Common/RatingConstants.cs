@@ -18,7 +18,7 @@
 
         public const int TidinessMax = 10;
 
-        public const string TidinesName = "Tidiness (1/10)";
+        public const string TidinessName = "Tidiness (1/10)";
 
         public const string TidinessMessage = "{0} must be between {2} and {1}";
 
@@ -42,7 +42,7 @@
 
         public const int QuoteAccuracyMax = 10;
 
-        public const string QuateAccuracyName = "QuoteAccuracy (1/10)";
+        public const string QuoteAccuracyName = "QuoteAccuracy (1/10)";
 
         public const string QuoteAccuracyMessage = "{0} must be between {2} and {1}";
     }

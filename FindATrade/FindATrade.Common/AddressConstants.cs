@@ -20,7 +20,7 @@
 
         public const int HouseAdditionMax = 50;
 
-        public const string HouseAdditinName = "Addition (optional)";
+        public const string HouseAdditionName = "Addition (optional)";
 
         public const string HouseAdditionMessage = "{0} must be between {2} and {1} cahracters";
 

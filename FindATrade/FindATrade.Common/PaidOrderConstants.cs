@@ -6,7 +6,7 @@
 
         public const int NameMax = 100;
 
-        public const string NameMesage = "{0} must be between {2} and {1} characters";
+        public const string NameMessage = "{0} must be between {2} and {1} characters";
 
         public const int PriceMin = 0;
 
@@ -18,7 +18,7 @@
 
         public const int TermsMax = 500;
 
-        public const string TermsMesage = "{0} must be between {2} and {1} characters";
+        public const string TermsMessage = "{0} must be between {2} and {1} characters";
 
         public const int TimeSchedule = 3;
 

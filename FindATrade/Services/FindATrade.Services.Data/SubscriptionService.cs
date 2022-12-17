@@ -1,4 +1,6 @@
-﻿namespace FindATrade.Services.Data
+﻿using System.Runtime.ExceptionServices;
+
+namespace FindATrade.Services.Data
 {
     using System;
     using System.Linq;
@@ -9,6 +11,7 @@
     using FindATrade.Data.Models;
     using FindATrade.Services.Mapping;
     using Microsoft.EntityFrameworkCore;
+    using FindATrade.Common
 
     public class SubscriptionService : ISubscriptionService
     {
@@ -41,7 +44,7 @@
 
             if (service == null)
             {
-                throw new ArgumentNullException(nameof(service) + "not found");
+                throw new ArgumentNullException(String.Format(Exceptions.ServiceExMessage, typeof(Service)));
             }
 
             var paidOrder = new PaidOrder
@@ -66,7 +69,7 @@
 
             if (service == null)
             {
-                throw new ArgumentNullException(nameof(service) + "not found");
+                throw new ArgumentNullException(String.Format(Exceptions.ServiceExMessage, typeof(Service)));
             }
 
             this.paidOrderRepo.HardDelete(service.PaidOrder);

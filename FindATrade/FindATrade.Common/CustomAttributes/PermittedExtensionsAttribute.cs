@@ -26,7 +26,7 @@
 
                 if (!this.permittedExtensions.Contains(extension.ToLower()))
                 {
-                    return new ValidationResult(ValidationAttributesConstants.PeemittedExtensionsMessage);
+                    return new ValidationResult(ValidationAttributesConstants.PermittedExtensionsMessage);
                 }
             }
 

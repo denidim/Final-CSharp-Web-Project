@@ -19,7 +19,7 @@
 
         [Range(RatingConstants.TidinessMin, RatingConstants.TidinessMax, ErrorMessage = RatingConstants.TidinessMessage)]
         [Required]
-        [Display(Name = RatingConstants.TidinesName)]
+        [Display(Name = RatingConstants.TidinessName)]
         public int Tidiness { get; set; }
 
         [Range(RatingConstants.ReliabilityMin, RatingConstants.ReliabilityMax, ErrorMessage = RatingConstants.ReliabilityMessage)]
@@ -34,7 +34,7 @@
 
         [Range(RatingConstants.QuoteAccuracyMin, RatingConstants.QuoteAccuracyMax, ErrorMessage = RatingConstants.QuoteAccuracyMessage)]
         [Required]
-        [Display(Name = RatingConstants.QuateAccuracyName)]
+        [Display(Name = RatingConstants.QuoteAccuracyName)]
         public int QuoteAccuracy { get; set; }
 
     }

@@ -4,9 +4,12 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+
     using FindATrade.Data.Common.Repositories;
+    using FindATrade.Common;
     using FindATrade.Data.Models;
     using Microsoft.EntityFrameworkCore;
+
 
     public class LikeService : ILikeService
     {
@@ -25,7 +28,7 @@
 
             if (likes == null || likes.Count < 1)
             {
-                throw new ArgumentNullException("company or like not found");
+                throw new ArgumentNullException(Exceptions.LikeExMessage);
             }
 
             return likes.Count();

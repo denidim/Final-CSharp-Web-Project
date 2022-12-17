@@ -12,7 +12,7 @@
         public ApplicationUser User { get; set; }
 
         [Required]
-        [StringLength(EmployeeConstants.EmplayeeMax, MinimumLength = EmployeeConstants.EmplayeeMin, ErrorMessage = EmployeeConstants.EmployeeMessage)]
+        [StringLength(EmployeeConstants.EmployeeMax, MinimumLength = EmployeeConstants.EmployeeMin, ErrorMessage = EmployeeConstants.EmployeeMessage)]
         public string JobTitle { get; set; }
 
         public EmployeeTime EmployeeTime { get; set; }
