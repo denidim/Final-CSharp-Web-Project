@@ -164,7 +164,7 @@
                 }
 
                 company.UserCompany.OutputImageUrl = await this.imageService
-                    .GenerateSingleImageUrlForCompany(id);
+                    .GenerateSingleImageUrlForCompanyAsync(id);
 
                 company.OverallRating = await this.ratingService.GetOverallRating(company.UserCompany.Id);
 

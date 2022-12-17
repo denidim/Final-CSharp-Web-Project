@@ -11,7 +11,7 @@ namespace FindATrade.Services.Data
     using FindATrade.Data.Models;
     using FindATrade.Services.Mapping;
     using Microsoft.EntityFrameworkCore;
-    using FindATrade.Common
+    using FindATrade.Common;
 
     public class SubscriptionService : ISubscriptionService
     {

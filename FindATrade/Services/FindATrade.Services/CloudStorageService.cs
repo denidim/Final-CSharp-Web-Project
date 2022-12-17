@@ -105,5 +105,10 @@
                 throw;
             }
         }
+
+        public static int GetCloudStorageService()
+        {
+            return 0;
+        }
     }
 }

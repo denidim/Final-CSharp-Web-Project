@@ -7,11 +7,11 @@
 
     public interface IImageService
     {
-        Task<string> GenerateSingleImageUrlForCompany(int companyId);
+        Task<string> GenerateSingleImageUrlForCompanyAsync(int companyId);
 
-        Task<IEnumerable<string>> GenerateImageUrlsForService(int serviceId);
+        Task<IEnumerable<string>> GenerateImageUrlsForServiceAsync(int serviceId);
 
-        Task<IEnumerable<AllPicturesModel>> GetAllPictures(int serviceId);
+        Task<IEnumerable<AllPicturesModel>> GetAllPicturesAsync(int serviceId);
 
         Task CloudDelete(string name);
 

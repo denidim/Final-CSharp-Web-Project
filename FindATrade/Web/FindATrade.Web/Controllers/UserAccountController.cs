@@ -48,7 +48,7 @@
 
                 if (accountPage.UserCompany != null)
                 {
-                    accountPage.UserCompany.OutputImageUrl = await this.imageService.GenerateSingleImageUrlForCompany(accountPage.UserCompany.Id);
+                    accountPage.UserCompany.OutputImageUrl = await this.imageService.GenerateSingleImageUrlForCompanyAsync(accountPage.UserCompany.Id);
 
                     accountPage.UserCompanyServices = await this.companyServiceService.GetAllByUserIdOrCompanyId(user.Id);
 

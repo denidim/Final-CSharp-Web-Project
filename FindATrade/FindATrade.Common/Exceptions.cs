@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FindATrade.Common
+﻿namespace FindATrade.Common
 {
-    internal class Exeptions
+    public static class Exceptions
     {
+        public const string LikeExMessage = "company or like not found";
+
+        public const string ServiceExMessage = "{0} not found";
+
+        public const string ImageExMessage = "No image with such name";
     }
 }

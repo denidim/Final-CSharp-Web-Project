@@ -132,7 +132,7 @@
                     return this.RedirectToAction("Error", "Home");
                 }
 
-                var model = await this.imageService.GetAllPictures(id);
+                var model = await this.imageService.GetAllPicturesAsync(id);
 
                 if (model == null || !model.Any())
                 {
@@ -233,7 +233,7 @@
                     return this.RedirectToAction("Error", "Home");
                 }
 
-                model.Images = await this.imageService.GenerateImageUrlsForService(model.Id);
+                model.Images = await this.imageService.GenerateImageUrlsForServiceAsync(model.Id);
 
                 model.Subscription = await this.subscriptionService.GetPaidOrderAsync<SubscriptionModel>(model.Id);
 

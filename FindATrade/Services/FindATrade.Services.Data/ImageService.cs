@@ -27,9 +27,9 @@
             this.cloudStorageService = cloudStorageService;
         }
 
-        public async Task<string> GenerateSingleImageUrlForCompany(int companyId)
+        public async Task<string> GenerateSingleImageUrlForCompanyAsync(int companyId)
         {
-            // Get the sorage name from company image
+            // Get the storage name from company image
             var savedImageName = await this.imageRepo.All()
                 .Where(x => x.CompanyId == companyId)
                 .Select(x => x.ImageStorageName)
@@ -40,13 +40,13 @@
                 return ImageConstants.DefaultImage;
             }
 
-            // creates new Url with exparation to show to the outside world
+            // creates new Url with expiration to show to the outside world
             return await this.cloudStorageService.GetSignedUrlAsync(savedImageName);
         }
 
-        public async Task<IEnumerable<string>> GenerateImageUrlsForService(int serviceId)
+        public async Task<IEnumerable<string>> GenerateImageUrlsForServiceAsync(int serviceId)
         {
-            // Get the sorage name from company image
+            // Get the storage name from company image
             var savedImageName = await this.imageRepo.All()
                 .Where(x => x.ServiceId == serviceId)
                 .Select(x => x.ImageStorageName)
@@ -60,14 +60,14 @@
 
             foreach (var item in savedImageName)
             {
-                // creates new Url with exparation to show to the outside world
+                // creates new Url with expiration to show to the outside world
                 urls.Add(await this.cloudStorageService.GetSignedUrlAsync(item));
             }
 
             return urls;
         }
 
-        public async Task<IEnumerable<AllPicturesModel>> GetAllPictures(int serviceId)
+        public async Task<IEnumerable<AllPicturesModel>> GetAllPicturesAsync(int serviceId)
         {
             return await this.imageRepo.All()
                 .Where(x => x.ServiceId == serviceId)
@@ -92,7 +92,7 @@
 
             if (image == null)
             {
-                throw new ArgumentNullException("No image with such name");
+                throw new ArgumentNullException(Exceptions.ImageExMessage);
             }
 
             this.imageRepo.HardDelete(image);
@@ -111,11 +111,11 @@
                     newImage.ImageUrl = await this.cloudStorageService
                         .UploadFileAsync(image, newImage.ImageStorageName);
 
-                    var servcie = await this.serviceRepo.All()
+                    var service = await this.serviceRepo.All()
                         .Include(x => x.Images)
                         .SingleOrDefaultAsync(x => x.Id == id);
 
-                    servcie.Images.Add(newImage);
+                    service.Images.Add(newImage);
                 }
 
                 await this.serviceRepo.SaveChangesAsync();

@@ -12,14 +12,14 @@
     using System.Linq;
     using MockQueryable.Moq;
 
-    public class GetGountServiceTests
+    public class GetCountServiceTests
     {
         private readonly IGetCountsService getCountService;
         private readonly Mock<IDeletableEntityRepository<Category>> categoryRepo = new Mock<IDeletableEntityRepository<Category>>();
         private readonly Mock<IDeletableEntityRepository<Company>> companyRepo = new Mock<IDeletableEntityRepository<Company>>();
         private readonly Mock<IDeletableEntityRepository<Service>> serviceRepo = new Mock<IDeletableEntityRepository<Service>>();
 
-        public GetGountServiceTests()
+        public GetCountServiceTests()
         {
             this.getCountService = new GetCountsService(this.categoryRepo.Object, this.companyRepo.Object, this.serviceRepo.Object);
         }
@@ -27,7 +27,7 @@
         [Fact]
         public void GetCountService_SouldWorkCorectly()
         {
-            // Arange
+            // Arrange
             List<Category> categoryList = new List<Category>()
             {
                 new Category(),
