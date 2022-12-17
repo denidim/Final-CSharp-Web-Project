@@ -52,7 +52,7 @@
 
                     accountPage.UserCompanyServices = await this.companyServiceService.GetAllByUserIdOrCompanyId(user.Id);
 
-                    accountPage.OverallRating = this.ratingService.GetOverallRating(accountPage.UserCompany.Id);
+                    accountPage.OverallRating = await this.ratingService.GetOverallRating(accountPage.UserCompany.Id);
                 }
 
                 return this.View(accountPage);

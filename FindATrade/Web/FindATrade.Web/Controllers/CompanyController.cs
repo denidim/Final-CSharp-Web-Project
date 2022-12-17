@@ -3,12 +3,11 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
+
     using FindATrade.Common;
     using FindATrade.Data.Models;
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels.Company;
-    using FindATrade.Web.ViewModels.Home;
-    using Hangfire.Annotations;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -167,7 +166,7 @@
                 company.UserCompany.OutputImageUrl = await this.imageService
                     .GenerateSingleImageUrlForCompany(id);
 
-                company.OverallRating = this.ratingService.GetOverallRating(company.UserCompany.Id);
+                company.OverallRating = await this.ratingService.GetOverallRating(company.UserCompany.Id);
 
                 company.UserCompanyServices = await this.companyServiceService
                     .GetAllByUserIdOrCompanyId(company.UserCompany.Id);

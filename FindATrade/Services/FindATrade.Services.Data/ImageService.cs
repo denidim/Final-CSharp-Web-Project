@@ -10,7 +10,6 @@
     using FindATrade.Data.Models;
     using FindATrade.Web.ViewModels.CompanyService;
     using Microsoft.EntityFrameworkCore;
-    using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
     public class ImageService : IImageService
     {

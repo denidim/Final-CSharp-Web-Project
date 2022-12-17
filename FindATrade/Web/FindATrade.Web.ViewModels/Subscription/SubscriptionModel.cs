@@ -1,8 +1,9 @@
 ﻿namespace FindATrade.Web.ViewModels.Subscription
 {
+    using System;
+
     using FindATrade.Data.Models;
     using FindATrade.Services.Mapping;
-    using System;
 
     public class SubscriptionModel : IMapFrom<PaidOrder>
     {
