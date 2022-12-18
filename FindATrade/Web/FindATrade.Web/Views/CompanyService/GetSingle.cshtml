@@ -80,7 +80,7 @@
         </div>
     </div>
 
-    @if(Model.IsOwner)
+    @if(Model.IsOwner && Model.Vetting.Passed == true)
     {
         <partial name="_Subscription" model="new object[] { @Model.Subscription, @Model.Id}" />
     }

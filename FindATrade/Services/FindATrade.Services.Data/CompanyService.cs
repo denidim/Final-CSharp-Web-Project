@@ -164,19 +164,19 @@
 
             if (company.Image != null)
             {
-                this.imageRepo.Delete(company.Image);
+                this.imageRepo.HardDelete(company.Image);
             }
 
             if (company.Address != null)
             {
-                this.addressRepo.Delete(company.Address);
+                this.addressRepo.HardDelete(company.Address);
             }
 
             if (company.Skills != null)
             {
                 foreach (var skill in company.Skills)
                 {
-                    this.skillRepo.Delete(skill);
+                    this.skillRepo.HardDelete(skill);
                 }
             }
 
@@ -184,7 +184,7 @@
             {
                 foreach (var rating in company.Ratings)
                 {
-                    this.ratingRepo.Delete(rating);
+                    this.ratingRepo.HardDelete(rating);
                 }
             }
 
@@ -192,11 +192,11 @@
             {
                 foreach (var like in company.Likes)
                 {
-                    this.likeRepo.Delete(like);
+                    this.likeRepo.HardDelete(like);
                 }
             }
 
-            this.companyRepo.Delete(company);
+            this.companyRepo.HardDelete(company);
 
             await this.companyRepo.SaveChangesAsync();
         }
@@ -209,6 +209,16 @@
         }
 
         public async Task<T> GetCompanyByIdAsync<T>(int id)
+        {
+            var company = await this.companyRepo.All()
+                .Where(x => x.Id == id && x.Services.Any(x => x.Vetting.Passed == true))
+                .To<T>()
+                .FirstOrDefaultAsync();
+
+            return company;
+        }
+
+        public async Task<T> GetForEditCompanyByIdAsync<T>(int id)
         {
             var company = await this.companyRepo.All()
                 .Where(x => x.Id == id)
@@ -242,7 +252,7 @@
             var output = new List<IndexPageOutputViewModel>();
 
             var company = await this.companyRepo.All()
-                //.Where(x => x.Services.Any(x => x.Vetting.Passed == true))
+                .Where(x => x.Services.Any(x => x.Vetting.Passed == true))
                 .Include(x => x.Image)
                 .OrderByDescending(x => x.Id)
                 .Skip((pageNumber - 1) * itemsPerpage)
@@ -279,10 +289,10 @@
             var output = new List<IndexPageOutputViewModel>();
 
             var company = await this.companyRepo.All()
-                //.Where(x => x.Services.Any(x => x.Vetting.Passed == true))
-                //.Where(x => x.Services.Any(x => x.PaidOrder.StartDate > DateTime.Now))
+                .Where(x => x.Services.Any(x => x.Vetting.Passed == true))
                 .Include(x => x.Image)
-                .OrderByDescending(x => x.Id)
+                .OrderByDescending(x => x.Services.Any(x => x.PaidOrder.EndDate > DateTime.Now))
+                .ThenByDescending(x => x.Id)
                 .Take(12)
                 .ToListAsync();
 

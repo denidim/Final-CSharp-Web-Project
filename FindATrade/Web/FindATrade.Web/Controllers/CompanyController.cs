@@ -8,6 +8,7 @@
     using FindATrade.Data.Models;
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels.Company;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -73,7 +74,7 @@
                     return this.RedirectToAction("Error", "Home");
                 }
 
-                var model = await this.companyService.GetCompanyByIdAsync<EditCompanyViewModel>(id);
+                var model = await this.companyService.GetForEditCompanyByIdAsync<EditCompanyViewModel>(id);
 
                 if (model == null)
                 {
@@ -196,6 +197,7 @@
             }
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> All(int id = 1)
         {
             var viewModel = new AllCompaniesViewModel

@@ -1,12 +1,13 @@
-﻿using FindATrade.Data.Common.Repositories;
-using FindATrade.Data.Models;
-using MockQueryable.Moq;
-using Moq;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace FindATrade.Services.Data.Tests.Mocks
+﻿namespace FindATrade.Services.Data.Tests.Mocks
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using FindATrade.Data.Common.Repositories;
+    using FindATrade.Data.Models;
+    using MockQueryable.Moq;
+    using Moq;
+
     public class CompanyMockingRepository
     {
         public static Mock<IDeletableEntityRepository<Company>> GetImagesMockRepo()

@@ -1,9 +1,12 @@
 ﻿namespace FindATrade.Web.Controllers
 {
+    using FindATrade.Common;
+    using FindATrade.Data.Models;
     using FindATrade.Services.Data;
     using FindATrade.Web.ViewModels.CompanyService;
     using FindATrade.Web.ViewModels.Subscription;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
     using System.Security.Claims;
@@ -160,6 +163,8 @@
 
                 await this.imageService.CloudDelete(name);
 
+                await this.imageService.Delete(name);
+
                 return this.RedirectToAction(nameof(this.GetSingle), new { id = id });
             }
             catch (System.Exception)
@@ -213,7 +218,7 @@
 
                 await this.imageService.Add(input, id);
 
-                return this.RedirectToAction("Index", "Home");
+                return this.RedirectToAction(nameof(this.GetSingle), new { id = id });
             }
             catch (System.Exception)
             {

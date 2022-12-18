@@ -1,6 +1,7 @@
 ﻿namespace FindATrade.Web.Areas.AccountManagement.Controllers
 {
     using System;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using FindATrade.Common;
@@ -14,17 +15,31 @@
     {
         private readonly ISubscriptionService subscriptionService;
         private readonly IBackgroundJobClient backgroundJobClient;
+        private readonly ICompanyServiceService companyServiceService;
 
-        public SubscriptionController(ISubscriptionService subscriptionService, IBackgroundJobClient backgroundJobClient)
+        public SubscriptionController(
+            ISubscriptionService subscriptionService, 
+            IBackgroundJobClient backgroundJobClient,
+            ICompanyServiceService companyServiceService)
         {
             this.subscriptionService = subscriptionService;
             this.backgroundJobClient = backgroundJobClient;
+            this.companyServiceService = companyServiceService;
         }
 
         public async Task<IActionResult> Add(int serviceId)
         {
             try
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                bool isUsersService = this.companyServiceService.IsUsersService(userId, serviceId);
+
+                if (!isUsersService)
+                {
+                    return this.RedirectToAction("Error", "Home");
+                }
+
                 await this.subscriptionService.AddSubscriptionAsync(serviceId);
 
                 this.backgroundJobClient

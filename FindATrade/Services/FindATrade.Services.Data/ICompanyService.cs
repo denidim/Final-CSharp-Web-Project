@@ -14,6 +14,8 @@
 
         Task<T> GetCompanyByIdAsync<T>(int id);
 
+        Task<T> GetForEditCompanyByIdAsync<T>(int id);
+
         Task<T> GetCompanyByUserIdAsync<T>(string id);
 
         Task UpdateAsync(int id, EditCompanyViewModel model);
