@@ -14,11 +14,9 @@
         {
             var mockRepo = new Mock<IDeletableEntityRepository<PaidOrder>>();
 
-            var service = new Service() { Id = 1 };
-
             var list = new List<PaidOrder>()
             {
-                new PaidOrder() { Id = 1, Service = service },
+                new PaidOrder() { Id = 1, Service = new Service() { Id = 1 } },
             };
 
             mockRepo.Setup(r => r.All())

@@ -4,9 +4,12 @@ using FindATrade.Data.Models;
 using FindATrade.Services.Data.Tests.Mocks;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FindATrade.Web.ViewModels.CompanyService;
 using Xunit;
+using Microsoft.AspNetCore.Http;
 
 namespace FindATrade.Services.Data.Tests
 {
@@ -80,7 +83,7 @@ namespace FindATrade.Services.Data.Tests
         }
 
         [Fact]
-        public async Task Delete_ShouldReturn_()
+        public async Task Delete_ShouldReturn_EmptyCollection()
         {
             // Act
             await this.imageService.Delete("storage");
@@ -97,6 +100,28 @@ namespace FindATrade.Services.Data.Tests
 
             // Assert
             await Assert.ThrowsAsync<ArgumentNullException>(() => this.imageService.Delete(null));
+        }
+
+        [Fact]
+        public async Task Add_ShouldReturn_Null()
+        {
+            // Act
+
+            var file = new Mock<IFormFile>();
+
+            var images = new AddImages()
+            {
+                Images = new List<IFormFile>()
+                {
+                    file.Object,
+                },
+            };
+
+            await this.imageService.Add(images, 1);
+
+            // Assert
+            var count = this.serviceRepo.Object.All().First().Images.Count();
+            Assert.Equal(1,count);
         }
     }
 }

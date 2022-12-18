@@ -29,7 +29,7 @@ namespace FindATrade.Services.Data.Tests
         }
 
         [Fact]
-        public async Task GetTaskAsync_ShouldReturn_SubscriptionModel()
+        public async Task GetPaidOrderAsync_ShouldReturn_SubscriptionModel()
         {
             // Arrange
             AutoMapperConfig.RegisterMappings(typeof(SubscriptionModel).GetTypeInfo().Assembly);
