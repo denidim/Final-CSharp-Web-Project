@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using FindATrade.Common;
+﻿using FindATrade.Common;
 using FindATrade.Data.Common.Repositories;
 using FindATrade.Data.Models;
 using FindATrade.Services.Data.Tests.Mocks;
-using Microsoft.AspNetCore.Http;
 using Moq;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace FindATrade.Services.Data.Tests
@@ -65,8 +65,8 @@ namespace FindATrade.Services.Data.Tests
             var cloudResponse = await this.imageService.GetAllPicturesAsync(1);
 
             // Assert
-            Assert.Equal("storage" ,cloudResponse.First().Name);
-            Assert.Equal(1 , cloudResponse.First().ServiceId);
+            Assert.Equal("storage", cloudResponse.First().Name);
+            Assert.Equal(1, cloudResponse.First().ServiceId);
         }
 
         [Fact]
@@ -76,8 +76,27 @@ namespace FindATrade.Services.Data.Tests
             var cloudResponse = await this.imageService.GetAllPicturesAsync(2);
 
             // Assert
-            Assert.Equal(0,cloudResponse.Count());
+            Assert.Empty(cloudResponse);
         }
-        
+
+        [Fact]
+        public async Task Delete_ShouldReturn_()
+        {
+            // Act
+            await this.imageService.Delete("storage");
+
+            // Assert
+            var count = this.imagesRepo.Object.All().Count();
+            Assert.True(count == 0);
+        }
+
+        [Fact]
+        public async Task Delete_ShouldReturn_Null()
+        {
+            // Act
+
+            // Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(() => this.imageService.Delete(null));
+        }
     }
 }

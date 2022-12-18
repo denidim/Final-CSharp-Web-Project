@@ -9,6 +9,6 @@
     {
         [MaxFileSize(1 * 1024 * 1024)]
         [PermittedExtensions(new string[] { ".jpg", ".png", ".gif", ".jpeg" })]
-        public IEnumerable<IFormFile> Images { get; set; }
+        public ICollection<IFormFile> Images { get; set; }
     }
 }

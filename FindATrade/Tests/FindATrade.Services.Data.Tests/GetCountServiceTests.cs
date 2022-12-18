@@ -25,7 +25,7 @@
         }
 
         [Fact]
-        public void GetCountService_SouldWorkCorectly()
+        public void GetCountService_ShouldWorkCorrectly()
         {
             // Arrange
             List<Category> categoryList = new List<Category>()

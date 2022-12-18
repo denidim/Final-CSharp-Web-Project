@@ -27,6 +27,9 @@ namespace FindATrade.Services.Data.Tests.Mocks
             mockRepo.Setup(r => r.Delete(It.IsAny<Image>()))
                 .Callback((Image image) => list.Remove(image));
 
+            mockRepo.Setup(r => r.HardDelete(It.IsAny<Image>()))
+                .Callback((Image image) => list.Remove(image));
+
             return mockRepo;
         }
     }
