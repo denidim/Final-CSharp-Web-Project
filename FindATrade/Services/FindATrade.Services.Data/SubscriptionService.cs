@@ -29,6 +29,7 @@ namespace FindATrade.Services.Data
         public async Task<T> GetPaidOrderAsync<T>(int id)
         {
             var paidOrder = await this.paidOrderRepo.All()
+                .Include(x => x.Service)
                 .Where(x => x.Service.Id == id)
                 .To<T>()
                 .FirstOrDefaultAsync();

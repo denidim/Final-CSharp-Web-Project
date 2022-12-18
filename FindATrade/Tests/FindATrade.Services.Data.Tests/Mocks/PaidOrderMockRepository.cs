@@ -13,7 +13,6 @@
         public static Mock<IDeletableEntityRepository<PaidOrder>> GetPaidOrderMockRepo()
         {
             var mockRepo = new Mock<IDeletableEntityRepository<PaidOrder>>();
-
             var list = new List<PaidOrder>()
             {
                 new PaidOrder() { Id = 1, Service = new Service() { Id = 1 } },

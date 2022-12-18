@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace FindATrade.Services.Data.Tests
 {
@@ -26,20 +27,6 @@ namespace FindATrade.Services.Data.Tests
             this.paidOrderRepo = PaidOrderMockRepository.GetPaidOrderMockRepo();
             this.serviceRepo = ServiceMockRepository.GetServiceMockRepo();
             this.subscriptionService = new SubscriptionService(this.paidOrderRepo.Object, this.serviceRepo.Object);
-        }
-
-        [Fact]
-        public async Task GetPaidOrderAsync_ShouldReturn_SubscriptionModel()
-        {
-            // Arrange
-            AutoMapperConfig.RegisterMappings(typeof(SubscriptionModel).GetTypeInfo().Assembly);
-
-            // Act
-            var result = await this.subscriptionService.GetPaidOrderAsync<SubscriptionModel>(1);
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.Equal(1, result.Id);
         }
 
         [Fact]
