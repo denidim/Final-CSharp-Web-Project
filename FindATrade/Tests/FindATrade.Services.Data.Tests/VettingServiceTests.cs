@@ -31,7 +31,7 @@
         public async Task GetLikeCount_ShouldBe_MoreThan_0()
         {
             // Arrange
-            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(VettingOutputModel).GetTypeInfo().Assembly);
 
             // Act
             var result = await this.vettingService.GetByServiceIdAsync<VettingOutputModel>(1);
