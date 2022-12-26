@@ -121,7 +121,7 @@ namespace FindATrade.Services.Data.Tests
 
             // Assert
             var count = this.serviceRepo.Object.All().First().Images.Count();
-            Assert.Equal(1,count);
+            Assert.Equal(1 ,count);
         }
     }
 }

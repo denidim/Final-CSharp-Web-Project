@@ -291,7 +291,7 @@
             var company = await this.companyRepo.All()
                 .Where(x => x.Services.Any(x => x.Vetting.Passed == true))
                 .Include(x => x.Image)
-                .OrderByDescending(x => x.Services.Any(x => x.PaidOrder.EndDate > DateTime.Now))
+                .OrderByDescending(x => x.Services.Any(x => x.PaidOrder.EndDate > DateTime.UtcNow))
                 .ThenByDescending(x => x.Id)
                 .Take(12)
                 .ToListAsync();
