@@ -1,16 +1,13 @@
 ﻿namespace FindATrade.Services.Data.Tests
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using FindATrade.Data.Common.Repositories;
     using FindATrade.Data.Models;
-    using FindATrade.Services.Mapping;
-    using FindATrade.Web.ViewModels.CompanyService;
-    using FindATrade.Web.ViewModels;
-    using Moq;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Xunit;
-    using System.Linq;
     using MockQueryable.Moq;
+    using Moq;
+    using Xunit;
 
     public class GetCountServiceTests
     {

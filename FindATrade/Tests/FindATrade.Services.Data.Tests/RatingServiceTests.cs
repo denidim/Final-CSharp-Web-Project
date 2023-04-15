@@ -25,8 +25,8 @@
         public async Task UserShouldVoteOnlyOnesForTheSameCompany()
         {
             // Act
-            await ratingService.CreateReviewAsync(new ReviewModel(), 1, "User");
-            await ratingService.CreateReviewAsync(new ReviewModel(), 1, "User");
+            await this.ratingService.CreateReviewAsync(new ReviewModel(), 1, "User");
+            await this.ratingService.CreateReviewAsync(new ReviewModel(), 1, "User");
 
             // Assert
             var count = this.ratingRepo.Object.All().Count();
